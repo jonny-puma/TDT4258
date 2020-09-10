@@ -82,7 +82,26 @@
 	      .type   _reset, %function
         .thumb_func
 _reset: 
-	      b .  // do nothing
+		///CMU enable GPIO///
+		mov r0, #1
+		ldr r1, = CMU_BASE
+		ldr r2, [r1, #CMU_HFPERCLKEN0]
+		lsl r0, r0, #CMU_HFPERCLKEN0_GPIO
+		orr r2, r2, r0
+		str r2, [r1, #CMU_HFPERCLKEN0]
+
+		//// LEDS ////
+		ldr r1, =GPIO_PA_BASE
+		mov r2, #0x2
+		str r2, [r1, #GPIO_CTRL]
+
+		ldr r2, =0x55555555
+		str r2, [r1, #GPIO_MODEH]
+
+		ldr r0, [r1, #GPIO_PA_DOUT]
+		mov r2, #0x00ff 
+		and r0, r0, r2 
+		str r0, [r1, #GPIO_PA_DOUT]
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
