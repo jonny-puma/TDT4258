@@ -93,15 +93,18 @@ _reset:
 		//// LEDS ////
 		ldr r0, =GPIO_PA_BASE
 		mov r2, #0x2
-		str r2, [r0, #GPIO_CTRL]
+		str r2, [r0, #GPIO_CTRL]  // Set drive strength
 
 		ldr r2, =0x55555555
-		str r2, [r0, #GPIO_MODEH]
+		str r2, [r0, #GPIO_MODEH] // pin 8-15 to output
 
-		ldr r3, [r0, #GPIO_DOUT]
-		mov r2, #0x00ff 
-		and r3, r3, r2
-		str r3, [r0, #GPIO_DOUT]
+		mov r2, #0x00
+        lsl r2, #8
+		str r2, [r0, #GPIO_DOUT]
+
+        mov r2, #0xff
+        lsl r2, #8
+        str r2, [r0, #GPIO_DOUT]
 
         //// Buttons ////
         ldr r1, =GPIO_PC_BASE
@@ -109,7 +112,7 @@ _reset:
         ldr r2, =0x33333333
         str r2, [r1, #GPIO_MODEL]
 
-        ldr r3, [r1, #GPIO_DOUT]
+        
         mov r2, #0xff
         str r2, [r1, #GPIO_DOUT]
 
@@ -122,6 +125,7 @@ _reset:
 main:
         // Start by reading PC_DIN
         ldr r2, [r1, #GPIO_DIN]  // Read in buttons to r2
+        lsl r2, #8
         str r2, [r0, #GPIO_DOUT] // Write r2 to leds
         
         b main
