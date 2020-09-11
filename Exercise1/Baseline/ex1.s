@@ -91,18 +91,40 @@ _reset:
 		str r2, [r1, #CMU_HFPERCLKEN0]
 
 		//// LEDS ////
-		ldr r1, =GPIO_PA_BASE
+		ldr r0, =GPIO_PA_BASE
 		mov r2, #0x2
-		str r2, [r1, #GPIO_CTRL]
+		str r2, [r0, #GPIO_CTRL]
 
 		ldr r2, =0x55555555
-		str r2, [r1, #GPIO_MODEH]
+		str r2, [r0, #GPIO_MODEH]
 
-		ldr r0, [r1, #GPIO_PA_DOUT]
+		ldr r3, [r0, #GPIO_DOUT]
 		mov r2, #0x00ff 
-		and r0, r0, r2 
-		str r0, [r1, #GPIO_PA_DOUT]
-	
+		and r3, r3, r2
+		str r3, [r0, #GPIO_DOUT]
+
+        //// Buttons ////
+        ldr r1, =GPIO_PC_BASE
+
+        ldr r2, =0x33333333
+        str r2, [r1, #GPIO_MODEL]
+
+        ldr r3, [r1, #GPIO_DOUT]
+        mov r2, #0xff
+        str r2, [r1, #GPIO_DOUT]
+
+
+// r0 is PA_BASE - LEDS
+// r1 is PC_BASE - BUTTONS
+// r2 is multipurpose
+// r3 is multipurpose
+    .thumb_func
+main:
+        // Start by reading PC_DIN
+        ldr r2, [r1, #GPIO_DIN]  // Read in buttons to r2
+        str r2, [r0, #GPIO_DOUT] // Write r2 to leds
+        
+        b main
 	/////////////////////////////////////////////////////////////////////////////
 	//
   // GPIO handler
