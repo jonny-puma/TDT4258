@@ -74,7 +74,7 @@
 	/////////////////////////////////////////////////////////////////////////////
 	//
 	// Reset handler
-  // The CPU will start executing here after a reset
+  	// The CPU will start executing here after a reset
 	//
 	/////////////////////////////////////////////////////////////////////////////
 
@@ -82,19 +82,52 @@
 	      .type   _reset, %function
         .thumb_func
 _reset: 
-	      b .  // do nothing
+	    ///CMU enable GPIO///
+		mov r0, #1
+		ldr r1, = CMU_BASE
+		ldr r2, [r1, #CMU_HFPERCLKEN0]
+		lsl r0, r0, #CMU_HFPERCLKEN0_GPIO
+		orr r2, r2, r0
+		str r2, [r1, #CMU_HFPERCLKEN0]
+
+		//// LEDS ////
+		ldr r1, =GPIO_PA_BASE
+		mov r2, #0x2
+		str r2, [r1, #GPIO_CTRL]
+
+		ldr r2, =0x55555555
+		str r2, [r1, #GPIO_MODEH]
+		
+		ldr r0, =0xff
+		lsl r0, r0, #8
+		str r0, [r1, #GPIO_DOUT]
+
+		ldr r3, =GPIO_PC_BASE
+		ldr r2, =0x33333333
+		str r2, [r3, #GPIO_MODEL]
+		ldr r2, =0xff
+		str r2, [r3, #GPIO_DOUT]
+	
+        .thumb_func
+main:
+		// r3 = GPIO C base pins
+		// r1 = GPIO A base
+		ldr r0, [r3, #GPIO_DIN]
+		lsl r0, r0, #8
+		str r0, [r1, #GPIO_DOUT]
+		
+	    b main
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
-  // GPIO handler
-  // The CPU will jump here when there is a GPIO interrupt
+  	// GPIO handler
+  	// The CPU will jump here when there is a GPIO interrupt
 	//
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
 gpio_handler:  
-
-	      b .  // do nothing
+	    b .  // do nothing
 	
 	/////////////////////////////////////////////////////////////////////////////
 	

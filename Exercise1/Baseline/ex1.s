@@ -97,11 +97,18 @@ _reset:
 
 		ldr r2, =0x55555555
 		str r2, [r1, #GPIO_MODEH]
+		
+		ldr r0, =0xff
+		lsl r0, r0, #8
+		str r0, [r1, #GPIO_DOUT]
 
-		ldr r0, [r1, #GPIO_PA_DOUT]
-		mov r2, #0x00ff 
-		and r0, r0, r2 
-		str r0, [r1, #GPIO_PA_DOUT]
+		ldr r3, =GPIO_PC_BASE
+		ldr r2, =0x33333333
+		str r2, [r3, #GPIO_MODEL]
+		ldr r2, =0xff
+		str r2, [r3, #GPIO_DOUT]
+
+
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
@@ -109,7 +116,16 @@ _reset:
   // The CPU will jump here when there is a GPIO interrupt
 	//
 	/////////////////////////////////////////////////////////////////////////////
-	
+        .thumb_func
+main:
+		// r3 = GPIO C base pins
+		// r1 = GPIO A base
+		ldr r0, [r3, #GPIO_DIN]
+		lsl r0, r0, #8
+		str r0, [r1, #GPIO_DOUT]
+		
+	    b main
+
         .thumb_func
 gpio_handler:  
 
