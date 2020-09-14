@@ -4,8 +4,8 @@
 
 	/////////////////////////////////////////////////////////////////////////////
 	//
-  // Exception vector table
-  // This table contains addresses for all exception handlers
+  	// Exception vector table
+  	// This table contains addresses for all exception handlers
 	//
 	/////////////////////////////////////////////////////////////////////////////
 	
@@ -107,16 +107,31 @@ _reset:
 		str r2, [r3, #GPIO_MODEL]
 		ldr r2, =0xff
 		str r2, [r3, #GPIO_DOUT]
-	
+
+		// Enabling interrupts
+		ldr r3, =GPIO_BASE
+		ldr r2, =0x22222222
+		str r2, [r3, #GPIO_EXTIPSELL]
+
+		ldr r2, =0xff
+		str r2, [r3, #GPIO_EXTIFALL]
+
+		ldr r2, =0xff
+		str r2, [r3, #GPIO_EXTIRISE]
+
+		ldr r2, =0xff
+		str r2, [r3, #GPIO_IEN]
+
+		ldr r2, =0x802
+		ldr r1, =ISER0
+		str r2, r3
+		ldr r1, =GPIO_PA_BASE
+		
         .thumb_func
 main:
-		// r3 = GPIO C base pins
-		// r1 = GPIO A base
-		ldr r0, [r3, #GPIO_DIN]
-		lsl r0, r0, #8
-		str r0, [r1, #GPIO_DOUT]
-		
+		//Sleep here
 	    b main
+
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
@@ -126,9 +141,14 @@ main:
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
-gpio_handler:  
-	    b .  // do nothing
-	
+gpio_handler: 
+		// Read interrupt
+		ldr r0, [r3, #GPIO_IF]
+		str r0, [r1, #GPIO_DOUT]
+		// Reset interrupts
+		str r0, [r3, #GPIO_IFC]
+	    b main
+
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
