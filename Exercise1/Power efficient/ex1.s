@@ -152,27 +152,20 @@ main:
 	
 // r0 multivariate
 // r1 GPIO_PA_BASE
-// r2 SCR
+// r2 GPIO_PC_BASE
 // r3 GPIO BASE
         .thumb_func
 gpio_handler:
+		// Read and reset interrupt
+		ldr r0, [r3, #GPIO_IF]
+		str r0, [r3, #GPIO_IFC]
 
-        mov r0, 0x00
+
+		ldr r0, [r2, #GPIO_DIN]
         lsl r0, #8
         str r0, [r1, #GPIO_DOUT]
-        
-		// Read interrupt
-		ldr r0, [r3, #GPIO_IF]
-        //lsl r0, #8
-		//str r0, [r1, #GPIO_DOUT]
-        
-        ldr r0, [r2, #GPIO_DIN]
-        lsl r0, r0, #8
-        str r0, [r1, #GPIO_DOUT]
-
-		// Reset interrupts
-		str r0, [r3, #GPIO_IFC]
-	    b main
+		
+	    bx lr
 
 	/////////////////////////////////////////////////////////////////////////////
 	
