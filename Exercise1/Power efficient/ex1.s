@@ -107,16 +107,31 @@ _reset:
 		str r2, [r3, #GPIO_MODEL]
 		ldr r2, =0xff
 		str r2, [r3, #GPIO_DOUT]
+        
+        // enable GPIO interrupts
+        ldr r0, =0x22222222
+        ldr r1, =GPIO_BASE
+        str r0, [r1, #GPIO_EXTIPSELL]
+
+        ldr r0, =0xff
+        str r0, [r2, #GPIO_EXTIRISE]
+        str r0, [r2, #GPIO_EXTIFALL]
+        str r0, [r2, #GPIO_IEN]
+
+        ldr r1, =0x802
+        ldr r2, =ISER0
+        str r1, r2
+
+        // Enter sleep mode
+        ldr r0, =SCR
+        mov r1, 6
+        str r1, r0
+        
 	
         .thumb_func
 main:
-		// r3 = GPIO C base pins
-		// r1 = GPIO A base
-		ldr r0, [r3, #GPIO_DIN]
-		lsl r0, r0, #8
-		str r0, [r1, #GPIO_DOUT]
 		
-	    b main
+	    b .
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
@@ -126,8 +141,23 @@ main:
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
-gpio_handler:  
-	    b .  // do nothing
+gpio_handler:
+        // clear interupt
+        ldr r0, =GPIO_BASE
+        ldr r1, [r0, #GPIO_IF]
+        str r1, [r0, #GPIO_IFC]
+        
+        // get button values
+        ldr r0, =GPIO_PC_BASE
+        ldr r1, [r0, #GPIO_DIN]
+
+        // write button values to output
+        lsl r1, r1, #8
+        ldr r2, =GPIO_PA_BASE
+        str r1, [r2, #GPIO_DOUT]
+        
+        // return to main
+        b main
 	
 	/////////////////////////////////////////////////////////////////////////////
 	
