@@ -123,14 +123,14 @@ _reset:
 		ldr r1, =ISER0
 		str r2, [r1]
 
-		ldr r1, =GPIO_PA_BASE
-
 		// Power saving in general here.
 		ldr r2, =SCR
-        mov r0, #0x6
+        ldr r0, =0x06
         str r0, [r2]
 
-        ldr r2, =GPIO_PC_BASE
+        ldr r2, =EMU_CTRL
+        ldr r0, =0x7
+        str r0, [r2]
 		wfi
 		
 
@@ -150,7 +150,12 @@ _reset:
         .thumb_func
 gpio_handler:
 		// Read and reset interrupt
-		//ldr r1, =GPIO_PA_BASE
+		ldr r1, =GPIO_PA_BASE
+        ldr r2, =GPIO_PC_BASE
+        ldr r3, =GPIO_BASE
+        
+
+        
 		ldr r0, [r3, #GPIO_IF]
 		str r0, [r3, #GPIO_IFC]
 
@@ -158,12 +163,12 @@ gpio_handler:
         lsl r0, r0, #8
         str r0, [r1, #GPIO_DOUT]
 		
-		wfi
+		//wfi
 	    bx lr
 
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
 dummy_handler:  
-        b .  // do nothing
+        bx lr
 
