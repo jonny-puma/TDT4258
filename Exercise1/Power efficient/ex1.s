@@ -131,13 +131,9 @@ _reset:
         str r0, [r2]
 
         ldr r2, =GPIO_PC_BASE
-
-		
-        .thumb_func
-main:
-		//Sleep here
 		wfi
-	    b main
+		
+
 
 	
 	/////////////////////////////////////////////////////////////////////////////
@@ -154,6 +150,7 @@ main:
         .thumb_func
 gpio_handler:
 		// Read and reset interrupt
+		//ldr r1, =GPIO_PA_BASE
 		ldr r0, [r3, #GPIO_IF]
 		str r0, [r3, #GPIO_IFC]
 
@@ -161,7 +158,8 @@ gpio_handler:
         lsl r0, r0, #8
         str r0, [r1, #GPIO_DOUT]
 		
-	    b main
+		wfi
+	    bx lr
 
 	/////////////////////////////////////////////////////////////////////////////
 	
