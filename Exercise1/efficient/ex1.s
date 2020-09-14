@@ -108,7 +108,6 @@ _reset:
 		str r2, [r3, #GPIO_MODEL]
 		mov r2, #0xff
 		str r2, [r3, #GPIO_DOUT]
-<<<<<<< HEAD
         
         // enable GPIO interrupts
         ldr r0, =0x22222222
@@ -134,7 +133,6 @@ _reset:
 main:
 		
 	    b .
-=======
 
 		// Enabling interrupts
 		ldr r3, =GPIO_BASE
@@ -162,7 +160,6 @@ main:
 		
 
 
->>>>>>> a210c5d3257033c96a39cd2fc72e379dbddea9ec
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
@@ -177,7 +174,6 @@ main:
 // r3 GPIO BASE
         .thumb_func
 gpio_handler:
-<<<<<<< HEAD
         // clear interupt
         ldr r0, =GPIO_BASE
         ldr r1, [r0, #GPIO_IF]
@@ -195,20 +191,6 @@ gpio_handler:
         // return to main
         b main
 	
-=======
-		// Read and reset interrupt
-		//ldr r1, =GPIO_PA_BASE
-		ldr r0, [r3, #GPIO_IF]
-		str r0, [r3, #GPIO_IFC]
-
-		ldr r0, [r2, #GPIO_DIN]
-        lsl r0, r0, #8
-        str r0, [r1, #GPIO_DOUT]
-		
-		wfi
-	    bx lr
-
->>>>>>> a210c5d3257033c96a39cd2fc72e379dbddea9ec
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
