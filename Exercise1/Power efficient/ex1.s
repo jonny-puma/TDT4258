@@ -127,7 +127,7 @@ _reset:
 
 		// Power saving in general here.
 		ldr r2, =SCR
-        ldr r0, =0x6
+        mov r0, #0x6
         str r0, [r2]
 
         ldr r2, =GPIO_PC_BASE
