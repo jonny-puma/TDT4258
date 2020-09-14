@@ -6,7 +6,7 @@
 baseline efficient :
 	$(MAKE) -C $@
 	mv $@/ex1.bin $@.bin
-	-eACommander.sh -r --address 0x00000000 -f "@$.bin" -r
+	-eACommander.sh -r --address 0x00000000 -f "$@.bin" -r
 
 
 .PHONY: clean

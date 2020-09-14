@@ -90,72 +90,67 @@ _reset:
 		orr r2, r2, r0
 		str r2, [r1, #CMU_HFPERCLKEN0]
 
-		//// LEDS ////
+		//// ENABLE LEDS ////
 		ldr r1, =GPIO_PA_BASE
-		mov r2, #0x2 // Find power for led
-		str r2, [r1, #GPIO_CTRL]
+		
+        mov r2, #0x1
+		str r2, [r1, #GPIO_CTRL]    // Define LED-drive strength
 
 		ldr r2, =0x55555555
-		str r2, [r1, #GPIO_MODEH]
+		str r2, [r1, #GPIO_MODEH]   // Define LEDS as output
 		
-		// Turn leds off
+		//// TURN OFF ALL LEDS ////
 		mov r0, #0xff
 		lsl r0, r0, #8
 		str r0, [r1, #GPIO_DOUT]
 
+
+        //// ENABLE BUTTONS ////
 		ldr r3, =GPIO_PC_BASE
-		ldr r2, =0x33333333
-		str r2, [r3, #GPIO_MODEL]
-		mov r2, #0xff
-		str r2, [r3, #GPIO_DOUT]
-        
-        // enable GPIO interrupts
-        ldr r0, =0x22222222
-        ldr r1, =GPIO_BASE
-        str r0, [r1, #GPIO_EXTIPSELL]
-
-        ldr r0, =0xff
-        str r0, [r2, #GPIO_EXTIRISE]
-        str r0, [r2, #GPIO_EXTIFALL]
-        str r0, [r2, #GPIO_IEN]
-
-        ldr r1, =0x802
-        ldr r2, =ISER0
-        str r1, [r2]
-
-        // Enter sleep mode
-        ldr r0, =SCR
-        mov r1, 6
-        str r1, [r0]
-        
-	
-        .thumb_func
-main:
 		
-	    b .
+        ldr r2, =0x33333333
+		str r2, [r3, #GPIO_MODEL]   // Define BUTTONS as input
+		
+        mov r2, #0xff
+		str r2, [r3, #GPIO_DOUT]    // Enable internal pull-up
 
-		// Enabling interrupts
+		//// Enabling interrupts ////
 		ldr r3, =GPIO_BASE
+
 		ldr r2, =0x22222222
-		str r2, [r3, #GPIO_EXTIPSELL]
+		str r2, [r3, #GPIO_EXTIPSELL]  // Enable external interupt for all pins (0-7) on port C
 
 		mov r2, #0xff
-		str r2, [r3, #GPIO_EXTIFALL]
-		str r2, [r3, #GPIO_EXTIRISE]
-		str r2, [r3, #GPIO_IEN]
+		str r2, [r3, #GPIO_EXTIFALL]  // Set interupt on falling edge
+		str r2, [r3, #GPIO_EXTIRISE]  // Set interupt on rising edge
+		str r2, [r3, #GPIO_IEN]       // Enable interupt generation
 
 		ldr r2, =0x802
 		ldr r1, =ISER0
 		str r2, [r1]
 
-		ldr r1, =GPIO_PA_BASE
-
-		// Power saving in general here.
+		//// POWER SAVE ////
 		ldr r2, =SCR
-        mov r0, #0x6
+        ldr r0, =0x06
         str r0, [r2]
 
+        ldr r2, =EMU_BASE
+        ldr r0, =0x7
+        str r0, [r2, #EMU_MEMCTRL]  // Disable RAM-block 1-3
+
+        /*
+        ldr r1, =CMU_BASE
+
+        mov r0, #15
+        str r0, [r1, #CMU_LFACLKEN0]
+
+        mov r0, #3
+        str r0, [r1, #CMU_LFBCLKEN0]
+        */
+
+        ldr r1, =GPIO_PA_BASE
         ldr r2, =GPIO_PC_BASE
+        ldr r3, =GPIO_BASE
 		wfi
 		
 
@@ -172,28 +167,24 @@ main:
 // r1 GPIO_PA_BASE
 // r2 GPIO_PC_BASE
 // r3 GPIO BASE
+
+
         .thumb_func
 gpio_handler:
-        // clear interupt
-        ldr r0, =GPIO_BASE
-        ldr r1, [r0, #GPIO_IF]
-        str r1, [r0, #GPIO_IFC]
-        
-        // get button values
-        ldr r0, =GPIO_PC_BASE
-        ldr r1, [r0, #GPIO_DIN]
+		// Read and reset interrupt
+		ldr r0, [r3, #GPIO_IF]
+		str r0, [r3, #GPIO_IFC]
 
-        // write button values to output
-        lsl r1, r1, #8
-        ldr r2, =GPIO_PA_BASE
-        str r1, [r2, #GPIO_DOUT]
-        
-        // return to main
-        b main
-	
+        // Map buttons to LEDs
+		ldr r0, [r2, #GPIO_DIN]
+        lsl r0, r0, #8
+        str r0, [r1, #GPIO_DOUT]
+		
+	    bx lr
+
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
 dummy_handler:  
-        b .  // do nothing
+        bx lr
 
