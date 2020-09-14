@@ -160,12 +160,11 @@ gpio_handler:
 		ldr r0, [r3, #GPIO_IF]
 		str r0, [r3, #GPIO_IFC]
 
-
 		ldr r0, [r2, #GPIO_DIN]
-        lsl r0, #8
+        lsl r0, r0, #8
         str r0, [r1, #GPIO_DOUT]
 		
-	    bx lr
+	    b main
 
 	/////////////////////////////////////////////////////////////////////////////
 	
