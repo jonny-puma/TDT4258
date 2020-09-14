@@ -99,14 +99,14 @@ _reset:
 		str r2, [r1, #GPIO_MODEH]
 		
 		// Turn leds off
-		ldr r0, =0xff
+		mov r0, #0xff
 		lsl r0, r0, #8
 		str r0, [r1, #GPIO_DOUT]
 
 		ldr r3, =GPIO_PC_BASE
 		ldr r2, =0x33333333
 		str r2, [r3, #GPIO_MODEL]
-		ldr r2, =0xff
+		mov r2, #0xff
 		str r2, [r3, #GPIO_DOUT]
 
 		// Enabling interrupts
@@ -114,24 +114,21 @@ _reset:
 		ldr r2, =0x22222222
 		str r2, [r3, #GPIO_EXTIPSELL]
 
-		ldr r2, =0xff
+		mov r2, #0xff
 		str r2, [r3, #GPIO_EXTIFALL]
-
-		ldr r2, =0xff
 		str r2, [r3, #GPIO_EXTIRISE]
-
-		ldr r2, =0xff
 		str r2, [r3, #GPIO_IEN]
 
 		ldr r2, =0x802
 		ldr r1, =ISER0
-		ldr r2, [r1, #0]
+		str r2, [r1]
+
 		ldr r1, =GPIO_PA_BASE
 
 		// Power saving in general here.
 		ldr r2, =SCR
         ldr r0, =0x6
-        str r0, [r2, #0]
+        str r0, [r2]
 
         ldr r2, =GPIO_PC_BASE
 
