@@ -5,5 +5,10 @@
 # C object files
 *.o
 
+# binaries
+*.elf
+*.bin
+*.hex
+
 # MacOS DS store files
 .DS_Store
