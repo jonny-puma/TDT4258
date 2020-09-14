@@ -81,7 +81,8 @@
 	      .globl  _reset
 	      .type   _reset, %function
         .thumb_func
-_reset: 
+_reset:
+        
 		///CMU enable GPIO///
 		mov r0, #1
 		ldr r1, = CMU_BASE
