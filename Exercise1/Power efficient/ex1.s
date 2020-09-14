@@ -92,7 +92,7 @@ _reset:
 
 		//// LEDS ////
 		ldr r1, =GPIO_PA_BASE
-		mov r2, #0x2
+		mov r2, #0x1 // Find power for led
 		str r2, [r1, #GPIO_CTRL]
 
 		ldr r2, =0x55555555
@@ -129,11 +129,14 @@ _reset:
 		ldr r1, =GPIO_PA_BASE
 
 		// Power saving in general here.
-
+		ldr r2, =SCR
 		
         .thumb_func
 main:
 		//Sleep here
+		ldr r0, =0x6
+		str r0, [r2, #0]
+		wfi
 	    b main
 
 	
