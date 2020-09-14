@@ -92,7 +92,7 @@ _reset:
 
 		//// LEDS ////
 		ldr r1, =GPIO_PA_BASE
-		mov r2, #0x1 // Find power for led
+		mov r2, #0x2 // Find power for led
 		str r2, [r1, #GPIO_CTRL]
 
 		ldr r2, =0x55555555
@@ -130,12 +130,15 @@ _reset:
 
 		// Power saving in general here.
 		ldr r2, =SCR
+        ldr r0, =0x6
+        str r0, [r2, #0]
+
+        ldr r2, =GPIO_PC_BASE
+
 		
         .thumb_func
 main:
 		//Sleep here
-		ldr r0, =0x6
-		str r0, [r2, #0]
 		wfi
 	    b main
 
@@ -147,11 +150,25 @@ main:
 	//
 	/////////////////////////////////////////////////////////////////////////////
 	
+// r0 multivariate
+// r1 GPIO_PA_BASE
+// r2 SCR
+// r3 GPIO BASE
         .thumb_func
-gpio_handler: 
+gpio_handler:
+
+        mov r0, 0x00
+        lsl r0, #8
+        str r0, [r1, #GPIO_DOUT]
+        
 		// Read interrupt
 		ldr r0, [r3, #GPIO_IF]
-		str r0, [r1, #GPIO_DOUT]
+        //lsl r0, #8
+		//str r0, [r1, #GPIO_DOUT]
+        
+        ldr r0, [r2, #GPIO_DIN]
+        lsl r0, r0, #8
+        str r0, [r1, #GPIO_DOUT]
 
 		// Reset interrupts
 		str r0, [r3, #GPIO_IFC]
