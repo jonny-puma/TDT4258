@@ -108,33 +108,31 @@ _reset:
 		str r2, [r3, #GPIO_MODEL]
 		mov r2, #0xff
 		str r2, [r3, #GPIO_DOUT]
+        
+        // enable GPIO interrupts
+        ldr r0, =0x22222222
+        ldr r1, =GPIO_BASE
+        str r0, [r1, #GPIO_EXTIPSELL]
 
-		// Enabling interrupts
-		ldr r3, =GPIO_BASE
-		ldr r2, =0x22222222
-		str r2, [r3, #GPIO_EXTIPSELL]
+        ldr r0, =0xff
+        str r0, [r2, #GPIO_EXTIRISE]
+        str r0, [r2, #GPIO_EXTIFALL]
+        str r0, [r2, #GPIO_IEN]
 
-		mov r2, #0xff
-		str r2, [r3, #GPIO_EXTIFALL]
-		str r2, [r3, #GPIO_EXTIRISE]
-		str r2, [r3, #GPIO_IEN]
+        ldr r1, =0x802
+        ldr r2, =ISER0
+        str r1, [r2]
 
-		ldr r2, =0x802
-		ldr r1, =ISER0
-		str r2, [r1]
-
-		ldr r1, =GPIO_PA_BASE
-
-		// Power saving in general here.
-		ldr r2, =SCR
-        mov r0, #0x6
-        str r0, [r2]
-
-        ldr r2, =GPIO_PC_BASE
-		wfi
+        // Enter sleep mode
+        ldr r0, =SCR
+        mov r1, 6
+        str r1, [r0]
+        
+	
+        .thumb_func
+main:
 		
-
-
+	    b .
 	
 	/////////////////////////////////////////////////////////////////////////////
 	//
@@ -143,24 +141,25 @@ _reset:
 	//
 	/////////////////////////////////////////////////////////////////////////////
 	
-// r0 multivariate
-// r1 GPIO_PA_BASE
-// r2 GPIO_PC_BASE
-// r3 GPIO BASE
         .thumb_func
 gpio_handler:
-		// Read and reset interrupt
-		//ldr r1, =GPIO_PA_BASE
-		ldr r0, [r3, #GPIO_IF]
-		str r0, [r3, #GPIO_IFC]
+        // clear interupt
+        ldr r0, =GPIO_BASE
+        ldr r1, [r0, #GPIO_IF]
+        str r1, [r0, #GPIO_IFC]
+        
+        // get button values
+        ldr r0, =GPIO_PC_BASE
+        ldr r1, [r0, #GPIO_DIN]
 
-		ldr r0, [r2, #GPIO_DIN]
-        lsl r0, r0, #8
-        str r0, [r1, #GPIO_DOUT]
-		
-		wfi
-	    bx lr
-
+        // write button values to output
+        lsl r1, r1, #8
+        ldr r2, =GPIO_PA_BASE
+        str r1, [r2, #GPIO_DOUT]
+        
+        // return to main
+        b main
+	
 	/////////////////////////////////////////////////////////////////////////////
 	
         .thumb_func
