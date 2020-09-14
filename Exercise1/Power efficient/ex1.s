@@ -84,7 +84,7 @@
 _reset: 
 	    ///CMU enable GPIO///
 		mov r0, #1
-		ldr r1, = CMU_BASE
+		ldr r1, =CMU_BASE
 		ldr r2, [r1, #CMU_HFPERCLKEN0]
 		lsl r0, r0, #CMU_HFPERCLKEN0_GPIO
 		orr r2, r2, r0
@@ -98,6 +98,7 @@ _reset:
 		ldr r2, =0x55555555
 		str r2, [r1, #GPIO_MODEH]
 		
+		// Turn leds off
 		ldr r0, =0xff
 		lsl r0, r0, #8
 		str r0, [r1, #GPIO_DOUT]
@@ -124,8 +125,11 @@ _reset:
 
 		ldr r2, =0x802
 		ldr r1, =ISER0
-		str r2, r3
+		ldr r2, [r1, #0]
 		ldr r1, =GPIO_PA_BASE
+
+		// Power saving in general here.
+
 		
         .thumb_func
 main:
@@ -145,6 +149,7 @@ gpio_handler:
 		// Read interrupt
 		ldr r0, [r3, #GPIO_IF]
 		str r0, [r1, #GPIO_DOUT]
+
 		// Reset interrupts
 		str r0, [r3, #GPIO_IFC]
 	    b main
