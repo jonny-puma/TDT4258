@@ -1,14 +1,15 @@
-# Top level makefile
-#
+# Top level Makefile
 # Exercise 1, TDT4258
 
-baseline.bin :
-	$(MAKE) -C baseline
+.PHONY: baseline efficient
+baseline efficient :
+	$(MAKE) -C $@
+	mv $@/ex1.bin $@.bin
+	-eACommander.sh -r --address 0x00000000 -f "$@.bin" -r
 
-efficient.bin :
-	$(MAKE) -C efficient
 
-.PHONY
-clean: 
-	$(MAKE) -C efficient clean
+.PHONY: clean
+clean : 
 	$(MAKE) -C baseline clean
+	$(MAKE) -C efficient clean
+	rm baseline.bin efficient.bin
