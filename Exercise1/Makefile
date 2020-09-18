@@ -2,7 +2,7 @@
 #
 # Exercise 1, TDT4258
 
-.PHONY: baseline efficient
+PHONY: baseline efficient
 baseline efficient :
 	$(MAKE) -C $@
 	mv $@/ex1.bin $@.bin
