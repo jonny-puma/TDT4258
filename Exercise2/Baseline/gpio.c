@@ -22,3 +22,10 @@ void setupGPIO()
 	*GPIO_PA_DOUT = 0x0700;	/* turn on LEDs D4-D8 (LEDs are active
 				 * low) */
 }
+
+uint32_t* readButtons()
+{
+	// Code to read buttons? 
+	// More abstract, less abstract?
+}
+

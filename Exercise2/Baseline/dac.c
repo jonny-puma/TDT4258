@@ -20,3 +20,11 @@ void setupDAC()
 	*DAC0_CH0CTRL = 0x1;
 	*DAC0_CH1CTRL = 0x1;
 }
+
+void playRaw(){
+	// Something something
+}
+
+void playWaveform(){
+	// Something else something else
+}

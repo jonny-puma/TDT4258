@@ -12,6 +12,7 @@
 /*
  * The period between sound samples, in clock cycles 
  */
+ //TODO: Find this value
 #define   SAMPLE_PERIOD   0
 
 /*
@@ -19,7 +20,7 @@
  */
 void setupTimer(uint32_t period);
 void setupDAC();
-void setupNVIC();
+//void setupNVIC();
 
 /*
  * Your code will start executing here 
@@ -32,23 +33,34 @@ int main(void)
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
-
+	
 	/*
-	 * Enable interrupt handling 
+	 * Enable interrupt handling, not relevant in baseline
 	 */
-	setupNVIC();
+	//setupNVIC();
 
 	/*
 	 * TODO for higher energy efficiency, sleep while waiting for
 	 * interrupts instead of infinite loop for busy-waiting 
 	 */
-	while (1) ;
+	while(1){
+		// Read buttons
+		arr = readButtons();
+
+		// Play some sound depending on which button was pressed?
+		if arr[3]{ // Assuming this would be the music or something
+			playWaveform(sound);
+		}else{ //Simple sound effects can be played as raw.
+			playRaw(sound);
+		}
+	} 
 
 	return 0;
 }
 
-void setupNVIC()
-{
+
+//void setupNVIC()
+//{
 	/*
 	 * TODO use the NVIC ISERx registers to enable handling of
 	 * interrupt(s) remember two things are necessary for interrupt
@@ -57,7 +69,9 @@ void setupNVIC()
 	 * need TIMER1, GPIO odd and GPIO even interrupt handling for this
 	 * assignment. 
 	 */
-}
+	
+//}
+
 
 /*
  * if other interrupt handlers are needed, use the following names:
