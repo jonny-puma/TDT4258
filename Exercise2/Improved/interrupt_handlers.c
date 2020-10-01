@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "interrupt_handler.h"
 
 /*
  * TIMER1 interrupt handler 

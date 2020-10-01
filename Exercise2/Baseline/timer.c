@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "timer.h"
 
 /*
  * function to setup the timer 

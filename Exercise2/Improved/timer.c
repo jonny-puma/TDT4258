@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "timer.h"
 
 /*
  * function to setup the timer 
@@ -20,4 +21,8 @@ void setupTimer(uint16_t period)
 	 * cycles. Remember to configure the NVIC as well, otherwise the
 	 * interrupt handler will not be invoked. 
 	 */
+	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_TIMER1;
+	*TIMER1_TOP = period;
+	*TIMER1_IEN = 0x1;
+	//*TIMER1_IEN = 0x1;
 }
