@@ -18,13 +18,14 @@
 /*
  * Declaration of peripheral setup functions 
  */
-void setupTimer(uint32_t period);
-void setupDAC();
-//void setupNVIC();
+extern void setupTimer(uint32_t period);
+extern void setupDAC();
+extern void setupGPIO();
+extern uint32_t readButtons();
+extern void setLeds(uint32_t buttons);
 
-/*
- * Your code will start executing here 
- */
+
+
 int main(void)
 {
 	/*
@@ -45,14 +46,17 @@ int main(void)
 	 */
 	while(1){
 		// Read buttons
-		arr = readButtons();
-
+		uint32_t x = readButtons();
+        setLeds( x );
+        
+        /*
 		// Play some sound depending on which button was pressed?
 		if arr[3]{ // Assuming this would be the music or something
 			playWaveform(sound);
 		}else{ //Simple sound effects can be played as raw.
 			playRaw(sound);
 		}
+        */
 	} 
 
 	return 0;
