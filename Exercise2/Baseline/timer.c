@@ -2,6 +2,8 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "timer.h"
+
 
 /*
  * function to setup the timer 
@@ -24,4 +26,8 @@ void setupTimer(uint16_t period)
 	*TIMER1_TOP = period;
 	*TIMER1_IEN = 0x1;
 	//*TIMER1_IEN = 0x1;
+}
+
+void startTimer(){
+	*TIMER1_CMD = 1;
 }
