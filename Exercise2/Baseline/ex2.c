@@ -38,6 +38,7 @@ int main(void)
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
+	startTimer();
 	
 	/*
 	 * Enable interrupt handling, not relevant in baseline
