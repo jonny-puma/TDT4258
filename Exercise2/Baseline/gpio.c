@@ -45,17 +45,20 @@ void buttonHandler(){
 	uint32_t btns = readButtons();
 	switch (btns){
 		case BTN1:
-			
+			*current = "Flaaklypa"
+			// Deref pointer
 			break;
 		case BTN2:
 
+			// Deref pointer
 			break;
 		case BTN3:
-
+			// Deref pointer
 			break;
 		case BTN4:
-			
+			playWaveform();
 			break;
-		
+		default:
+			break;
 	}
 }

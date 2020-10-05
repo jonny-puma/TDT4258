@@ -45,7 +45,7 @@ struct note flaaklypa[]=
     {.freq = F5, .sec = 0.8},
     {.freq = E5, .sec = 0.8},
     {.freq = B5, .sec = 0.8},
-    {.freq = A3 , .sec = 0.8},
+    {.freq = A3, .sec = 0.8},
     {.freq = B4, .sec = 0.8},
     {.freq = C4, .sec = 0.8},
     {.freq = D4, .sec = 0.8},
@@ -60,7 +60,7 @@ struct note flaaklypa[]=
     {.freq = F5, .sec = 0.8},
     {.freq = E5, .sec = 0.8},
     {.freq = B5, .sec = 0.8},
-    {.freq = A3 , .sec = 0.8},
+    {.freq = A3, .sec = 0.8},
     {.freq = B4, .sec = 0.8},
     {.freq = C4, .sec = 0.8},
     {.freq = D4, .sec = 0.8},
@@ -103,8 +103,13 @@ struct note flaaklypa[]=
     {.freq = D4, .sec = 0.8},
     {.freq = C4, .sec = 0.8},
     {.freq = B4, .sec = 0.8},
-    {.freq = A3 , .sec = 0.8},
-    {.freq = dA3 , .sec = 0.8},
-    {.freq = A3 , .sec = 0.8}
+    {.freq = A3, .sec = 0.8},
+    {.freq = dA3, .sec = 0.8},
+    {.freq = A3, .sec = 0.8}
 };
 
+void playWaveform(struct note[]){
+	// Something else something else
+	// Generate waveform
+	if (counter % )
+}
