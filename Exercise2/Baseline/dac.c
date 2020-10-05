@@ -3,6 +3,7 @@
 
 #include "efm32gg.h"
 #include "common.h"
+#include "music.h"
 
 void setupDAC()
 {
@@ -22,31 +23,10 @@ void setupDAC()
 	*DAC0_CH0CTRL = 0x1;
 	*DAC0_CH1CTRL = 0x1;
 }
-
+/*
 void playRaw(){
 	// Something something
 	// Generate C array or something
 }
+*/
 
-void playWaveform(int type){
-	// Something else something else
-	// Generate waveform
-	switch( type )
-	{
-		case SINE:
-				
-				Break;
-		case SAWTOOTH:
-				
-				Break;
-		case TRIANGLE:
-				
-				Break;
-		case TRIANGLE:
-				
-				Break;
-		default:
-				// Something went wrong
-				Break;
-	}
-}

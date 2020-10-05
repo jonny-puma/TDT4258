@@ -26,41 +26,39 @@ extern void setupDAC();
 extern void setupGPIO();
 extern uint32_t readButtons();
 extern void setLeds(uint32_t buttons);
+<<<<<<< HEAD
 
+=======
+extern void startTimer();
+extern void buttonHandler();
+>>>>>>> f1cd9d787296d66091ebee4381f702435a265c34
 
 int main(void)
 {
-	/*
-	 * Call the peripheral setup functions 
-	 */
+	// Setting up 
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
+    startTimer();
 	
 	/*
 	 * Enable interrupt handling, not relevant in baseline
 	 */
 	//setupNVIC();
-
-	/*
-	 * TODO for higher energy efficiency, sleep while waiting for
-	 * interrupts instead of infinite loop for busy-waiting 
-	 */
+	
+    uint32_t buttons;
+	bool musicPlaying = false;
+	int* currentlyPlaying = NONE;
 	while(1){
+		buttonHandler();
 		// Read buttons
-		uint32_t x = readButtons();
-        setLeds( x );
-        
-        /*
-		// Play some sound depending on which button was pressed?
-		if arr[3]{ // Assuming this would be the music or something
-			playWaveform(sound);
-		}else{ //Simple sound effects can be played as raw.
-			playRaw(sound);
-		}
-        */
-	} 
+		// uint32_t x = readButtons();
 
+		if (*TIMER1_CNT == SAMPLE_PERIOD){
+			// do stuff
+			updateNote();
+		}
+	} 
 	return 0;
 }
 

@@ -3,6 +3,9 @@
 
 #include "efm32gg.h"
 
+#include "common.h"
+#include "music.h"
+
 /*
  * function to set up GPIO mode and interrupts
  */
@@ -39,3 +42,23 @@ void setLeds(uint32_t buttons)
     *GPIO_PA_DOUT = buttons;
 }
 
+void buttonHandler(){
+	uint32_t btns = readButtons();
+	switch (btns){
+		case BTN1:
+			*CURRENT_SONG = FLAAKLYPA;
+			break;
+		case BTN2:
+			*CURRENT_SONG = COIN;
+			break;
+		case BTN3:
+			*CURRENT_SONG = JUMP;
+			break;
+		case BTN4:
+			*CURRENT_SONG = DEATH;
+			break;
+		default:
+			//CURRENT_SONG = NONE; //?
+			break;
+	}
+}
