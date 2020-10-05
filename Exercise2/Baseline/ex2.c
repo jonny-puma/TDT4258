@@ -55,6 +55,20 @@ int main(void)
 	return 0;
 }
 
+void playnext() {
+  if (playhead < sound->buffersize) {
+    uint32_t nextbyte = sound->buffer[playhead];
+    nextbyte = (nextbyte/2.67) << 20;
+    *DAC0_CH0DATA = nextbyte;
+    *DAC0_CH1DATA = nextbyte;
+    playhead++;
+  }
+}
+
+void setsound(soundeffect *sound) {
+  sound->playhead = 0;
+  currentsound = sound;
+}
 
 //void setupNVIC()
 //{
