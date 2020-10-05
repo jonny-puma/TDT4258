@@ -24,14 +24,14 @@ extern void setupDAC();
 extern void setupGPIO();
 extern uint32_t readButtons();
 extern void setLeds(uint32_t buttons);
-extern void startTimer(uint32_t period);
+extern void startTimer();
 
 int main(void)
 {
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
-    startTimer(SAMPLE_PERIOD);
+    startTimer();
 	
 	/*
 	 * Enable interrupt handling, not relevant in baseline
@@ -42,18 +42,24 @@ int main(void)
 	 * TODO for higher energy efficiency, sleep while waiting for
 	 * interrupts instead of infinite loop for busy-waiting 
 	 */
+	
     uint32_t x = 0x00ff;
     uint32_t y = 0xffff;
-    
+	
+    int i = 0;
 	while(1){
 		// Read buttons
 		// uint32_t x = readButtons();
-        startTimer(SAMPLE_PERIOD);
-        setLeds( x );
-        startTimer(SAMPLE_PERIOD);
-        setLeds( y );
+		
+		while (*TIMER1_CNT == SAMPLE_PERIOD){
+			if (i%2){
+				setLeds(x);
+			}else{
+				setLeds(y);
+			}	
+			i++
+		}
 	} 
-
 	return 0;
 }
 
