@@ -1,118 +1,136 @@
-#include "efm32gg.h"
-
-#define PAUSE 0
-#define 
+#include "efm32gg.h" // ???
 
 /*
-E5
-A5
-B5
-C5
-B5
-A5
-G5
-E5
-C4
-D4
-E5
-F5
-E5
-D4
-C4
-D4
-E5
-D4
-C4
-B4
+{.freq = E5
+{.freq = A5
+{.freq = B5
+{.freq = C5
+{.freq = B5
+{.freq = A5
+{.freq = G5
+{.freq = E5
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = F5
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = B4
 
-E5
-A5
-B5
-C5
-B5
-A5
-G5
-E5
-C4
-D4
-E5
-D4
-C4
-B4
-A3 (2)
-G#3 (2)
-A3 (2)
+{.freq = E5
+{.freq = A5
+{.freq = B5
+{.freq = C5
+{.freq = B5
+{.freq = A5
+{.freq = G5
+{.freq = E5
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = B4
+{.freq = A3 (2)
+{.freq = dA (2)
+{.freq = A3 (2)
 
-A3 (2)
-A5
-G5
-F5
-E5
-B5
-A3 
-B4
-C4
-D4
-E5
-F5
-E5
-D4
-E5
+{.freq = A3 (2)
+{.freq = A5
+{.freq = G5
+{.freq = F5
+{.freq = E5
+{.freq = B5
+{.freq = A3 
+{.freq = B4
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = F5
+{.freq = E5
+{.freq = D4
+{.freq = E5
 
-A3 (2)
-A5
-G5
-F5
-E5
-B5
-A3 
-B4
-C4
-D4
-E5
-F5
-E5
-D4
-E5
+{.freq = A3 (2)
+{.freq = A5
+{.freq = G5
+{.freq = F5
+{.freq = E5
+{.freq = B5
+{.freq = A3 
+{.freq = B4
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = F5
+{.freq = E5
+{.freq = D4
+{.freq = E5
 
-E5
-A5
-B5
-C5
-B5
-A5
-G5
-E5
-C4
-D4
-E5
-F5
-E5
-D4
-C4
-D4
-E5
-D4
-C4
-B4
+{.freq = E5
+{.freq = A5
+{.freq = B5
+{.freq = C5
+{.freq = B5
+{.freq = A5
+{.freq = G5
+{.freq = E5
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = F5
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = B4
 
-E5
-A5
-B5
-C5
-B5
-A5
-G5
-E5
-C4
-D4
-E5
-D4
-C4
-B4
-A3 (2)
-G#3 (2)
-A3 (2)
+{.freq = E5
+{.freq = A5
+{.freq = B5
+{.freq = C5
+{.freq = B5
+{.freq = A5
+{.freq = G5
+{.freq = E5
+{.freq = C4
+{.freq = D4
+{.freq = E5
+{.freq = D4
+{.freq = C4
+{.freq = B4
+{.freq = A3 (2)
+{.freq = dA (2)
+{.freq = A3 (2)
 */
 
+// Hz
+#define A5 880
+#define B5 987.767
+#define C5 523.251
+#define F5 698.456
+#define G5 783.991
+#define E5 659.255
 
+#define B4 493.883
+#define C4 261.626
+#define D4 293.665
+
+#define A3 220.000
+#define dA3 207.652
+
+#define A2 110.000
+#define dA2 103.826
+
+struct note{
+    float freq;
+    float sec;
+};

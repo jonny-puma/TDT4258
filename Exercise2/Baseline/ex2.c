@@ -41,7 +41,7 @@ int main(void)
 	
     uint32_t buttons;
 	bool musicPlaying = false;
-
+	char* currentlyPlaying = "None";
 	while(1){
 		buttons = readButtons();
 		// Read buttons
