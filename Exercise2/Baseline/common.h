@@ -11,5 +11,7 @@
 #define   COIN 2
 #define   JUMP 3
 #define   DEATH 4
+#define   NONE 0
 
-#define CURRENT_SONG     ((volatile uint8_t*)(GPIO_PA_BASE + 0x00))
+#define CURRENT_SONG     ((volatile int*)(NONE))
+#define CURRENT_NOTE     ((volatile note*))

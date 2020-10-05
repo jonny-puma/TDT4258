@@ -4,6 +4,7 @@
 #include "efm32gg.h"
 
 #include "common.h"
+#include "music.h"
 
 /*
  * function to set up GPIO mode and interrupts
@@ -45,20 +46,19 @@ void buttonHandler(){
 	uint32_t btns = readButtons();
 	switch (btns){
 		case BTN1:
-			*current = "Flaaklypa"
-			// Deref pointer
+			*CURRENT_SONG = FLAAKLYPA;
 			break;
 		case BTN2:
-
-			// Deref pointer
+			*CURRENT_SONG = COIN;
 			break;
 		case BTN3:
-			// Deref pointer
+			*CURRENT_SONG = JUMP;
 			break;
 		case BTN4:
-			playWaveform();
+			*CURRENT_SONG = DEATH;
 			break;
 		default:
+			//CURRENT_SONG = NONE; //?
 			break;
 	}
 }

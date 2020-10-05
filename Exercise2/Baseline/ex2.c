@@ -25,6 +25,7 @@ extern void setupGPIO();
 extern uint32_t readButtons();
 extern void setLeds(uint32_t buttons);
 extern void startTimer();
+extern void buttonHandler();
 
 int main(void)
 {
@@ -41,15 +42,15 @@ int main(void)
 	
     uint32_t buttons;
 	bool musicPlaying = false;
-	char* currentlyPlaying = "None";
+	int* currentlyPlaying = NONE;
 	while(1){
-		buttons = readButtons();
+		buttonHandler();
 		// Read buttons
 		// uint32_t x = readButtons();
-	
+
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// do stuff
-			
+			updateNote();
 		}
 	} 
 	return 0;

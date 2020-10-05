@@ -113,6 +113,9 @@
 */
 
 // Hz
+#define B6 1975.53
+#define E7 2637.02
+
 #define A5 880
 #define B5 987.767
 #define C5 523.251
@@ -129,6 +132,11 @@
 
 #define A2 110.000
 #define dA2 103.826
+
+struct song{
+    note *notes;
+
+};
 
 struct note{
     float freq;

@@ -1,7 +1,8 @@
 #include "music.h"
+#include "common.h"
 
-struct note flaaklypa[]=
-{
+struct note flaaklypa[] =
+{   
     {.freq = E5, .sec = 0.8},
     {.freq = A5, .sec = 0.8},
     {.freq = B5, .sec = 0.8},
@@ -108,8 +109,31 @@ struct note flaaklypa[]=
     {.freq = A3, .sec = 0.8}
 };
 
-void playWaveform(struct note[]){
-	// Something else something else
-	// Generate waveform
-	if (counter % )
+struct note coin[]=
+{
+    {.freq = B6, .sec = 0.3},
+    {.freq = E7, .sec = 0.5}
+};
+
+struct note jump[]=
+{
+    {.freq = B6, .sec = 0.3},
+    {.freq = E7, .sec = 0.5}
+};
+
+struct note death[]=
+{
+    {.freq = B6, .sec = 0.3},
+    {.freq = E7, .sec = 0.5}
+};
+
+void updateNote(){
+    //Start a song for the first time
+    if (CURRENT_NOTE == NONE && !(CURRENT_SONG == NONE)){
+        CURRENT_NOTE = 
+    }
+}
+
+void setSong(){
+
 }
