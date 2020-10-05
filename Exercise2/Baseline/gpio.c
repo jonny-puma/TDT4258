@@ -3,6 +3,8 @@
 
 #include "efm32gg.h"
 
+#include "common.h"
+
 /*
  * function to set up GPIO mode and interrupts
  */
@@ -39,3 +41,21 @@ void setLeds(uint32_t buttons)
     *GPIO_PA_DOUT = buttons;
 }
 
+void buttonHandler(){
+	uint32_t btns = readButtons();
+	switch (btns){
+		case BTN1:
+			
+			break;
+		case BTN2:
+
+			break;
+		case BTN3:
+
+			break;
+		case BTN4:
+			
+			break;
+		
+	}
+}

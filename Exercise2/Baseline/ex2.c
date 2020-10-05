@@ -28,6 +28,7 @@ extern void startTimer();
 
 int main(void)
 {
+	// Setting up 
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
@@ -37,27 +38,18 @@ int main(void)
 	 * Enable interrupt handling, not relevant in baseline
 	 */
 	//setupNVIC();
+	
+    uint32_t buttons;
+	bool musicPlaying = false;
 
-	/*
-	 * TODO for higher energy efficiency, sleep while waiting for
-	 * interrupts instead of infinite loop for busy-waiting 
-	 */
-	
-    uint32_t x = 0x00ff;
-    uint32_t y = 0xffff;
-	
-    int i = 0;
 	while(1){
+		buttons = readButtons();
 		// Read buttons
 		// uint32_t x = readButtons();
-		
-		while (*TIMER1_CNT == SAMPLE_PERIOD){
-			if (i%2){
-				setLeds(x);
-			}else{
-				setLeds(y);
-			}	
-			i++
+	
+		if (*TIMER1_CNT == SAMPLE_PERIOD){
+			// do stuff
+			
 		}
 	} 
 	return 0;

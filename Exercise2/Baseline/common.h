@@ -3,3 +3,7 @@
 #define   SAWTOOTH 1
 #define   TRIANGLE 2
 #define   SQUARE 3
+#define   BTN1   0x01
+#define   BTN2   0x02
+#define   BTN3   0x04
+#define   BTN4   0x08
