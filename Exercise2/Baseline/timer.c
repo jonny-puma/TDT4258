@@ -23,5 +23,12 @@ void setupTimer(uint16_t period)
 	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_TIMER1;
 	*TIMER1_TOP = period;
 	*TIMER1_IEN = 0x1;
-	//*TIMER1_IEN = 0x1;
+}
+
+void startTimer(uint16_t period)
+{
+    *TIMER1_CMD = 0x1;
+    
+    while(*TIMER1_CNT < period){}
+    *TIMER1_CMD = 0x0;
 }

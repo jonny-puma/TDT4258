@@ -13,7 +13,7 @@
  * The period between sound samples, in clock cycles 
  */
  //TODO: Find this value
-#define   SAMPLE_PERIOD   0
+#define   SAMPLE_PERIOD   65000
 
 /*
  * Declaration of peripheral setup functions 
@@ -23,17 +23,14 @@ extern void setupDAC();
 extern void setupGPIO();
 extern uint32_t readButtons();
 extern void setLeds(uint32_t buttons);
-
-
+extern void startTimer(uint32_t period);
 
 int main(void)
 {
-	/*
-	 * Call the peripheral setup functions 
-	 */
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
+    startTimer(SAMPLE_PERIOD);
 	
 	/*
 	 * Enable interrupt handling, not relevant in baseline
@@ -44,19 +41,16 @@ int main(void)
 	 * TODO for higher energy efficiency, sleep while waiting for
 	 * interrupts instead of infinite loop for busy-waiting 
 	 */
+    uint32_t x = 0x00ff;
+    uint32_t y = 0xffff;
+    
 	while(1){
 		// Read buttons
-		uint32_t x = readButtons();
+		// uint32_t x = readButtons();
+        startTimer(SAMPLE_PERIOD);
         setLeds( x );
-        
-        /*
-		// Play some sound depending on which button was pressed?
-		if arr[3]{ // Assuming this would be the music or something
-			playWaveform(sound);
-		}else{ //Simple sound effects can be played as raw.
-			playRaw(sound);
-		}
-        */
+        startTimer(SAMPLE_PERIOD);
+        setLeds( y );
 	} 
 
 	return 0;
