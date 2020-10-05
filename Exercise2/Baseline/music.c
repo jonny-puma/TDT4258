@@ -157,18 +157,19 @@ struct song death=
 
 void updateNote(){
     //Start a song for the first time
-    if (*ticks < current_song->notes[current_song->playhead].sec * 44100){
+    if (*ticks < current_song->notes[current_song->playhead].sec * FREQUENCY){
         current_song->playhead++;
+        *ticks = 0;
     }
     if (current_song->playhead > current_song->duration){
         current_song->playhead = 0;
-        *CURRENT_SONG = NONE;
+        *ticks = 0;
+        // *CURRENT_SONG = NONE;
     }else{
         uint32_t val = synthesiseWave();
         *DAC0_CH0DATA = val;
         *DAC0_CH1DATA = val;
     }
-    
 }
 
 uint32_t synthesiseWave(){
@@ -181,20 +182,23 @@ uint32_t synthesiseWave(){
 }
 
 void resetSong(){
-    switch (*CURRENT_SONG)
-    {
+    switch (*CURRENT_SONG){
         case FLAAKLYPA:
             current_song = &flaaklypa;
             break;
+
         case COIN:
             current_song = &coin;
             break;
+
         case JUMP:
             current_song = &jump;
             break;
+
         case DEATH:
             current_song = &death;
             break;
+
         default:
             // set none
             break;

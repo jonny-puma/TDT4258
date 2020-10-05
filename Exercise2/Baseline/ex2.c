@@ -45,8 +45,6 @@ int main(void)
     *tick = 0;
 	while(1){
 		buttonHandler();
-		// Read buttons
-		// uint32_t x = readButtons();
 
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// do stuff
