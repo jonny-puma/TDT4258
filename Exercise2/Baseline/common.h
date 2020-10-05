@@ -14,4 +14,6 @@
 #define   NONE 0
 
 #define CURRENT_SONG     ((volatile int*)(NONE))
-#define CURRENT_NOTE     ((volatile note*))
+#define CURRENT_NOTE     ((volatile struct note*)(NULL))
+
+struct song *current_song;
