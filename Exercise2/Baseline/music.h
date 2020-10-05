@@ -135,10 +135,15 @@
 
 struct song{
     note *notes;
-
+    int playhead;
+    int duration;
 };
 
 struct note{
     float freq;
     float sec;
 };
+
+void updateNote();
+
+void resetSong();

@@ -47,15 +47,19 @@ void buttonHandler(){
 	switch (btns){
 		case BTN1:
 			*CURRENT_SONG = FLAAKLYPA;
+			resetSong();
 			break;
 		case BTN2:
 			*CURRENT_SONG = COIN;
+			resetSong();
 			break;
 		case BTN3:
 			*CURRENT_SONG = JUMP;
+			resetSong();
 			break;
 		case BTN4:
 			*CURRENT_SONG = DEATH;
+			resetSong();
 			break;
 		default:
 			//CURRENT_SONG = NONE; //?

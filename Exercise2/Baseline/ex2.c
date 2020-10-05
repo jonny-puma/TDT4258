@@ -3,6 +3,7 @@
 
 #include "efm32gg.h"
 #include "common.h"
+#include "music.h"
 
 /*
  * TODO calculate the appropriate sample period for the sound wave(s) you 
@@ -24,11 +25,15 @@
 extern void setupTimer(uint32_t period);
 extern void setupDAC();
 extern void setupGPIO();
+<<<<<<< HEAD
 extern uint32_t readButtons();
 extern void setLeds(uint32_t buttons);
 <<<<<<< HEAD
 
 =======
+=======
+//extern void setLeds(uint32_t buttons);
+>>>>>>> master
 extern void startTimer();
 extern void buttonHandler();
 >>>>>>> f1cd9d787296d66091ebee4381f702435a265c34
@@ -46,9 +51,6 @@ int main(void)
 	 */
 	//setupNVIC();
 	
-    uint32_t buttons;
-	bool musicPlaying = false;
-	int* currentlyPlaying = NONE;
 	while(1){
 		buttonHandler();
 		// Read buttons
