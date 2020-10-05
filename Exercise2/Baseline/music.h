@@ -134,7 +134,7 @@
 #define dA2 103.826
 
 struct song{
-    note *notes;
+    struct note *notes;
     int playhead;
     int duration;
 };

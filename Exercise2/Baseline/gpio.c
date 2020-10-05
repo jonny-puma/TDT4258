@@ -26,7 +26,7 @@ void setupGPIO()
 				 * low) */
     *GPIO_PC_MODEL = 0x33333333;
     *GPIO_PC_DOUT = 0xff;
-    
+    *volume = 1000; //Arbritrary value
 }
 
 uint32_t readButtons()
@@ -49,18 +49,22 @@ void buttonHandler(){
 			*CURRENT_SONG = FLAAKLYPA;
 			resetSong();
 			break;
+
 		case BTN2:
 			*CURRENT_SONG = COIN;
 			resetSong();
 			break;
+
 		case BTN3:
 			*CURRENT_SONG = JUMP;
 			resetSong();
 			break;
+
 		case BTN4:
 			*CURRENT_SONG = DEATH;
 			resetSong();
 			break;
+			
 		default:
 			//CURRENT_SONG = NONE; //?
 			break;

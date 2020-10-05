@@ -12,8 +12,12 @@
 #define   JUMP 3
 #define   DEATH 4
 #define   NONE 0
+#define   FREQUENCY 41000
 
-#define CURRENT_SONG     ((volatile int*)(NONE))
-#define CURRENT_NOTE     ((volatile struct note*)(NULL))
+#define CURRENT_SONG     ((volatile int*)
+#define CURRENT_NOTE     ((volatile struct note*))
 
 struct song *current_song;
+int *ticks;
+uint32_t *volume;
+int *frequency;
