@@ -20,7 +20,6 @@ extern void buttonHandler();
 //extern void updateNote();
 
 
-
 int main(void)
 {
 	// Setting up sub modules
@@ -33,9 +32,8 @@ int main(void)
 	while(1){
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
-			// do stuff
+			// Checking state
 			updateNote();
-			*ticks++;
 		}
 	} 
 	return 0;
