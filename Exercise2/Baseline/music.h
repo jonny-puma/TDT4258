@@ -48,4 +48,3 @@ void increaseVolume();
 void setupMusic();
 
 uint32_t synthesiseWave();
-

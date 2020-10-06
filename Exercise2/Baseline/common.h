@@ -1,4 +1,5 @@
 #define   SAMPLE_PERIOD   317
+#define   FREQUENCY 44100
 
 #define   BTN1   0x01
 #define   BTN2   0x02
@@ -13,7 +14,4 @@
 #define   DEATH 4
 #define   NONE 0
 
-#define   FREQUENCY 44100
-
 int *CURRENT_SONG;
-//int *frequency;

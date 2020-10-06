@@ -35,7 +35,6 @@ void playMelody(){
     *DAC0_CH0DATA = val;
     *DAC0_CH1DATA = val;
 
-
     // Checking if song is finished
     if ((song_h.note_idx + 1) == song_h.song_playing->nr_notes){
         *CURRENT_SONG = NONE;
