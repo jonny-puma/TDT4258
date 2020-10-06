@@ -149,3 +149,5 @@ struct note{
 void updateNote();
 
 void resetSong();
+
+uint32_t synthesiseWave();

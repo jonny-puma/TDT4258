@@ -158,8 +158,9 @@ struct song death=
 
 void updateNote(){
     //Start a song for the first time
-    if (*ticks < current_song->notes[current_song->playhead].sec * FREQUENCY){
+    if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
         current_song->playhead++;
+        // Might be redundant
         *ticks = 0;
     }
     if (current_song->playhead > current_song->duration){
