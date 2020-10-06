@@ -137,8 +137,8 @@
 
 struct song{
     struct note *notes;
-    int playhead;
-    int duration;
+    uint32_t playhead;
+    uint32_t duration;
 };
 
 struct note{

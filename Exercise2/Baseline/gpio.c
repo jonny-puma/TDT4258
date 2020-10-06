@@ -61,7 +61,7 @@ void buttonHandler(){
 			break;
 
 		default:
-			*CURRENT_SONG = NONE; //?
+			// Do nothing
 			break;
 	}
 }

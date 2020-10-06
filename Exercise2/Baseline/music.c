@@ -131,37 +131,39 @@ struct note death_notes[]=
     {.freq = E7, .sec = 0.5}
 };
 
+
+// Dereference both pointers in .notes?
 struct song flaaklypa=
 {
-    .notes = &flaaklypa_notes,
+    .notes = flaaklypa_notes,
     .playhead = 0,
     .duration = 6969
 };
 
 struct song coin=
 {
-    .notes = &coin_notes,
+    .notes = coin_notes,
     .playhead = 0,
     .duration = 6969
 };
 
 struct song jump=
 {
-    .notes = &jump_notes,
+    .notes = jump_notes,
     .playhead = 0,
     .duration = 6969
 };
 
 struct song death=
 {
-    .notes = &death_notes,
+    .notes = death_notes,
     .playhead = 0,
     .duration = 6969
 };
 
 void setupMusic(){
-    *volume = 1000;
-    CURRENT_SONG = NONE;
+    *volume = 0x100;
+    *CURRENT_SONG = NONE;
     *ticks = 0;
 }
 
@@ -189,7 +191,7 @@ void updateNote(){
 }
 
 uint32_t synthesiseWave(){
-    int num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
+    uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
     // Alternating between high and low.
     if (num_ticks % *ticks > num_ticks/2){
         return volume;
@@ -221,13 +223,13 @@ void resetSong(){
             break;
 
         default:
-            // set none
+            // Do nothing
             break;
     }
     current_song->playhead = 0;
 }
 
-// Simply double volume each time since sound is logarithmic?
+// Simply multiply or divide volume by each time since sound is logarithmic(?)
 void increaseVolume(){
     *volume = *volume << 1;
 }
