@@ -16,7 +16,6 @@ extern void setupGPIO();
 extern void startTimer();
 extern void buttonHandler();
 
-//extern void updateNote();
 
 
 int main(void)
@@ -25,7 +24,9 @@ int main(void)
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
+	setupMusic();
     startTimer();
+	
 
 	*CURRENT_SONG = NONE;
 	while(1){
