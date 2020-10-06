@@ -160,18 +160,21 @@ struct song death=
 };
 
 void updateNote(){
-    //Start a song for the first time
+    // Checking if its time for the next note
     if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
         current_song->playhead++;
         // Might be redundant
         *ticks = 0;
     }
+    // Checking if song is finished
     if (current_song->playhead > current_song->duration){
         current_song->playhead = 0;
         *ticks = 0;
-        // *CURRENT_SONG = NONE;
+        *CURRENT_SONG = NONE;
     }else{
+        // Synthesising square wave for the tones frequency 
         uint32_t val = synthesiseWave();
+        // Outputting to DAC
         *DAC0_CH0DATA = val;
         *DAC0_CH1DATA = val;
     }
@@ -179,6 +182,7 @@ void updateNote(){
 
 uint32_t synthesiseWave(){
     int num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
+    // Alternating between high and low.
     if (num_ticks % *ticks > num_ticks/2){
         return volume;
     }else{

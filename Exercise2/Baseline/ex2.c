@@ -8,7 +8,7 @@
 
 
 /*
- * Declaration of peripheral setup functions 
+ * Declaration of sub system setup functions 
  */
 extern void setupTimer(uint32_t period);
 extern void setupDAC();
@@ -23,17 +23,12 @@ extern void buttonHandler();
 
 int main(void)
 {
-	// Setting up 
+	// Setting up sub modules
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
     startTimer();
-	
-	
-	/*
-	 * Enable interrupt handling, not relevant in baseline
-	 */
-	//setupNVIC();
+
     *ticks = 0;
 	while(1){
 		buttonHandler();
