@@ -1,6 +1,4 @@
-// No idea what this does
-#ifndef MUSIC_H
-#define MUSIC_H
+
 
 /*
 {.freq = E5
@@ -157,3 +155,5 @@ uint32_t synthesiseWave();
 void increaseVolume();
 
 void decreaseVolume();
+
+void increaseTicks();

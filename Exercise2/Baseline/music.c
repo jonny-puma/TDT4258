@@ -180,7 +180,8 @@ void updateNote(){
             *ticks = 0;
         }else{
             // Could perhaps be outside loop?
-            *ticks++; 
+            //*ticks++; 
+            (*ticks)++; // = *ticks + 1;
         }
         // Synthesising square wave for the tones frequency 
         uint32_t val = synthesiseWave();
@@ -194,7 +195,7 @@ uint32_t synthesiseWave(){
     uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
     // Alternating between high and low.
     if (num_ticks % *ticks > num_ticks/2){
-        return volume;
+        return *volume;
     }else{
         return 0;
     }
