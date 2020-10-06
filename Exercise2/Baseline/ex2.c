@@ -5,16 +5,6 @@
 #include "common.h"
 //#include "music.h"
 
-/*
- * TODO calculate the appropriate sample period for the sound wave(s) you 
- * want to generate. The core clock (which the timer clock is derived
- * from) runs at 14 MHz by default. Also remember that the timer counter
- * registers are 16 bits. 
- */
-/*
- * The period between sound samples, in clock cycles 
- */
- //TODO: Find this value
 
 
 /*
@@ -46,11 +36,9 @@ int main(void)
 	 * Enable interrupt handling, not relevant in baseline
 	 */
 	//setupNVIC();
-	*frequency = FREQUENCY;
     *ticks = 0;
 	while(1){
 		buttonHandler();
-
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// do stuff
 			updateNote();

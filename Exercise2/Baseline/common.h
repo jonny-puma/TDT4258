@@ -17,7 +17,7 @@
 #define   JUMP 3
 #define   DEATH 4
 #define   NONE 0
-#define   FREQUENCY 41000
+#define   FREQUENCY 44100
 
 int *CURRENT_SONG;
 struct song *current_song;
