@@ -1,5 +1,3 @@
-#include "efm32gg.h" // ???
-
 /*
 {.freq = E5
 {.freq = A5
@@ -112,7 +110,7 @@
 {.freq = A3 (2)
 */
 
-// Hz
+// Frequency for given notes in Hz. Number indicates octave.
 #define B6 1975.53
 #define E7 2637.02
 

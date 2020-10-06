@@ -1,5 +1,6 @@
 #include "music.h"
 #include "common.h"
+#include "efm32gg.h"
 
 struct note flaaklypa_notes[] =
 {   
@@ -173,7 +174,7 @@ void updateNote(){
 }
 
 uint32_t synthesiseWave(){
-    int num_ticks = *frequency/current_song->notes[current_song->playhead].freq;
+    int num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
     if (num_ticks % *ticks > num_ticks/2){
         return volume;
     }else{

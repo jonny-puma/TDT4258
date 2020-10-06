@@ -21,13 +21,6 @@ void setupGPIO()
     *volume = 1000; //Arbritrary value
 }
 
-// Redundant
-void setLeds(uint32_t buttons)
-{
-    buttons = (buttons << 8);
-    *GPIO_PA_DOUT = buttons;
-}
-
 void buttonHandler(){
 	uint32_t btns = *GPIO_PC_DIN;
 	switch (btns){

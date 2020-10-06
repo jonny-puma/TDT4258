@@ -19,9 +19,7 @@
 #define   NONE 0
 #define   FREQUENCY 41000
 
-#define CURRENT_SONG     ((volatile int*)
-#define CURRENT_NOTE     ((volatile struct note*))
-
+int *CURRENT_SONG;
 struct song *current_song;
 int *ticks;
 uint32_t *volume;
