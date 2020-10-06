@@ -1,3 +1,7 @@
+// No idea what this does
+#ifndef MUSIC_H
+#define MUSIC_H
+
 /*
 {.freq = E5
 {.freq = A5

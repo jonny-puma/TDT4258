@@ -3,7 +3,7 @@
 
 #include "efm32gg.h"
 #include "common.h"
-#include "music.h"
+//#include "music.h"
 
 /*
  * TODO calculate the appropriate sample period for the sound wave(s) you 
@@ -28,6 +28,8 @@ extern void setupGPIO();
 
 extern void startTimer();
 extern void buttonHandler();
+
+extern void updateNote();
 
 
 
