@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdbool.h>
+
 #include "music.h"
 #include "common.h"
 #include "efm32gg.h"

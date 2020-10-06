@@ -3,15 +3,13 @@
 
 #include "efm32gg.h"
 #include "common.h"
-//#include "music.h"
+#include "music.h"
 
 
 
 /*
  * Declaration of peripheral setup functions 
  */
-
-
 extern void setupTimer(uint32_t period);
 extern void setupDAC();
 extern void setupGPIO();
@@ -19,7 +17,7 @@ extern void setupGPIO();
 extern void startTimer();
 extern void buttonHandler();
 
-extern void updateNote();
+//extern void updateNote();
 
 
 
