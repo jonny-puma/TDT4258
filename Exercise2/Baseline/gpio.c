@@ -28,7 +28,6 @@ void setupGPIO()
     *GPIO_PC_MODEL = 0x33333333;
     *GPIO_PC_DOUT = 0xff;
 	// Setting initial value for volume
-    *volume = 1000; 
 }
 
 void buttonHandler(){
@@ -54,11 +53,11 @@ void buttonHandler(){
 			break;
 		
 		case BTN6:
-			*volume++;
+			increaseVolume();
 			break;
 		
 		case BTN8:
-			*volume--;
+			decreaseVolume();
 			break;
 
 		default:

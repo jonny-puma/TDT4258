@@ -146,8 +146,14 @@ struct note{
     float sec;
 };
 
+void setupMusic();
+
 void updateNote();
 
 void resetSong();
 
 uint32_t synthesiseWave();
+
+void increaseVolume();
+
+void decreaseVolume();

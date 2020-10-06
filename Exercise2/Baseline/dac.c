@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "common.h"
 
 void setupDAC()
 {
@@ -12,4 +13,5 @@ void setupDAC()
 	// Enabling audio channels
 	*DAC0_CH0CTRL = 0x1;
 	*DAC0_CH1CTRL = 0x1;
+	*volume = 1000;
 }

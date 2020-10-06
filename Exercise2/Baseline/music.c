@@ -159,6 +159,12 @@ struct song death=
     .duration = 6969
 };
 
+void setupMusic(){
+    *volume = 1000;
+    CURRENT_SONG = NONE;
+    *ticks = 0;
+}
+
 void updateNote(){
     // Checking if song is finished
     if (current_song->playhead > current_song->duration){
@@ -219,4 +225,13 @@ void resetSong(){
             break;
     }
     current_song->playhead = 0;
+}
+
+// Simply double volume each time since sound is logarithmic?
+void increaseVolume(){
+    *volume = *volume << 1;
+}
+
+void decreaseVolume(){
+    *volume = *volume >> 1;
 }

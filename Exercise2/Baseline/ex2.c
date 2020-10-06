@@ -27,7 +27,6 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
     startTimer();
 
-    *ticks = 0;
 	*CURRENT_SONG = NONE;
 	while(1){
 		buttonHandler();
