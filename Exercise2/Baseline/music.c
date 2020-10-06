@@ -180,8 +180,7 @@ void updateNote(){
             *ticks = 0;
         }else{
             // Could perhaps be outside loop?
-            //*ticks++; 
-            (*ticks)++; // = *ticks + 1;
+            (*ticks)++; 
         }
         // Synthesising square wave for the tones frequency 
         uint32_t val = synthesiseWave();
