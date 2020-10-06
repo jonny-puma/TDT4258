@@ -6,7 +6,6 @@
 #include "music.h"
 
 
-
 /*
  * Declaration of sub system setup functions 
  */
@@ -29,11 +28,14 @@ int main(void)
     startTimer();
 
     *ticks = 0;
+	*CURRENT_SONG = NONE;
 	while(1){
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// Checking state
-			updateNote();
+			if (*CURRENT_SONG != NONE){
+				updateNote();
+			}
 		}
 	} 
 	return 0;
