@@ -196,18 +196,22 @@ void resetSong(){
     switch (*CURRENT_SONG){
         case FLAAKLYPA:
             current_song = &flaaklypa;
+            //*current_song = flaaklypa;
             break;
 
         case COIN:
             current_song = &coin;
+            //*current_song = coin;
             break;
 
         case JUMP:
             current_song = &jump;
+            //*current_song = jump;
             break;
 
         case DEATH:
             current_song = &death;
+            //*current_song = death;
             break;
 
         default:
