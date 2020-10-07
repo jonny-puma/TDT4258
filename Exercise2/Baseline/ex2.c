@@ -29,7 +29,7 @@ int main(void)
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// Checking state
-			if (*CURRENT_SONG != NULL) {
+			if (*currentsong != NULL) {
 				updateNote();
 			}
 		}

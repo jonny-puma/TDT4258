@@ -20,23 +20,23 @@
 #define dA2 103.826
 
 
-typedef enum songname {
+typedef enum {
   FLAAKLYPA,
   COIN,
   JUMP,
   DEATH
-};
+} songname;
 
-struct song {
+typedef struct {
     struct note *notes;
     uint32_t playhead;
     uint32_t duration;
-};
+} song;
 
-struct note {
+typedef struct {
     float freq;
     float sec;
-};
+} note;
 
 song *currentsong;
 

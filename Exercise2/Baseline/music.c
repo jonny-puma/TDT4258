@@ -166,17 +166,19 @@ void setupMusic() {
     ticks = 0;
 }
 
+song *currentsong = 0;
+
 void updateNote()
 {
     // Checking if song is finished
-    if (current_song->playhead > current_song->duration){
+    if (currentsong->playhead > currentsong->duration){
         *ticks = 0;
         *CURRENT_SONG = NULL;
     
     } else {
         // Checking if next note 
-        if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY) {
-            (current_song->playhead)++;
+        if (*ticks > currentsong->notes[currentsong->playhead].sec * FREQUENCY) {
+            (currentsong->playhead)++;
             *ticks = 0;
         } else {
             (*ticks)++; 
@@ -191,7 +193,7 @@ void updateNote()
 
 uint32_t synthesiseWave()
 {
-    uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
+    uint32_t num_ticks = FREQUENCY/currentsong->notes[currentsong->playhead].freq;
     // Alternating between high and low.
     if (*ticks % num_ticks > num_ticks/2) {
         return *volume;
@@ -204,22 +206,22 @@ void changesong(songname name)
 {
     switch (name) {
         case FLAAKLYPA:
-            current_song = &flaaklypa;
+            currentsong = &flaaklypa;
             break;
 
         case COIN:
-            current_song = &coin;
+            currentsong = &coin;
             break;
 
         case JUMP:
-            *current_song = &jump;
+            *currentsong = &jump;
             break;
 
         case DEATH:
-            *current_song =&death;
+            *currentsong =&death;
             break;
     }
-    current_song->playhead = 0;
+    currentsong->playhead = 0;
 }
 
 // Simply multiply or divide volume by each time since sound is logarithmic(?)
