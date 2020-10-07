@@ -166,7 +166,9 @@ void setupMusic() {
     ticks = 0;
 }
 
-void updateNote()
+
+
+void playnote()
 {
     // Checking if song is finished
     if (currentsong->playhead > currentsong->duration){

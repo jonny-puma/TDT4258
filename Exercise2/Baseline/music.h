@@ -38,10 +38,10 @@ typedef struct {
     float sec;
 } note;
 
-song *currentsong;
+songname *currentsong = NULL;
 
 void setupMusic();
-void updateNote();
+void playnote();
 void changesong(songname name);
 uint32_t synthesiseWave();
 void increaseVolume();

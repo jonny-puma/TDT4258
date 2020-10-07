@@ -28,9 +28,7 @@ int main(void)
 	while(1) {
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
-			// Checking state
-			if (*currentsong != NULL) {
-				updateNote();
+      playnote();
 			}
 		}
 	}
