@@ -6,20 +6,20 @@
 #include "efm32gg.h"
 
 note_t crash_notes[] = {
-    {4, 5},
-    {6, 5},
-    {9, 5},
-    {15, 5},
-    {23, 5},
-    {33, 5},
-    {45, 5},
-    {62, 5},
-    {23, 5},
-    {33, 5},
-    {9, 5},
-    {15, 5},
-    {4, 5},
-    {6, 5},
+    {400, 50},
+    {600, 50},
+    {900, 50},
+    {1500, 50},
+    {2300, 50},
+    {3300, 50},
+    {4500, 50},
+    {6200, 50},
+    {2300, 50},
+    {3300, 50},
+    {900, 50},
+    {1500, 50},
+    {400, 50},
+    {600, 50},
 };
 
 note_t coin_notes[] = {
@@ -119,7 +119,7 @@ void playsound(soundname *current_sound)
     ticks++; 
     note_t current_note = sound_data->notes[note_idx];
 
-    // Synthesising square wave and push to DAC 
+    // Synthesize square wave and push to DAC 
     uint32_t val = synthesize(current_note.freq);
     *DAC0_CH0DATA = val;
     *DAC0_CH1DATA = val;
@@ -150,8 +150,6 @@ void setsound(soundname newsound)
             break;
         case FLAP:
             sound_data = &flap_sound;
-            break;
-        default:
             break;
     }
     note_idx = 0;
