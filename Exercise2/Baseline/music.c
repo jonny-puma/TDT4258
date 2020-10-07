@@ -132,7 +132,6 @@ struct note death_notes[]=
 };
 
 
-// Dereference both pointers in .notes?
 struct song flaaklypa=
 {
     .notes = flaaklypa_notes,
@@ -174,12 +173,11 @@ void updateNote(){
         *CURRENT_SONG = NONE;
     
     }else{
-        // Checking if its time for the next note 
+        // Checking if next note 
         if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
-            current_song->playhead++;
+            (current_song->playhead)++;
             *ticks = 0;
         }else{
-            // Could perhaps be outside loop?
             (*ticks)++; 
         }
         // Synthesising square wave for the tones frequency 
@@ -193,7 +191,7 @@ void updateNote(){
 uint32_t synthesiseWave(){
     uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
     // Alternating between high and low.
-    if (num_ticks % *ticks > num_ticks/2){
+    if (*ticks % num_ticks > num_ticks/2){
         return *volume;
     }else{
         return 0;
@@ -213,13 +211,13 @@ void resetSong(){
             break;
 
         case JUMP:
-            current_song = &jump;
-            //*current_song = jump;
+            //current_song = &jump;
+            *current_song = jump;
             break;
 
         case DEATH:
-            current_song = &death;
-            //*current_song = death;
+            //current_song = &death;
+            *current_song = death;
             break;
 
         default:
@@ -227,13 +225,14 @@ void resetSong(){
             break;
     }
     current_song->playhead = 0;
+    
 }
 
 // Simply multiply or divide volume by each time since sound is logarithmic(?)
 void increaseVolume(){
-    *volume = *volume << 1;
+    *volume = (*volume) << 1;
 }
 
 void decreaseVolume(){
-    *volume = *volume >> 1;
+    *volume = (*volume) >> 1;
 }

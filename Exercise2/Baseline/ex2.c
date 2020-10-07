@@ -16,8 +16,6 @@ extern void setupGPIO();
 extern void startTimer();
 extern void buttonHandler();
 
-
-
 int main(void)
 {
 	// Setting up sub modules
@@ -27,8 +25,6 @@ int main(void)
 	setupMusic();
     startTimer();
 	
-
-	*CURRENT_SONG = NONE;
 	while(1){
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
@@ -37,7 +33,8 @@ int main(void)
 				updateNote();
 			}
 		}
-	} 
+	}
+
 	return 0;
 }
 
