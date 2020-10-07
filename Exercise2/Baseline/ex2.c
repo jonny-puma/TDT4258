@@ -7,11 +7,10 @@
 
 extern void setupDAC();
 extern void setupGPIO();
-extern void setupMusic();
 extern void setupTimer(uint32_t period);
 
 extern void startTimer();
-extern void buttonHandler(soundname current_sound);
+extern void buttonHandler(soundname *current_sound, int *volume);
 extern void updateNote();
 
 int main(void)
@@ -25,7 +24,7 @@ int main(void)
   soundname current_sound = NONE;
 
 	while(1){
-		buttonHandler(&current_sound, &volume);
+		buttonhandler(&current_sound, &volume);
 		if (*TIMER1_CNT == SAMPLE_PERIOD) {
 			if (current_sound == NONE) {
         *GPIO_PA_DOUT = 0x0f00;
