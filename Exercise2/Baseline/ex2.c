@@ -30,7 +30,7 @@ int main(void)
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// Checking state
 			if (*CURRENT_SONG != NONE){
-				//*GPIO_PA_DOUT = (0x00)<<8;
+				*GPIO_PA_DOUT = (0x00)<<8;
 				updateNote();
 			}
 		}

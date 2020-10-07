@@ -161,7 +161,7 @@ struct song death=
 };
 
 void setupMusic(){
-    *volume = 0x1000;
+    *volume = 0xAAA;
     *CURRENT_SONG = NONE;
     *ticks = 0;
 }

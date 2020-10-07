@@ -153,5 +153,3 @@ uint32_t synthesiseWave();
 void increaseVolume();
 
 void decreaseVolume();
-
-void increaseTicks();

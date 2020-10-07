@@ -16,7 +16,7 @@ void setupGPIO(){
 // Not using LEDs in this implementation
 	
 	// set high drive strength 
-	*GPIO_PA_CTRL = 2;	
+	*GPIO_PA_CTRL = 2;
 	// set pins A8-15 as output 
 	*GPIO_PA_MODEH = 0x55555555;	
 	// turn on LEDs D4-D8 (LEDs are active low)
@@ -30,7 +30,7 @@ void setupGPIO(){
 
 void buttonHandler(){
 	uint32_t btn = *GPIO_PC_DIN;
-	btn = (~btn)&0xff;
+	btn = (~btn);
 	switch (btn){
 		case BTN1:
 			//*GPIO_PA_DOUT = (~btn)<<8;
