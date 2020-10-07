@@ -11,7 +11,7 @@ extern void setupmusic();
 extern void setupTimer(uint32_t period);
 
 extern void startTimer();
-extern void buttonhandler(soundname *current_sound, int *volume);
+extern void buttonhandler(soundname *current_sound, uint32_t *volume);
 extern void updateNote();
 
 int main(void)
