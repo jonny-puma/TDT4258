@@ -18,7 +18,6 @@ int main(void)
 	setupGPIO();
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
-	setupMusic();
 	startTimer();
 
   soundname current_sound = NONE;
