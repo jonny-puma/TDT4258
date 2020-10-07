@@ -151,6 +151,8 @@ void setsound(soundname newsound)
         case FLAP:
             sound_data = &flap_sound;
             break;
+	case NONE:
+	    break;
     }
     note_idx = 0;
     ticks = 0;

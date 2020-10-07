@@ -22,17 +22,17 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
 	startTimer();
 
-  soundname current_sound = NONE;
+	soundname current_sound = NONE;
 
-	while(1){
+	while(1) {
 		buttonhandler(&current_sound, &volume);
 		if (*TIMER1_CNT == SAMPLE_PERIOD) {
-			if (current_sound != NONE) {
-        playsound(&current_sound);
-      }
-        *GPIO_PA_DOUT = 0xf000;
-      }
+			if (current_sound == NONE) {
+        			*GPIO_PA_DOUT = 0xf000;
+			} else {
+				playsound(&current_sound);
+      			}
 		}
-	} 
+      	} 
 	return 0;
 }
