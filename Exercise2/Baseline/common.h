@@ -15,7 +15,7 @@
 #define   NONE 0
 #define   FREQUENCY 44100
 
-uint32_t *CURRENT_SONG; // Might be redundant
+uint32_t *CURRENT_SONG;
 struct song *current_song;
 uint32_t *ticks;
 uint32_t *volume;

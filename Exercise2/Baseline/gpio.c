@@ -66,9 +66,6 @@ void buttonHandler(){
 			decreaseVolume();
 			break;
 
-		case 0x00:
-			break;
-
 		default:
 			// Do nothing
 			//*GPIO_PA_DOUT = (0x00)<<8;

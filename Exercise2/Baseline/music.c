@@ -181,7 +181,9 @@ void updateNote(){
             (*ticks)++; 
         }
         // Synthesising square wave for the tones frequency 
+        
         uint32_t val = synthesiseWave();
+        *GPIO_PA_DOUT = (val)<<8;
         // Outputting to DAC
         *DAC0_CH0DATA = val;
         *DAC0_CH1DATA = val;
@@ -203,14 +205,12 @@ void resetSong(){
         case FLAAKLYPA:
             //*GPIO_PA_DOUT = (0xfe)<<8;
             current_song = &flaaklypa;
-            current_song->playhead = 0;
             //*current_song = flaaklypa;
             break;
 
         case COIN:
             //*GPIO_PA_DOUT = (0xfd)<<8;
             current_song = &coin;
-            current_song->playhead = 0;
             //*current_song = coin;
             break;
 
@@ -218,21 +218,19 @@ void resetSong(){
             //*GPIO_PA_DOUT = (0xfc)<<8;
             //current_song = &jump;
             *current_song = jump;
-            current_song->playhead = 0;
             break;
 
         case DEATH:
             //*GPIO_PA_DOUT = (0xfb)<<8;
             //current_song = &death;
             *current_song = death;
-            current_song->playhead = 0;
             break;
 
         default:
             // Do nothing
             break;
     }
-    
+    current_song->playhead = 0;
 }
 
 // Simply multiply or divide volume by each time since sound is logarithmic(?)
