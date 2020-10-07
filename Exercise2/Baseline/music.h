@@ -38,16 +38,12 @@ struct note {
     float sec;
 };
 
+song *currentsong;
+
 void setupMusic();
-
 void updateNote();
-
 void changesong(songname name);
-
 uint32_t synthesiseWave();
-
 void increaseVolume();
-
 void decreaseVolume();
-
 void increaseTicks();

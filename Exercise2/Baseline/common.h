@@ -1,3 +1,4 @@
+#define   NULL   0
 #define   SAMPLE_PERIOD   317
 
 #define   BTN1   0x01
@@ -10,6 +11,5 @@
 
 #define   FREQUENCY 44100
 
-struct song *current_song;
 uint32_t *ticks;
 uint32_t *volume;
