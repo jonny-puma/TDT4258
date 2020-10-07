@@ -5,7 +5,7 @@
 #include "common.h"
 #include "efm32gg.h"
 
-struct note crash_notes[] = {
+struct note_t crash_notes[] = {
     {4, 0.05},
     {6, 0.05},
     {9, 0.05},
@@ -87,7 +87,7 @@ note_t flap_notes[] = {
   {C5, 500},
   {B5, 500},
   {A5, 500}
-}
+};
 
 sound_t coin_sound = {coin_notes, 2};
 sound_t fla_sound = {flaa_notes, 103};
@@ -96,7 +96,7 @@ sound_t flap_sound = {flap_notes, 3};
 
 int ticks = 0;
 int note_idx = 0;
-sound_t *sound_data = &fla_song;
+sound_t *sound_data = &fla_sound;
 
 uint32_t synthesize(int frequency)
 {

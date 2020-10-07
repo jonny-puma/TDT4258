@@ -39,7 +39,7 @@ int volume = 1024;
 
 void playsound(soundname *current_sound);
 
-void setsound(soundname *current_sound);
+void setsound(soundname new_sound);
 
 void decreasevol();
     
