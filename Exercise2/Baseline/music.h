@@ -37,9 +37,9 @@ typedef struct {
 } song_handle_t;
 
 
-void playMelody();
+int playMelody( int C );
 
-void resetSong();
+void resetSong( int C );
 
 void decreaseVolume();
     

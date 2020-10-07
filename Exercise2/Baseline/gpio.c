@@ -23,14 +23,21 @@ void setupGPIO()
 	*GPIO_PA_DOUT = 0xff00;
 }
 
-void buttonHandler(){
+int buttonHandler( int C_s){
 	uint32_t x = *GPIO_PC_DIN;
-	x = x & 0x000f;
+	x = (~x)&0xff;
 	switch (x) {
+		case BTN1:
+			C_s = 1;
+			*GPIO_PA_DOUT = 0xfe00;
+			resetSong( C_s );
+			return C_s;
+			break;
 		case BTN2:
-			*CURRENT_SONG = COIN;
+			C_s = 2;
 			*GPIO_PA_DOUT = 0xfd00;
-			resetSong();
+			resetSong( C_s );
+			return C_s;
 			break;
 
 		case BTN6:
@@ -44,8 +51,8 @@ void buttonHandler(){
 			break;
 
 		default:
-			*CURRENT_SONG = NONE; 
-			*GPIO_PA_DOUT = 0x5500;
-			break;
+			return C_s;
+			break; 
 	}
+	return C_s;
 }
