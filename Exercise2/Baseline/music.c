@@ -5,239 +5,134 @@
 #include "common.h"
 #include "efm32gg.h"
 
-struct note flaaklypa_notes[] =
-{   
-    {.freq = E5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = C5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = C5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = dA3, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = C5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = F5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = C5, .sec = 0.8},
-    {.freq = B5, .sec = 0.8},
-    {.freq = A5, .sec = 0.8},
-    {.freq = G5, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = E5, .sec = 0.8},
-    {.freq = D4, .sec = 0.8},
-    {.freq = C4, .sec = 0.8},
-    {.freq = B4, .sec = 0.8},
-    {.freq = A3, .sec = 0.8},
-    {.freq = dA3, .sec = 0.8},
-    {.freq = A3, .sec = 0.8}
-};
+static song_handle_t song_h;
+uint32_t *volume;
 
-struct note coin_notes[]=
-{
-    {.freq = B6, .sec = 0.3},
-    {.freq = E7, .sec = 0.5}
-};
-
-struct note jump_notes[]=
-{
-    {.freq = B6, .sec = 0.3},
-    {.freq = E7, .sec = 0.5}
-};
-
-struct note death_notes[]=
-{
-    {.freq = B6, .sec = 0.3},
-    {.freq = E7, .sec = 0.5}
+note_t coin_notes[] = {
+    {B6, 1000},
+    {B4, 1500}
 };
 
 
-struct song flaaklypa=
-{
-    .notes = flaaklypa_notes,
-    .playhead = 0,
-    .duration = 6969
+
+note_t flaa_notes[] = {
+
+    { E5, 4500},
+    { A5, 4500},
+    { B5, 4500},
+    { C5, 3000},
+    { B5, 3000},
+    { A5, 6000},
+    { G5, 2500},
+    { E5, 2500},
+    { C4, 5500},
+    { D4, 2500},
+    { E5, 2500},
+    { F5, 5500},
+    { E5, 3500},
+    { D4, 3500},
+    { C4, 3500},
+    { D4, 3500},
+    { E5, 3500},
+    { D4, 3500},
+    { C4, 3500},
+    { B4, 3500},
+    { E5, 3500},
+    { A5, 3500},
+    { B5, 3500},
+    { C5, 3500},
+    { B5, 3500},
+    { A5, 3500},
+    { G5, 3500},
+    { E5, 3500},
+    { C4, 3500},
+    { D4, 3500},
+    { E5, 3500},
+    { D4, 3500},
+    { C4, 3500},
+    { B4, 3500},
+    { A3, 3500},
+    { dA3, 3500},
+    { A3, 3500},
+    { A3, 3500},
+    { A5, 3500},
+    { G5, 3500},
+    { F5, 3500},
+    { E5, 3500},
+    { B5, 3500},
+    { A3, 3500},
+    { B4, 3500},
+    { C4, 3500},
+    { D4, 3500},
+    { E5, 3500},
+    { F5, 3500},
+    { E5, 3500},
+    { D4, 3500},
+    { E5, 3500},
+    { A3, 3500}
 };
 
-struct song coin=
-{
-    .notes = coin_notes,
-    .playhead = 0,
-    .duration = 6969
-};
 
-struct song jump=
-{
-    .notes = jump_notes,
-    .playhead = 0,
-    .duration = 6969
-};
-
-struct song death=
-{
-    .notes = death_notes,
-    .playhead = 0,
-    .duration = 6969
-};
+song_t coin_song = {coin_notes, 2};
+song_t fla_song = {flaa_notes, 103};
 
 void setupMusic(){
-    *volume = 0xAAA;
-    *CURRENT_SONG = NONE;
-    *ticks = 0;
+    *volume = 1024;
 }
 
-void updateNote(){
-    // Checking if song is finished
-    if (current_song->playhead > current_song->duration){
-        *ticks = 0;
-        *CURRENT_SONG = NONE;
-    
-    }else{
-        // Checking if next note 
-        if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
-            (current_song->playhead)++;
-            *ticks = 0;
-        }else{
-            (*ticks)++; 
-        }
-        // Synthesising square wave for the tones frequency 
-        
-        uint32_t val = synthesiseWave();
-        *GPIO_PA_DOUT = (val)<<8;
-        // Outputting to DAC
-        *DAC0_CH0DATA = val;
-        *DAC0_CH1DATA = val;
+
+int playMelody( int C ){
+    (song_h.ticks)++;
+
+    // Synthesising square wave for the tones frequency 
+    uint32_t val = synthesiseWave();
+    *DAC0_CH0DATA = val;
+    *DAC0_CH1DATA = val;
+
+    // Checking if its time for the next note 
+    if (song_h.ticks > song_h.song_playing->notes[song_h.note_idx].duration_ticks){
+        song_h.note_idx++;
+        song_h.ticks = 0;
     }
+    // Checking if song is finished
+    if ((song_h.note_idx + 1)  == song_h.song_playing->nr_notes){
+        return 0;
+    } else
+    {
+        return C;
+    }
+    
 }
 
 uint32_t synthesiseWave(){
-    uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
-    // Alternating between high and low.
-    if (*ticks % num_ticks > num_ticks/2){
-        return *volume;
+    int n_ticks = FREQUENCY/song_h.song_playing->notes[song_h.note_idx].freq;
+
+    if ((song_h.ticks % n_ticks) > n_ticks/2){
+        return 1000;
     }else{
         return 0;
     }
 }
 
-void resetSong(){
-    switch (*CURRENT_SONG){
-        case FLAAKLYPA:
-            //*GPIO_PA_DOUT = (0xfe)<<8;
-            current_song = &flaaklypa;
-            //*current_song = flaaklypa;
+void resetSong( int C ){
+    switch (C){
+        case 1:
+            song_h.song_playing = &fla_song;
             break;
-
-        case COIN:
-            //*GPIO_PA_DOUT = (0xfd)<<8;
-            current_song = &coin;
-            //*current_song = coin;
+        case 2:
+            song_h.song_playing = &coin_song;
             break;
-
-        case JUMP:
-            //*GPIO_PA_DOUT = (0xfc)<<8;
-            //current_song = &jump;
-            *current_song = jump;
-            break;
-
-        case DEATH:
-            //*GPIO_PA_DOUT = (0xfb)<<8;
-            //current_song = &death;
-            *current_song = death;
-            break;
-
         default:
-            // Do nothing
             break;
     }
-    current_song->playhead = 0;
-}
-
-// Simply multiply or divide volume by each time since sound is logarithmic(?)
-void increaseVolume(){
-    *volume = (*volume) << 1;
+    song_h.note_idx = 0;
+    song_h.ticks = 0;
 }
 
 void decreaseVolume(){
-    *volume = (*volume) >> 1;
+    *volume = *volume << 1;
+}
+
+void increaseVolume(){
+    *volume = *volume >> 1;
 }
