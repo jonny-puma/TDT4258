@@ -7,3 +7,8 @@
 #define   BTN3   0x04
 #define   BTN4   0x08
 #define   BTN6   0x20
+#define   BTN8   0x80
+
+void setupGPIO();
+
+void Buttonhandler(soundname *current_sound, int *volume);
