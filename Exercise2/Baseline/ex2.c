@@ -11,7 +11,7 @@ extern void setupMusic();
 extern void setupTimer(uint32_t period);
 
 extern void startTimer();
-extern int buttonHandler( int C_s );
+extern void buttonHandler(soundname current_sound);
 extern void updateNote();
 
 int main(void)
@@ -21,15 +21,16 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
 	setupMusic();
 	startTimer();
-  int C_s = 0;
+
+  soundname current_song = NONE;
 
 	while(1){
-		C_s = buttonHandler( C_s );
-		if (*TIMER1_CNT == SAMPLE_PERIOD){
-			if (C_s == 0){
+		buttonHandler(&current_sound, &volume);
+		if (*TIMER1_CNT == SAMPLE_PERIOD) {
+			if (current_sound == NONE) {
         *GPIO_PA_DOUT = 0x0f00;
-			}else{
-        C_s = playMelody( C_s );
+			} else {
+        playsound(&current_sound);
         *GPIO_PA_DOUT = 0xf000;
       }
 		}

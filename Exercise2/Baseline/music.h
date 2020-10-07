@@ -17,33 +17,28 @@
 #define dA2 103*8
 //-----------------------------------------------------------
 
-typedef struct 
-{
+typedef struct {
     int32_t freq;
     int32_t duration_ticks;
 } note_t;
 
-typedef struct 
-{
+typedef struct {
     note_t *notes;
     int nr_notes;
-} song_t;
+} sound_t;
 
-typedef struct {
-    song_t *song_playing;
-    int note_idx;
-    int ticks;
-} song_handle_t;
+typedef enum {
+  NONE,
+  FLAAKLYPA,
+  COIN,
+  CRASH,
+  FLAP
+} soundname;
 
+int playsound(sound *current_sound);
 
-int playMelody( int C );
+void setsound(sound *current_sound);
 
-void resetSong( int C );
-
-void decreaseVolume();
+void decreasevol();
     
-void increaseVolume();
-
-void setupMusic();
-
-uint32_t synthesiseWave();
+void increasevol();
