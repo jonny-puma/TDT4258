@@ -140,8 +140,8 @@ struct song{
 };
 
 struct note{
-    float freq;
-    float sec;
+    uint32_t freq;
+    uint32_t sec;
 };
 
 void setupMusic();

@@ -161,7 +161,7 @@ struct song death=
 };
 
 void setupMusic(){
-    *volume = 0x100;
+    *volume = 0x1000;
     *CURRENT_SONG = NONE;
     *ticks = 0;
 }
@@ -201,30 +201,37 @@ uint32_t synthesiseWave(){
 void resetSong(){
     switch (*CURRENT_SONG){
         case FLAAKLYPA:
+            //*GPIO_PA_DOUT = (0xfe)<<8;
             current_song = &flaaklypa;
+            current_song->playhead = 0;
             //*current_song = flaaklypa;
             break;
 
         case COIN:
+            //*GPIO_PA_DOUT = (0xfd)<<8;
             current_song = &coin;
+            current_song->playhead = 0;
             //*current_song = coin;
             break;
 
         case JUMP:
+            //*GPIO_PA_DOUT = (0xfc)<<8;
             //current_song = &jump;
             *current_song = jump;
+            current_song->playhead = 0;
             break;
 
         case DEATH:
+            //*GPIO_PA_DOUT = (0xfb)<<8;
             //current_song = &death;
             *current_song = death;
+            current_song->playhead = 0;
             break;
 
         default:
             // Do nothing
             break;
     }
-    current_song->playhead = 0;
     
 }
 

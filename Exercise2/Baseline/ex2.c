@@ -29,7 +29,8 @@ int main(void)
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// Checking state
-			if (*CURRENT_SONG != NONE){
+			if (*CURRENT_SONG){
+				*GPIO_PA_DOUT = (0x00)<<8;
 				updateNote();
 			}
 		}
