@@ -38,6 +38,16 @@ void buttonhandler(soundname *current_sound, int *volume)
 			*current_sound = COIN;
 			setsound(current_sound);
 			break;
+		case BTN3:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = CRASH;
+			setsound(current_sound);
+			break;
+		case BTN4:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = FLAP;
+			setsound(current_sound);
+			break;
 		case BTN6:
 			*GPIO_PA_DOUT = 0xf000;
 			increasevol();
