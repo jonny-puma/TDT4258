@@ -10,5 +10,3 @@
 #define   BTN8   0x80
 
 void setupGPIO();
-
-void Buttonhandler(soundname *current_sound, int *volume);

@@ -31,12 +31,12 @@ void buttonhandler(soundname *current_sound, int *volume)
 		case BTN1:
 			*GPIO_PA_DOUT = 0xfe00;
 			*current_sound = FLAAKLYPA;
-			setsound(current_sound);
+			setsound(*current_sound);
 			break;
 		case BTN2:
 			*GPIO_PA_DOUT = 0xfd00;
 			*current_sound = COIN;
-			setsound(current_sound);
+			setsound(*current_sound);
 			break;
 		case BTN6:
 			*GPIO_PA_DOUT = 0xf000;
