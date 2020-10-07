@@ -1,117 +1,3 @@
-
-
-/*
-{.freq = E5
-{.freq = A5
-{.freq = B5
-{.freq = C5
-{.freq = B5
-{.freq = A5
-{.freq = G5
-{.freq = E5
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = F5
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = B4
-
-{.freq = E5
-{.freq = A5
-{.freq = B5
-{.freq = C5
-{.freq = B5
-{.freq = A5
-{.freq = G5
-{.freq = E5
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = B4
-{.freq = A3 (2)
-{.freq = dA (2)
-{.freq = A3 (2)
-
-{.freq = A3 (2)
-{.freq = A5
-{.freq = G5
-{.freq = F5
-{.freq = E5
-{.freq = B5
-{.freq = A3 
-{.freq = B4
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = F5
-{.freq = E5
-{.freq = D4
-{.freq = E5
-
-{.freq = A3 (2)
-{.freq = A5
-{.freq = G5
-{.freq = F5
-{.freq = E5
-{.freq = B5
-{.freq = A3 
-{.freq = B4
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = F5
-{.freq = E5
-{.freq = D4
-{.freq = E5
-
-{.freq = E5
-{.freq = A5
-{.freq = B5
-{.freq = C5
-{.freq = B5
-{.freq = A5
-{.freq = G5
-{.freq = E5
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = F5
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = B4
-
-{.freq = E5
-{.freq = A5
-{.freq = B5
-{.freq = C5
-{.freq = B5
-{.freq = A5
-{.freq = G5
-{.freq = E5
-{.freq = C4
-{.freq = D4
-{.freq = E5
-{.freq = D4
-{.freq = C4
-{.freq = B4
-{.freq = A3 (2)
-{.freq = dA (2)
-{.freq = A3 (2)
-*/
-
 // Frequency for given notes in Hz. Number indicates octave.
 #define B6 1975.53
 #define E7 2637.02
@@ -133,13 +19,21 @@
 #define A2 110.000
 #define dA2 103.826
 
-struct song{
+
+typedef enum songname {
+  FLAAKLYPA,
+  COIN,
+  JUMP,
+  DEATH
+};
+
+struct song {
     struct note *notes;
     uint32_t playhead;
     uint32_t duration;
 };
 
-struct note{
+struct note {
     float freq;
     float sec;
 };
@@ -148,7 +42,7 @@ void setupMusic();
 
 void updateNote();
 
-void resetSong();
+void changesong(songname name);
 
 uint32_t synthesiseWave();
 

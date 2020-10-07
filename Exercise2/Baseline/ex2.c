@@ -23,13 +23,13 @@ int main(void)
 	setupDAC();
 	setupTimer(SAMPLE_PERIOD);
 	setupMusic();
-    startTimer();
+  startTimer();
 	
-	while(1){
+	while(1) {
 		buttonHandler();
 		if (*TIMER1_CNT == SAMPLE_PERIOD){
 			// Checking state
-			if (*CURRENT_SONG != NONE){
+			if (*CURRENT_SONG != NULL) {
 				updateNote();
 			}
 		}

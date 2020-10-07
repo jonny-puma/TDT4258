@@ -113,71 +113,72 @@ struct note flaaklypa_notes[] =
     {.freq = A3, .sec = 0.8}
 };
 
-struct note coin_notes[]=
+struct note coin_notes[] =
 {
     {.freq = B6, .sec = 0.3},
     {.freq = E7, .sec = 0.5}
 };
 
-struct note jump_notes[]=
+struct note jump_notes[] =
 {
     {.freq = B6, .sec = 0.3},
     {.freq = E7, .sec = 0.5}
 };
 
-struct note death_notes[]=
+struct note death_notes[] =
 {
     {.freq = B6, .sec = 0.3},
     {.freq = E7, .sec = 0.5}
 };
 
 
-struct song flaaklypa=
+struct song flaaklypa =
 {
     .notes = flaaklypa_notes,
     .playhead = 0,
     .duration = 6969
 };
 
-struct song coin=
+struct song coin =
 {
     .notes = coin_notes,
     .playhead = 0,
     .duration = 6969
 };
 
-struct song jump=
+struct song jump =
 {
     .notes = jump_notes,
     .playhead = 0,
     .duration = 6969
 };
 
-struct song death=
+struct song death =
 {
     .notes = death_notes,
     .playhead = 0,
     .duration = 6969
 };
 
-void setupMusic(){
-    *volume = 0x100;
-    *CURRENT_SONG = NONE;
-    *ticks = 0;
+void setupMusic() {
+    *volume = 0x1000;
+    CURRENT_SONG = NULL;
+    ticks = 0;
 }
 
-void updateNote(){
+void updateNote()
+{
     // Checking if song is finished
     if (current_song->playhead > current_song->duration){
         *ticks = 0;
-        *CURRENT_SONG = NONE;
+        *CURRENT_SONG = NULL;
     
-    }else{
+    } else {
         // Checking if next note 
-        if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
+        if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY) {
             (current_song->playhead)++;
             *ticks = 0;
-        }else{
+        } else {
             (*ticks)++; 
         }
         // Synthesising square wave for the tones frequency 
@@ -188,51 +189,46 @@ void updateNote(){
     }
 }
 
-uint32_t synthesiseWave(){
+uint32_t synthesiseWave()
+{
     uint32_t num_ticks = FREQUENCY/current_song->notes[current_song->playhead].freq;
     // Alternating between high and low.
-    if (*ticks % num_ticks > num_ticks/2){
+    if (*ticks % num_ticks > num_ticks/2) {
         return *volume;
-    }else{
+    } else {
         return 0;
     }
 }
 
-void resetSong(){
-    switch (*CURRENT_SONG){
+void changesong(songname name)
+{
+    switch (name) {
         case FLAAKLYPA:
             current_song = &flaaklypa;
-            //*current_song = flaaklypa;
             break;
 
         case COIN:
             current_song = &coin;
-            //*current_song = coin;
             break;
 
         case JUMP:
-            //current_song = &jump;
-            *current_song = jump;
+            *current_song = &jump;
             break;
 
         case DEATH:
-            //current_song = &death;
-            *current_song = death;
-            break;
-
-        default:
-            // Do nothing
+            *current_song =&death;
             break;
     }
     current_song->playhead = 0;
-    
 }
 
 // Simply multiply or divide volume by each time since sound is logarithmic(?)
-void increaseVolume(){
+void increaseVolume()
+{
     *volume = (*volume) << 1;
 }
 
-void decreaseVolume(){
+void decreaseVolume()
+{
     *volume = (*volume) >> 1;
 }

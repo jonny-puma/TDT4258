@@ -29,25 +29,23 @@ void setupGPIO()
 }
 
 void buttonHandler(){
-	switch (*GPIO_PC_DIN){
+  uint32_t butval = *GPIO_PC_DIN;
+  butval = ~butval;
+	switch (butval){
 		case BTN1:
-			*CURRENT_SONG = FLAAKLYPA;
-			resetSong();
+      changesong(FLAAKLYPA);
 			break;
 
 		case BTN2:
-			*CURRENT_SONG = COIN;
-			resetSong();
+      changesong(COIN);
 			break;
 
 		case BTN3:
-			*CURRENT_SONG = JUMP;
-			resetSong();
+      changesong(JUMP);
 			break;
 
 		case BTN4:
-			*CURRENT_SONG = DEATH;
-			resetSong();
+			changesong(DEATH);
 			break;
 		
 		case BTN6:
