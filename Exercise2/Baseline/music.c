@@ -166,8 +166,6 @@ void setupMusic() {
     ticks = 0;
 }
 
-song *currentsong = 0;
-
 void updateNote()
 {
     // Checking if song is finished
