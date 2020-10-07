@@ -23,7 +23,7 @@ void setupGPIO()
 	*GPIO_PA_DOUT = 0xff00;
 }
 
-int buttonHandler(int *current_sound, int *volume)
+void buttonhandler(sound *current_sound, int *volume)
 {
 	uint32_t butval = *GPIO_PC_DIN;
 	butval = (~butval) & 0xff;

@@ -22,7 +22,7 @@ int main(void)
 	setupMusic();
 	startTimer();
 
-  soundname current_song = NONE;
+  soundname current_sound = NONE;
 
 	while(1){
 		buttonHandler(&current_sound, &volume);

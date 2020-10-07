@@ -99,7 +99,7 @@ int ticks = 0;
 int note_idx = 0;
 sound_t *sound_data = &fla_song;
 
-int playsound(soundname *current_sound)
+void playsound(soundname *current_sound)
 {
     ticks++; 
     struct note current_note = sound_data->notes[note_idx];
@@ -117,7 +117,7 @@ int playsound(soundname *current_sound)
 
     // Checking if sound is finished
     if ((note_idx + 1)  == sound_data->nr_notes) {
-        current_sound = 0;
+        current_sound = NONE;
     }
 }
 
