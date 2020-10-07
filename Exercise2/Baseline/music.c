@@ -98,6 +98,11 @@ int ticks = 0;
 int note_idx = 0;
 sound_t *sound_data = &fla_sound;
 
+void setupmusic()
+{
+  volume = 1024;
+}
+
 uint32_t synthesize(int frequency)
 {
     int duration_ticks = DAC_FRQ/frequency;

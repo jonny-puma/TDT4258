@@ -1,3 +1,5 @@
+#ifndef MUSIC_H
+#define MUSIC_H
 #include <stdint.h>
 
 // Frequency for given notes in Hz. Number indicates octave.
@@ -35,7 +37,7 @@ typedef enum {
   FLAP
 } soundname;
 
-int volume = 1024;
+int volume;
 
 void playsound(soundname *current_sound);
 
@@ -44,3 +46,4 @@ void setsound(soundname new_sound);
 void decreasevol();
     
 void increasevol();
+#endif
