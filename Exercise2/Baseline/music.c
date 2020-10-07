@@ -89,20 +89,30 @@ note_t flap_notes[] = {
   {A5, 500}
 }
 
-sound_t coin_song = {coin_notes, 2};
-sound_t fla_song = {flaa_notes, 103};
-sound_t crash_song = {crash_notes, 13};
+sound_t coin_sound = {coin_notes, 2};
+sound_t fla_sound = {flaa_notes, 103};
+sound_t crash_sound = {crash_notes, 13};
 sound_t flap_sound = {flap_notes, 3};
 
-uint32_t volume = 1024;
 int ticks = 0;
 int note_idx = 0;
 sound_t *sound_data = &fla_song;
 
+uint32_t synthesize(int frequency)
+{
+    int duration_ticks = DAC_FRQ/frequency;
+
+    if ((ticks % duration_ticks) > duration_ticks/2) {
+        return volume;
+    } else {
+        return 0;
+    }
+}
+
 void playsound(soundname *current_sound)
 {
     ticks++; 
-    struct note current_note = sound_data->notes[note_idx];
+    note_t current_note = sound_data->notes[note_idx];
 
     // Synthesising square wave and push to DAC 
     uint32_t val = synthesize(current_note.freq);
@@ -121,17 +131,6 @@ void playsound(soundname *current_sound)
     }
 }
 
-uint32_t synthesize(int frequency)
-{
-    int duration_ticks = DAC_FRQ/freq;
-
-    if ((ticks % duration_ticks) > duration_ticks/2) {
-        return volume;
-    } else {
-        return 0;
-    }
-}
-
 void setsound(soundname newsound)
 {
     switch (newsound) {
@@ -139,7 +138,7 @@ void setsound(soundname newsound)
             sound_data = &fla_sound;
             break;
         case COIN:
-            sound_data = &coin_soun;
+            sound_data = &coin_sound;
             break;
         case CRASH:
             sound_data = &crash_sound;
