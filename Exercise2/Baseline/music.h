@@ -37,7 +37,7 @@ typedef enum {
   FLAP
 } soundname;
 
-int volume;
+uint32_t volume;
 
 void playsound(soundname *current_sound);
 

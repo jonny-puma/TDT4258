@@ -103,9 +103,9 @@ void setupmusic()
   volume = 1024;
 }
 
-uint32_t synthesize(int frequency)
+uint32_t synthesize(uint32_t frequency)
 {
-    int duration_ticks = DAC_FRQ/frequency;
+    uint32_t duration_ticks = DAC_FRQ/frequency;
 
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
