@@ -77,11 +77,11 @@ song_t coin_song = {coin_notes, 2};
 song_t fla_song = {flaa_notes, 103};
 
 void setupMusic(){
-    *volume = 1024;
+    *volume = 1023;
 }
 
 
-int playMelody( int C ){
+void playMelody(){
     (song_h.ticks)++;
 
     // Synthesising square wave for the tones frequency 
@@ -93,28 +93,25 @@ int playMelody( int C ){
     if (song_h.ticks > song_h.song_playing->notes[song_h.note_idx].duration_ticks){
         song_h.note_idx++;
         song_h.ticks = 0;
-    }
-    // Checking if song is finished
-    if ((song_h.note_idx + 1)  == song_h.song_playing->nr_notes){
-        return 0;
-    } else
-    {
-        return C;
-    }
-    
+    }    
 }
+
+bool medoldyFinished(){
+    return ((song_h.note_idx + 1)  == song_h.song_playing->nr_notes);
+}
+
 
 uint32_t synthesiseWave(){
     int n_ticks = FREQUENCY/song_h.song_playing->notes[song_h.note_idx].freq;
 
     if ((song_h.ticks % n_ticks) > n_ticks/2){
-        return 1000;
+        return *volume;
     }else{
         return 0;
     }
 }
 
-void resetSong( int C ){
+void resetSong(uint32_t C){
     switch (C){
         case 1:
             song_h.song_playing = &fla_song;

@@ -15,4 +15,3 @@
 #define   DEATH 4
 #define   NONE 0
 
-//int *CURRENT_SONG;

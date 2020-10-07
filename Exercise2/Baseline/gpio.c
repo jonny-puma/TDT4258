@@ -23,31 +23,30 @@ void setupGPIO()
 	*GPIO_PA_DOUT = 0xff00;
 }
 
-int buttonHandler( int C_s){
+uint32_t buttonHandler(uint32_t C_s){
 	uint32_t x = *GPIO_PC_DIN;
 	x = (~x)&0xff;
 	switch (x) {
 		case BTN1:
 			C_s = 1;
-			*GPIO_PA_DOUT = 0xfe00;
 			resetSong( C_s );
 			return C_s;
 			break;
+
 		case BTN2:
 			C_s = 2;
-			*GPIO_PA_DOUT = 0xfd00;
 			resetSong( C_s );
 			return C_s;
 			break;
 
 		case BTN6:
 			increaseVolume();
-			*GPIO_PA_DOUT = 0xf000;
+			return C_s;
 			break;
 		
 		case BTN8:
 			decreaseVolume();
-			*GPIO_PA_DOUT = 0x0f00;
+			return C_s;
 			break;
 
 		default:
