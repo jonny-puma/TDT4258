@@ -88,10 +88,10 @@ note_t flap_notes[] = {
   {B5, 200}
 };
 
-sound_t coin_sound = {&coin_notes[0], 2};
-sound_t fla_sound = {&flaa_notes[0], 103};
-sound_t crash_sound = {&crash_notes[0], 13};
-sound_t flap_sound = {&flap_notes[0], 3};
+sound_t coin_sound = {coin_notes, sizeof(coin_notes)/sizeof(note_t)};
+sound_t fla_sound = {flaa_notes, sizeof(flaa_notes)/sizeof(note_t)};
+sound_t crash_sound = {crash_notes, sizeof(crash_notes)/sizeof(note_t)};
+sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 
 int ticks = 0;
 int note_idx = 0;
@@ -139,16 +139,16 @@ void setsound(soundname newsound)
 {
     switch (newsound) {
         case FLAAKLYPA:
-            *sound_data = &fla_sound;
+            sound_data = &fla_sound;
             break;
         case COIN:
-            *sound_data = &coin_sound;
+            sound_data = &coin_sound;
             break;
         case CRASH:
-            *sound_data = &crash_sound;
+            sound_data = &crash_sound;
             break;
         case FLAP:
-            *sound_data = &flap_sound;
+            sound_data = &flap_sound;
             break;
 	case NONE:
 	    break;
