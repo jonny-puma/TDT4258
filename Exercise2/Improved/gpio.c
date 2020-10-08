@@ -21,6 +21,12 @@ void setupGPIO()
 	*GPIO_PA_MODEH = 0x55555555;	
 	// turn off LEDs D4-D8 (LEDs are active low)
 	*GPIO_PA_DOUT = 0xff00;
+
+	// Setup GPIO interrupts
+	*GPIO_EXTIPSELL = 0x22222222;	// Pins 0-7 of PORTC set as external interrupt
+	*GPIO_EXTIRISE = 0xFF;			// Sets interrupt on 1->0 
+	*GPIO_EXTIFALL = 0xFF;			// Sets interrupt on 0->1 
+	*GPIO_IEN = 0xFF;				// Enable interrupt
 }
 
 void buttonhandler(soundname *current_sound, uint32_t *volume)

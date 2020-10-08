@@ -28,7 +28,7 @@ int main(void)
 		buttonhandler(&current_sound, &volume);
 		if (*TIMER1_CNT == SAMPLE_PERIOD) {
 			if (current_sound == NONE) {
-        			*GPIO_PA_DOUT = 0xf000;
+				*GPIO_PA_DOUT = 0xf000;
 			} else {
 				playsound(&current_sound);
 			}
