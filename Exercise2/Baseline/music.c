@@ -93,8 +93,8 @@ sound_t fla_sound = {flaa_notes, sizeof(flaa_notes)/sizeof(note_t)};
 sound_t crash_sound = {crash_notes, sizeof(crash_notes)/sizeof(note_t)};
 sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 
-int ticks = 0;
-int note_idx = 0;
+uint32_t ticks = 0;
+uint32_t note_idx = 0;
 sound_t *sound_data = &fla_sound;
 
 void setupmusic()
