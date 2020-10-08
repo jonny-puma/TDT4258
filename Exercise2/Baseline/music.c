@@ -31,7 +31,7 @@ note_t flaa_notes[] = {
     {E5, 25000},
     {A5, 25000},
     {B5, 25000},
-    {C5, 25000},
+    {C5*2, 25000},
     {B5, 25000},
     {A5, 25000},
     {G5, 25000},
@@ -51,7 +51,7 @@ note_t flaa_notes[] = {
     {E5, 25000},
     {A5, 25000},
     {B5, 25000},
-    {C5, 25000},
+    {C5*2, 25000},
     {B5, 25000},
     {A5, 25000},
     {G5, 25000},
@@ -151,8 +151,8 @@ void setsound(soundname newsound)
         case FLAP:
             sound_data = &flap_sound;
             break;
-	case NONE:
-	    break;
+        case NONE:
+            break;
     }
     note_idx = 0;
     ticks = 0;
@@ -160,7 +160,7 @@ void setsound(soundname newsound)
 
 void decreasevol()
 {
-    volume += 200 ;
+    volume += 200;
 }
 
 void increasevol()

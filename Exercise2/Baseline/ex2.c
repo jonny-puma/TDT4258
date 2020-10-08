@@ -25,7 +25,7 @@ int main(void)
 	soundname current_sound = NONE;
 	while(1) {
 		buttonhandler(&current_sound, &volume);
-		if (*TIMER1_CNT > SAMPLE_PERIOD || TIMER1_IF) {
+		if (TIMER1_IF) {
 			*TIMER1_IFC = *TIMER1_IF;
 			if (current_sound == NONE) {
 				*GPIO_PA_DOUT = 0xf000;
