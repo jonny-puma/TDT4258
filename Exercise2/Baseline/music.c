@@ -131,7 +131,7 @@ void playsound(soundname *current_sound)
     }
 
     // Checking if sound is finished
-    if ((note_idx + 1)  == sound_data->nr_notes) {
+    if ((note_idx + 1) > sound_data->nr_notes) {
         current_sound = NONE;
     }
 }
