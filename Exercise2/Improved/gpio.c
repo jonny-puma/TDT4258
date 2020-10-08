@@ -27,7 +27,7 @@ void setupGPIO()
 	*GPIO_EXTIRISE = 0xff;			// Sets interrupt on 1->0 
 	*GPIO_EXTIFALL = 0xff;			// Sets interrupt on 0->1 
 	*GPIO_IEN = 0xff;				// Enable interrupt
-	*GPIO_IFC = 0xfff				// Clearing all interrupt flags
+	*GPIO_IFC = 0xffff;				// Clearing all interrupt flags
 }
 
 void buttonhandler(soundname *current_sound, uint32_t *volume)
