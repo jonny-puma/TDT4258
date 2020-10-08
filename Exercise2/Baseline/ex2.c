@@ -20,18 +20,6 @@ int main(void)
 	setupDAC();
 	setupmusic();
 	setupTimer(SAMPLE_PERIOD);
-<<<<<<< HEAD
-	setupMusic();
-    startTimer();
-	
-	while(1){
-		buttonHandler();
-		if (*TIMER1_CNT == SAMPLE_PERIOD){
-			// Checking state
-			if (*CURRENT_SONG != NONE){
-				//*GPIO_PA_DOUT = (0x00)<<8;
-				updateNote();
-=======
 	startTimer();
 
 	soundname current_sound = NONE;
@@ -43,7 +31,6 @@ int main(void)
         			*GPIO_PA_DOUT = 0xf000;
 			} else {
 				playsound(&current_sound);
->>>>>>> jonas3
 			}
 		}
 	} 
