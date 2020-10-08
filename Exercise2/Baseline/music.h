@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     note_t *notes;
-    int nr_notes;
+    uint32_t nr_notes;
 } sound_t;
 
 typedef enum {

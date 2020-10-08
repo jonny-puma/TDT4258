@@ -14,7 +14,7 @@ extern void startTimer();
 extern void buttonhandler(soundname *current_sound, uint32_t *volume);
 extern void updateNote();
 
-int main(void)
+uint32_t main(void)
 {
 	setupGPIO();
 	setupDAC();
