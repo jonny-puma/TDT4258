@@ -6,95 +6,95 @@
 #include "efm32gg.h"
 
 note_t crash_notes[] = {
-    {400, 70},
-    {600, 70},
-    {900, 70},
-    {1500, 70},
-    {2300, 70},
-    {3300, 70},
-    {4500, 70},
-    {6200, 70},
-    {2300, 70},
-    {3300, 70},
-    {900, 70},
-    {1500, 70},
-    {400, 70},
-    {600, 70},
+    {40, 700},
+    {60, 700},
+    {90, 700},
+    {150, 700},
+    {230, 700},
+    {330, 700},
+    {450, 700},
+    {620, 700},
+    {230, 700},
+    {330, 700},
+    {90, 700},
+    {150, 700},
+    {40, 700},
+    {60, 700},
 };
 
 note_t coin_notes[] = {
-    {B6, 1000},
-    {B4, 1500}
+    {B6, 500},
+    {B5, 1500}
 };
 
 note_t flaa_notes[] = {
-    {E5, 4500},
-    {A5, 4500},
-    {B5, 4500},
-    {C5, 3000},
-    {B5, 3000},
-    {A5, 6000},
-    {G5, 2500},
-    {E5, 2500},
-    {C4, 5500},
-    {D4, 2500},
-    {E5, 2500},
-    {F5, 5500},
-    {E5, 3500},
-    {D4, 3500},
-    {C4, 3500},
-    {D4, 3500},
-    {E5, 3500},
-    {D4, 3500},
-    {C4, 3500},
-    {B4, 3500},
-    {E5, 3500},
-    {A5, 3500},
-    {B5, 3500},
-    {C5, 3500},
-    {B5, 3500},
-    {A5, 3500},
-    {G5, 3500},
-    {E5, 3500},
-    {C4, 3500},
-    {D4, 3500},
-    {E5, 3500},
-    {D4, 3500},
-    {C4, 3500},
-    {B4, 3500},
-    {A3, 3500},
-    {dA3, 3500},
-    {A3, 3500},
-    {A3, 3500},
-    {A5, 3500},
-    {G5, 3500},
-    {F5, 3500},
-    {E5, 3500},
-    {B5, 3500},
-    {A3, 3500},
-    {B4, 3500},
-    {C4, 3500},
-    {D4, 3500},
-    {E5, 3500},
-    {F5, 3500},
-    {E5, 3500},
-    {D4, 3500},
-    {E5, 3500},
-    {A3, 3500}
+    {E5, 25000},
+    {A5, 25000},
+    {B5, 25000},
+    {C5, 25000},
+    {B5, 25000},
+    {A5, 25000},
+    {G5, 25000},
+    {E5, 25000},
+    {C4, 55000},
+    {D4, 25000},
+    {E5, 25000},
+    {F5, 25000},
+    {E5, 25000},
+    {D4, 25000},
+    {C4, 25000},
+    {D4, 25000},
+    {E5, 25000},
+    {D4, 25000},
+    {C4, 25000},
+    {B4, 25000},
+    {E5, 25000},
+    {A5, 25000},
+    {B5, 25000},
+    {C5, 25000},
+    {B5, 25000},
+    {A5, 25000},
+    {G5, 25000},
+    {E5, 25000},
+    {C4, 25000},
+    {D4, 25000},
+    {E5, 25000},
+    {D4, 25000},
+    {C4, 25000},
+    {B4, 25000},
+    {A3, 25000},
+    {dA3, 25000},
+    {A3, 25000},
+    {A3, 25000},
+    {A5, 35000},
+    {G5, 35000},
+    {F5, 35000},
+    {E5, 35000},
+    {B5, 35000},
+    {A3, 35000},
+    {B4, 35000},
+    {C4, 35000},
+    {D4, 35000},
+    {E5, 35000},
+    {F5, 35000},
+    {E5, 35000},
+    {D4, 35000},
+    {E5, 35000},
+    {A3, 35000}
 };
 
 note_t flap_notes[] = {
-  {C5, 200},
-  {B5, 200}
+  {A3, 2000},
+  {B4, 2000}
 };
 
-sound_t coin_sound = {&coin_notes[0], 2};
-sound_t fla_sound = {&flaa_notes[0], 103};
-sound_t crash_sound = {&crash_notes[0], 13};
-sound_t flap_sound = {&flap_notes[0], 3};
+sound_t coin_sound = {coin_notes, sizeof(coin_notes)/sizeof(note_t)};
+sound_t fla_sound = {flaa_notes, sizeof(flaa_notes)/sizeof(note_t)};
+sound_t crash_sound = {crash_notes, sizeof(crash_notes)/sizeof(note_t)};
+sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 
-int ticks = 0;
-int note_idx = 0;
+uint32_t ticks = 0;
+uint32_t note_idx = 0;
 sound_t *sound_data = &fla_sound;
 
 void setupmusic()
@@ -104,24 +104,25 @@ void setupmusic()
 
 uint32_t synthesize(uint32_t frequency)
 {
-    uint32_t duration_ticks = DAC_FRQ/frequency;
+    uint32_t duration_ticks = 41000/frequency;
 
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
     } else {
-        return 0;
+        return -volume;
     }
 }
 
 void playsound(soundname *current_sound)
 {
-    ticks++; 
+     
     note_t current_note = sound_data->notes[note_idx];
 
     // Synthesize square wave and push to DAC 
     uint32_t val = synthesize(current_note.freq);
     *DAC0_CH0DATA = val;
     *DAC0_CH1DATA = val;
+    ticks++;
 
     // Checking if its time for the next note 
     if (ticks > current_note.duration_ticks) {
