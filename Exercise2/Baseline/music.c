@@ -6,20 +6,20 @@
 #include "efm32gg.h"
 
 note_t crash_notes[] = {
-    {400, 50},
-    {600, 50},
-    {900, 50},
-    {1500, 50},
-    {2300, 50},
-    {3300, 50},
-    {4500, 50},
-    {6200, 50},
-    {2300, 50},
-    {3300, 50},
-    {900, 50},
-    {1500, 50},
-    {400, 50},
-    {600, 50},
+    {400, 70},
+    {600, 70},
+    {900, 70},
+    {1500, 70},
+    {2300, 70},
+    {3300, 70},
+    {4500, 70},
+    {6200, 70},
+    {2300, 70},
+    {3300, 70},
+    {900, 70},
+    {1500, 70},
+    {400, 70},
+    {600, 70},
 };
 
 note_t coin_notes[] = {
@@ -84,15 +84,14 @@ note_t flaa_notes[] = {
 };
 
 note_t flap_notes[] = {
-  {C5, 500},
-  {B5, 500},
-  {A5, 500}
+  {C5, 200},
+  {B5, 200}
 };
 
-sound_t coin_sound = {coin_notes, 2};
-sound_t fla_sound = {flaa_notes, 103};
-sound_t crash_sound = {crash_notes, 13};
-sound_t flap_sound = {flap_notes, 3};
+sound_t coin_sound = {&coin_notes[0], 2};
+sound_t fla_sound = {&flaa_notes[0], 103};
+sound_t crash_sound = {&crash_notes[0], 13};
+sound_t flap_sound = {&flap_notes[0], 3};
 
 int ticks = 0;
 int note_idx = 0;
@@ -131,8 +130,8 @@ void playsound(soundname *current_sound)
     }
 
     // Checking if sound is finished
-    if ((note_idx + 1) > sound_data->nr_notes) {
-        current_sound = NONE;
+    if ((note_idx + 1)  >= sound_data->nr_notes) {
+        *current_sound = NONE;
     }
 }
 
@@ -140,17 +139,19 @@ void setsound(soundname newsound)
 {
     switch (newsound) {
         case FLAAKLYPA:
-            sound_data = &fla_sound;
+            *sound_data = &fla_sound;
             break;
         case COIN:
-            sound_data = &coin_sound;
+            *sound_data = &coin_sound;
             break;
         case CRASH:
-            sound_data = &crash_sound;
+            *sound_data = &crash_sound;
             break;
         case FLAP:
-            sound_data = &flap_sound;
+            *sound_data = &flap_sound;
             break;
+	case NONE:
+	    break;
     }
     note_idx = 0;
     ticks = 0;
@@ -158,10 +159,10 @@ void setsound(soundname newsound)
 
 void decreasevol()
 {
-    volume <<= 1;
+    volume += 200 ;
 }
 
 void increasevol()
 {
-    volume >>= 1;
+    volume -= 200;
 }
