@@ -106,35 +106,6 @@ uint32_t synthesize(uint32_t frequency)
 {
     uint32_t duration_ticks = DAC_FRQ/frequency;
 
-<<<<<<< HEAD
-void setupMusic(){
-    *volume = 0x1000;
-    *CURRENT_SONG = NONE;
-    *ticks = 0;
-}
-
-void updateNote(){
-    // Checking if song is finished
-    if (current_song->playhead > current_song->duration){
-        *ticks = 0;
-        *CURRENT_SONG = NONE;
-    
-    }else{
-        // Checking if next note 
-        if (*ticks > current_song->notes[current_song->playhead].sec * FREQUENCY){
-            (current_song->playhead)++;
-            *ticks = 0;
-        }else{
-            (*ticks)++; 
-        }
-        // Synthesising square wave for the tones frequency 
-        
-        uint32_t val = synthesiseWave();
-        *GPIO_PA_DOUT = (val)<<8;
-        // Outputting to DAC
-        *DAC0_CH0DATA = val;
-        *DAC0_CH1DATA = val;
-=======
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
     } else {
@@ -156,7 +127,6 @@ void playsound(soundname *current_sound)
     if (ticks > current_note.duration_ticks) {
         note_idx++;
         ticks = 0;
->>>>>>> jonas3
     }
 
     // Checking if sound is finished
@@ -169,37 +139,13 @@ void setsound(soundname newsound)
 {
     switch (newsound) {
         case FLAAKLYPA:
-<<<<<<< HEAD
-            //*GPIO_PA_DOUT = (0xfe)<<8;
-            current_song = &flaaklypa;
-            //*current_song = flaaklypa;
-=======
             sound_data = &fla_sound;
->>>>>>> jonas3
             break;
         case COIN:
-<<<<<<< HEAD
-            //*GPIO_PA_DOUT = (0xfd)<<8;
-            current_song = &coin;
-            //*current_song = coin;
-            break;
-
-        case JUMP:
-            //*GPIO_PA_DOUT = (0xfc)<<8;
-            //current_song = &jump;
-            *current_song = jump;
-            break;
-
-        case DEATH:
-            //*GPIO_PA_DOUT = (0xfb)<<8;
-            //current_song = &death;
-            *current_song = death;
-=======
             sound_data = &coin_sound;
             break;
         case CRASH:
             sound_data = &crash_sound;
->>>>>>> jonas3
             break;
         case FLAP:
             sound_data = &flap_sound;
@@ -207,12 +153,8 @@ void setsound(soundname newsound)
 	case NONE:
 	    break;
     }
-<<<<<<< HEAD
-    current_song->playhead = 0;
-=======
     note_idx = 0;
     ticks = 0;
->>>>>>> jonas3
 }
 
 void decreasevol()
