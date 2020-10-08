@@ -42,6 +42,7 @@
 #define GPIO_EXTIFALL  ((volatile uint32_t*)(GPIO_PA_BASE + 0x10c))
 #define GPIO_IEN       ((volatile uint32_t*)(GPIO_PA_BASE + 0x110))
 #define GPIO_IFC       ((volatile uint32_t*)(GPIO_PA_BASE + 0x11c))
+#define GPIO_IF        ((volatile uint32_t*)(GPIO_PA_BASE + 0x114))
 
 // CMU
 
@@ -68,6 +69,7 @@
 #define TIMER1_IFC ((volatile uint32_t*)(TIMER1_BASE + 0x18))
 #define TIMER1_TOP ((volatile uint32_t*)(TIMER1_BASE + 0x1c))
 #define TIMER1_CNT ((volatile uint32_t*)(TIMER1_BASE + 0x24))
+#define TIMER1_IF  ((volatile uint32_t*)(TIMER1_BASE + 0x10))
 
 // NVIC
 
@@ -81,6 +83,10 @@
 #define ICPR1 ((volatile uint32_t*)0xe000e284)
 #define IABR0 ((volatile uint32_t*)0xe000e300)
 #define IABR1 ((volatile uint32_t*)0xe000e304)
+
+#define ISER0_GPIO_EVEN (1 << 1)
+#define ISER0_GPIO_ODD  (1 << 11)
+#define ISER0_TIMER1    (1 << 12)
 
 // IPR
 

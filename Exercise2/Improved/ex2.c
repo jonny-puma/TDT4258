@@ -25,7 +25,7 @@ int main(void)
 	setupNVIC();
 
 	soundname current_sound = NONE;
-
+	/*
 	while(1) {
 		buttonhandler(&current_sound, &volume);
 		if (*TIMER1_CNT == SAMPLE_PERIOD) {
@@ -36,19 +36,14 @@ int main(void)
 			}
 		}
 	} 
+	*/
 	return 0;
 }
 
 void setupNVIC()
 {
-	/*
-	 * TODO use the NVIC ISERx registers to enable handling of
-	 * interrupt(s) remember two things are necessary for interrupt
-	 * handling: - the peripheral must generate an interrupt signal - the
-	 * NVIC must be configured to make the CPU handle the signal You will
-	 * need TIMER1, GPIO odd and GPIO even interrupt handling for this
-	 * assignment. 
-	 */
+	// Enable handling of interrupts
+	*ISER0 |= ISER0_GPIO_EVEN | ISER0_GPIO_ODD | ISER0_TIMER1;
 }
 
 /*
