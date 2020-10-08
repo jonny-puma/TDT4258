@@ -12,8 +12,8 @@ void setupGPIO()
 	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_GPIO;
 
 	// set pins A0-7 as input
-  *GPIO_PC_MODEL = 0x33333333;
-  *GPIO_PC_DOUT = 0xff;
+	*GPIO_PC_MODEL = 0x33333333;
+	*GPIO_PC_DOUT = 0xff;
 
 	// set high drive strength 
 	*GPIO_PA_CTRL = 2;	

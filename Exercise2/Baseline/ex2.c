@@ -31,8 +31,8 @@ int main(void)
         			*GPIO_PA_DOUT = 0xf000;
 			} else {
 				playsound(&current_sound);
-      			}
+			}
 		}
-      	} 
+	} 
 	return 0;
 }
