@@ -23,3 +23,8 @@ void startTimer()
     *TIMER1_CMD = 0x1;
 }
 
+void stopTimer()
+{
+    *TIMER1_CMD = 0x0;
+}
+

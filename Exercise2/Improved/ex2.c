@@ -10,8 +10,8 @@ extern void setupGPIO();
 extern void setupmusic();
 extern void setupTimer(uint32_t period);
 
-extern void startTimer();
-extern void buttonhandler(soundname *current_sound, uint32_t *volume);
+
+
 extern void updateNote();
 void setupNVIC(); //Declare??
 
@@ -21,22 +21,15 @@ int main(void)
 	setupDAC();
 	setupmusic();
 	setupTimer(SAMPLE_PERIOD);
-	startTimer();
+
 	setupNVIC();
 
 	soundname current_sound = NONE;
-	/*
+
 	while(1) {
-		buttonhandler(&current_sound, &volume);
-		if (*TIMER1_CNT == SAMPLE_PERIOD) {
-			if (current_sound == NONE) {
-        			*GPIO_PA_DOUT = 0xf000;
-			} else {
-				playsound(&current_sound);
-			}
-		}
+		// Sleep
 	} 
-	*/
+	
 	return 0;
 }
 

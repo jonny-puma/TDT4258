@@ -30,7 +30,7 @@ void setupGPIO()
 	*GPIO_IFC = 0xffff;				// Clearing all interrupt flags
 }
 
-void buttonhandler(soundname *current_sound, uint32_t *volume)
+void buttonhandler()
 {
 	uint32_t butval = *GPIO_PC_DIN;
 	butval = (~butval) & 0xff;

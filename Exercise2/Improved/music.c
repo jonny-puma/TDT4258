@@ -5,6 +5,9 @@
 #include "common.h"
 #include "efm32gg.h"
 
+
+extern void stopTimer();
+
 note_t crash_notes[] = {
     {400, 70},
     {600, 70},
@@ -113,7 +116,7 @@ uint32_t synthesize(uint32_t frequency)
     }
 }
 
-void playsound(soundname *current_sound)
+void playsound()
 {
     ticks++; 
     note_t current_note = sound_data->notes[note_idx];
@@ -132,6 +135,7 @@ void playsound(soundname *current_sound)
     // Checking if sound is finished
     if ((note_idx + 1)  >= sound_data->nr_notes) {
         *current_sound = NONE;
+        stopTimer();
     }
 }
 
