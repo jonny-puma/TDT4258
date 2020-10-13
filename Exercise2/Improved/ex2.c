@@ -24,7 +24,7 @@ int main(void)
 
 	setupNVIC();
 
-	soundname current_sound = NONE;
+	*current_sound = NONE;
 
 	while(1) {
 		// Sleep
