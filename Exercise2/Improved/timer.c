@@ -14,17 +14,18 @@ void setupTimer(uint16_t period)
 	// Setting timer period
 	*TIMER1_TOP = period;
 	// Enabling timer interrupt generation.
-	*TIMER1_IEN = 0x1;
 }
 
 // Function to start timer
 void startTimer()
 {
+	  *TIMER1_IEN = 0x1;
     *TIMER1_CMD = 0x1;
 }
 
 void stopTimer()
 {
+	  *TIMER1_IEN = 0x0;
     *TIMER1_CMD = 0x0;
 }
 
