@@ -25,8 +25,8 @@ note_t crash_notes[] = {
 };
 
 note_t coin_notes[] = {
-    {B6, 500},
-    {B5, 1500}
+    {B6, 1000},
+    {B5, 2000}
 };
 
 note_t flaa_notes[] = {

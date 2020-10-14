@@ -24,7 +24,6 @@ void setupGPIO()
 
 	// Setup GPIO interrupts
 	*GPIO_EXTIPSELL = 0x22222222;	// Pins 0-7 of PORTC set as external interrupt
-	*GPIO_EXTIRISE = 0xff;		  	// Sets interrupt on 1->0 
 	*GPIO_EXTIFALL = 0xff;		  	// Sets interrupt on 0->1 
 	*GPIO_IEN = 0xff;			      	// Enable interrupt
 	*GPIO_IFC = 0xffff;			    	// Clearing all interrupt flags
