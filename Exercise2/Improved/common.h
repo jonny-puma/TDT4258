@@ -9,5 +9,4 @@
 #define   BTN6   0x20
 #define   BTN8   0x80
 
-soundname *current_sound;
-//void setupGPIO();
+

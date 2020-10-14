@@ -3,6 +3,7 @@
 
 #include "music.h"
 #include "efm32gg.h"
+
 extern void startTimer();
 extern void buttonhandler();
 
