@@ -19,6 +19,14 @@
 #define dA2 103
 //-----------------------------------------------------------
 
+typedef enum {
+  NONE,
+  FLAAKLYPA,
+  COIN,
+  CRASH,
+  FLAP
+} soundname;
+
 typedef struct {
     int32_t freq;
     int32_t duration_ticks;
@@ -28,14 +36,6 @@ typedef struct {
     note_t *notes;
     uint32_t nr_notes;
 } sound_t;
-
-typedef enum {
-  NONE,
-  FLAAKLYPA,
-  COIN,
-  CRASH,
-  FLAP
-} soundname;
 
 void playsound();
 

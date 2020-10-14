@@ -24,36 +24,32 @@ void setupGPIO()
 
 	// Setup GPIO interrupts
 	*GPIO_EXTIPSELL = 0x22222222;	// Pins 0-7 of PORTC set as external interrupt
-	*GPIO_EXTIRISE = 0xff;			// Sets interrupt on 1->0 
-	*GPIO_EXTIFALL = 0xff;			// Sets interrupt on 0->1 
-	*GPIO_IEN = 0xff;				// Enable interrupt
-	*GPIO_IFC = 0xffff;				// Clearing all interrupt flags
+	*GPIO_EXTIRISE = 0xff;		  	// Sets interrupt on 1->0 
+	*GPIO_EXTIFALL = 0xff;		  	// Sets interrupt on 0->1 
+	*GPIO_IEN = 0xff;			      	// Enable interrupt
+	*GPIO_IFC = 0xffff;			    	// Clearing all interrupt flags
 }
 
-void buttonhandler(soundname *current_sound)
+void buttonhandler()
 {
 	uint32_t butval = *GPIO_PC_DIN;
 	butval = (~butval) & 0xff;
 	switch (butval) {
 		case BTN1:
 			*GPIO_PA_DOUT = 0xfe00;
-			*current_sound = FLAAKLYPA;
-			setsound(*current_sound);
+			setsound(FLAAKLYPA);
 			break;
 		case BTN2:
 			*GPIO_PA_DOUT = 0xfd00;
-			*current_sound = COIN;
-			setsound(*current_sound);
+			setsound(COIN);
 			break;
 		case BTN3:
 			*GPIO_PA_DOUT = 0xfb00;
-			*current_sound = CRASH;
-			setsound(*current_sound);
+			setsound(CRASH);
 			break;
 		case BTN4:
 			*GPIO_PA_DOUT = 0xf700;
-			*current_sound = FLAP;
-			setsound(*current_sound);
+			setsound(FLAP);
 			break;
 		case BTN6:
 			*GPIO_PA_DOUT = 0xf000;

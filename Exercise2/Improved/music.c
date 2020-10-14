@@ -4,9 +4,8 @@
 #include "music.h"
 #include "common.h"
 #include "efm32gg.h"
+#include "timer.h"
 
-
-extern void stopTimer();
 
 note_t crash_notes[] = {
     {40, 700},
@@ -99,8 +98,8 @@ sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 uint32_t volume = 1024;
 uint32_t ticks = 0;
 uint32_t note_idx = 0;
+soundname current_sound = NONE;
 sound_t *sound_data = 0;
-
 
 
 uint32_t synthesize(uint32_t frequency)
@@ -133,8 +132,7 @@ void playsound(soundname *current_sound)
 
     // Checking if sound is finished
     if ((note_idx + 1)  >= sound_data->nr_notes) {
-        current_sound = NONE;
-        // stopTimer();
+        setsound(NONE);
     }
 }
 
@@ -143,17 +141,22 @@ void setsound(soundname newsound)
     switch (newsound) {
         case FLAAKLYPA:
             sound_data = &fla_sound;
+            startTimer();
             break;
         case COIN:
             sound_data = &coin_sound;
+            startTimer();
             break;
         case CRASH:
             sound_data = &crash_sound;
+            startTimer();
             break;
         case FLAP:
             sound_data = &flap_sound;
+            startTimer();
             break;
         case NONE:
+            stopTimer();
             break;
     }
     note_idx = 0;
