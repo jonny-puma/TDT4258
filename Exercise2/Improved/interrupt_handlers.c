@@ -1,17 +1,19 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "music.h"
 #include "efm32gg.h"
+
+extern void startTimer();
+extern void buttonhandler();
 
 /*
  * TIMER1 interrupt handler 
  */
 void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 {
-	/*
-	 * TODO feed new samples to the DAC remember to clear the pending
-	 * interrupt by writing 1 to TIMER1_IFC 
-	 */
+	*TIMER1_IFC = *TIMER1_IF;
+	playsound();
 }
 
 /*
@@ -19,10 +21,9 @@ void __attribute__ ((interrupt)) TIMER1_IRQHandler()
  */
 void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler()
 {
-	/*
-	 * TODO handle button pressed event, remember to clear pending
-	 * interrupt 
-	 */
+	*GPIO_IFC = *GPIO_IF;
+	startTimer();
+	buttonhandler();
 }
 
 /*
@@ -30,8 +31,7 @@ void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler()
  */
 void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 {
-	/*
-	 * TODO handle button pressed event, remember to clear pending
-	 * interrupt 
-	 */
+	*GPIO_IFC = *GPIO_IF;
+	startTimer();
+	buttonhandler();
 }

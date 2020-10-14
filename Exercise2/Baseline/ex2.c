@@ -7,31 +7,30 @@
 
 extern void setupDAC();
 extern void setupGPIO();
-extern void setupMusic();
+extern void setupmusic();
 extern void setupTimer(uint32_t period);
 
 extern void startTimer();
-extern int buttonHandler( int C_s );
+extern void buttonhandler(soundname *current_sound, uint32_t *volume);
 extern void updateNote();
 
 int main(void)
 {
 	setupGPIO();
 	setupDAC();
+	setupmusic();
 	setupTimer(SAMPLE_PERIOD);
-	setupMusic();
 	startTimer();
-  	int tune_n = 0;
 
-	while(1){
-		tune_n = buttonHandler( tune_n);
-		if (*TIMER1_CNT > SAMPLE_PERIOD){
-			*TIMER1_CNT = 0;
-			if (tune_n == 0){
-        		*GPIO_PA_DOUT = 0x0f00;
-			}else{
-        		tune_n = playMelody( tune_n );
-        		*GPIO_PA_DOUT = 0xf000;
+	soundname current_sound = NONE;
+	while(1) {
+		buttonhandler(&current_sound, &volume);
+		if (TIMER1_IF) {
+			*TIMER1_IFC = *TIMER1_IF;
+			if (current_sound == NONE) {
+				*GPIO_PA_DOUT = 0xf000;
+			} else {
+				playsound(&current_sound);
       		}
 		}
 	} 

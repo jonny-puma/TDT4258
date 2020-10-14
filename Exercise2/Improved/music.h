@@ -39,11 +39,13 @@ typedef enum {
 
 uint32_t volume;
 
-void playsound(soundname *current_sound);
+void playsound();
 
 void setsound(soundname new_sound);
 
 void decreasevol();
     
 void increasevol();
+
+soundname *current_sound;
 #endif

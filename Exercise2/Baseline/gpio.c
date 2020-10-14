@@ -6,40 +6,55 @@
 #include "music.h"
 
 
-void setupGPIO() {
+void setupGPIO()
+{
+	// Enable GPIO clock
 	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_GPIO;
-    *GPIO_PC_MODEL = 0x33333333;
-    *GPIO_PC_DOUT = 0xff;
-	*GPIO_PA_CTRL = 2; 
-	*GPIO_PA_MODEH = 0x55555555;
+
+	// set pins A0-7 as input
+	*GPIO_PC_MODEL = 0x33333333;
+	*GPIO_PC_DOUT = 0xff;
+
+	// set high drive strength 
+	*GPIO_PA_CTRL = 2;	
+	// set pins A8-15 as output 
+	*GPIO_PA_MODEH = 0x55555555;	
+	// turn off LEDs D4-D8 (LEDs are active low)
 	*GPIO_PA_DOUT = 0xff00;
 }
 
-int buttonHandler( int C_s){
-	uint32_t x = *GPIO_PC_DIN;
-	x 		   = (~x)&0xff;
-
-	switch (x) {
+void buttonhandler(soundname *current_sound, uint32_t *volume)
+{
+	uint32_t butval = *GPIO_PC_DIN;
+	butval = (~butval) & 0xff;
+	switch (butval) {
 		case BTN1:
 			*GPIO_PA_DOUT = 0xfe00;
-			resetSong( 1 );
-			return 1;
+			*current_sound = FLAAKLYPA;
+			setsound(*current_sound);
 			break;
 		case BTN2:
 			*GPIO_PA_DOUT = 0xfd00;
-			resetSong( 2 );
-			return 2;
+			*current_sound = COIN;
+			setsound(*current_sound);
 			break;
-
+		case BTN3:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = CRASH;
+			setsound(*current_sound);
+			break;
+		case BTN4:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = FLAP;
+			setsound(*current_sound);
+			break;
 		case BTN6:
-			increaseVolume();
 			*GPIO_PA_DOUT = 0xf000;
+			increasevol();
 			break;
-		
 		case BTN8:
-			decreaseVolume();
 			*GPIO_PA_DOUT = 0x0f00;
+			decreasevol();
 			break;
 	}
-	return C_s;
 }
