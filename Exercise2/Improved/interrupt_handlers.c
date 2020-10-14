@@ -5,7 +5,7 @@
 #include "efm32gg.h"
 
 extern void startTimer();
-extern void buttonhandler();
+extern void buttonhandler(soundname *current_sound);
 
 /*
  * TIMER1 interrupt handler 
@@ -13,7 +13,7 @@ extern void buttonhandler();
 void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 {
 	*TIMER1_IFC = *TIMER1_IF;
-	playsound();
+	playsound(&current_sound);
 }
 
 /*
@@ -23,7 +23,7 @@ void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler()
 {
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
-	buttonhandler();
+	buttonhandler(&current_sound);
 }
 
 /*
@@ -33,5 +33,5 @@ void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 {
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
-	buttonhandler();
+	buttonhandler(&current_sound);
 }

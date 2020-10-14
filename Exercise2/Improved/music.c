@@ -116,7 +116,7 @@ uint32_t synthesize(uint32_t frequency)
     }
 }
 
-void playsound()
+void playsound(soundname *current_sound)
 {
      
     note_t current_note = sound_data->notes[note_idx];
@@ -135,8 +135,8 @@ void playsound()
 
     // Checking if sound is finished
     if ((note_idx + 1)  >= sound_data->nr_notes) {
-        *current_sound = NONE;
         stopTimer();
+        *current_sound = NONE;
     }
 }
 

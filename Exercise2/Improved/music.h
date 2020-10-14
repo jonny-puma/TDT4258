@@ -30,16 +30,16 @@ typedef struct {
 } sound_t;
 
 typedef enum {
-  NONE,
-  FLAAKLYPA,
-  COIN,
-  CRASH,
-  FLAP
+    NONE,
+    FLAAKLYPA,
+    COIN,
+    CRASH,
+    FLAP
 } soundname;
 
 uint32_t volume;
 
-void playsound();
+void playsound(soundname *current_sound);
 
 void setsound(soundname new_sound);
 
@@ -47,5 +47,6 @@ void decreasevol();
     
 void increasevol();
 
-soundname *current_sound;
+soundname current_sound;
+
 #endif

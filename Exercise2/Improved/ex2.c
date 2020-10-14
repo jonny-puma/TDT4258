@@ -10,8 +10,6 @@ extern void setupGPIO();
 extern void setupmusic();
 extern void setupTimer(uint32_t period);
 
-
-
 extern void updateNote();
 void setupNVIC(); //Declare??
 
@@ -23,7 +21,7 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
 
 	setupNVIC();
-
+	
 	*current_sound = NONE;
 
 	while(1) {
