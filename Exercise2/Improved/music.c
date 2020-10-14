@@ -155,7 +155,7 @@ void setsound(soundname newsound)
             startTimer();
             break;
         case NONE:
-	    sleep();
+	        sleep();
             break;
     }
     note_idx = 0;

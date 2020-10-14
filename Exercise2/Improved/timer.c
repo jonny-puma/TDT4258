@@ -33,5 +33,5 @@ void sleep() {
 	*TIMER1_IEN = 0x0;
 	*TIMER1_CMD = 0x0;
 	*SCR = 0x6;
-	*EMU_MEMCTRL = 0x3;
+	*EMU_MEMCTRL = 0x6;
 }
