@@ -96,14 +96,12 @@ sound_t fla_sound = {flaa_notes, sizeof(flaa_notes)/sizeof(note_t)};
 sound_t crash_sound = {crash_notes, sizeof(crash_notes)/sizeof(note_t)};
 sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 
+uint32_t volume = 1024;
 uint32_t ticks = 0;
 uint32_t note_idx = 0;
-sound_t *sound_data = &fla_sound;
+sound_t *sound_data = 0;
 
-void setupmusic()
-{
-  volume = 1024;
-}
+
 
 uint32_t synthesize(uint32_t frequency)
 {
@@ -116,7 +114,7 @@ uint32_t synthesize(uint32_t frequency)
     }
 }
 
-void playsound()
+void playsound(soundname *current_sound)
 {
      
     note_t current_note = sound_data->notes[note_idx];
@@ -135,8 +133,8 @@ void playsound()
 
     // Checking if sound is finished
     if ((note_idx + 1)  >= sound_data->nr_notes) {
-        *current_sound = NONE;
-        stopTimer();
+        current_sound = NONE;
+        // stopTimer();
     }
 }
 

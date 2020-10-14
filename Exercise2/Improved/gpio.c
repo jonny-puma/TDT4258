@@ -30,7 +30,7 @@ void setupGPIO()
 	*GPIO_IFC = 0xffff;				// Clearing all interrupt flags
 }
 
-void buttonhandler()
+void buttonhandler(soundname *current_sound)
 {
 	uint32_t butval = *GPIO_PC_DIN;
 	butval = (~butval) & 0xff;
@@ -46,12 +46,12 @@ void buttonhandler()
 			setsound(*current_sound);
 			break;
 		case BTN3:
-			*GPIO_PA_DOUT = 0xfd00;
+			*GPIO_PA_DOUT = 0xfb00;
 			*current_sound = CRASH;
 			setsound(*current_sound);
 			break;
 		case BTN4:
-			*GPIO_PA_DOUT = 0xfd00;
+			*GPIO_PA_DOUT = 0xf700;
 			*current_sound = FLAP;
 			setsound(*current_sound);
 			break;
