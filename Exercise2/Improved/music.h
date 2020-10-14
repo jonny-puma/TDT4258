@@ -7,7 +7,7 @@
 #define E7 2637
 #define A5 880
 #define B5 987
-#define C5 523
+#define C5 523*2
 #define F5 698
 #define G5 783
 #define E5 659

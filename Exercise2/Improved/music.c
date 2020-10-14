@@ -25,8 +25,8 @@ note_t crash_notes[] = {
 };
 
 note_t coin_notes[] = {
-    {B6, 1000},
-    {B5, 2000}
+    {B6, 2000},
+    {B5, 2500}
 };
 
 note_t flaa_notes[] = {
@@ -130,7 +130,7 @@ void playsound()
     }
 
     // Checking if sound is finished
-    if ((note_idx + 1)  >= sound_data->nr_notes) {
+    if (note_idx  >= sound_data->nr_notes) {
         setsound(NONE);
     }
 }
