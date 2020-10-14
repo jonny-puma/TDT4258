@@ -98,7 +98,6 @@ sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 uint32_t volume = 1024;
 uint32_t ticks = 0;
 uint32_t note_idx = 0;
-soundname current_sound = NONE;
 sound_t *sound_data = 0;
 
 
@@ -113,7 +112,7 @@ uint32_t synthesize(uint32_t frequency)
     }
 }
 
-void playsound(soundname *current_sound)
+void playsound()
 {
      
     note_t current_note = sound_data->notes[note_idx];
