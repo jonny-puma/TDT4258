@@ -19,6 +19,7 @@ void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler()
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
 	buttonhandler();
+	*SCR = 0x2;
 }
 
 void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
@@ -26,4 +27,5 @@ void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
 	buttonhandler();
+	*SCR = 0x2;
 }

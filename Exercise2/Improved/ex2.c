@@ -21,9 +21,8 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
 	setupNVIC();
 
-	while(1) {
-		// Sleep
-	} 
+	sleep();
+	__asm__("wfi;");
 	
 	return 0;
 }
