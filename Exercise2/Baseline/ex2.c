@@ -21,17 +21,18 @@ int main(void)
 	setupTimer(SAMPLE_PERIOD);
 	setupMusic();
 	startTimer();
-  int C_s = 0;
+  	int tune_n = 0;
 
 	while(1){
-		C_s = buttonHandler( C_s );
-		if (*TIMER1_CNT == SAMPLE_PERIOD){
-			if (C_s == 0){
-        *GPIO_PA_DOUT = 0x0f00;
+		tune_n = buttonHandler( tune_n);
+		if (*TIMER1_CNT > SAMPLE_PERIOD){
+			*TIMER1_CNT = 0;
+			if (tune_n == 0){
+        		*GPIO_PA_DOUT = 0x0f00;
 			}else{
-        C_s = playMelody( C_s );
-        *GPIO_PA_DOUT = 0xf000;
-      }
+        		tune_n = playMelody( tune_n );
+        		*GPIO_PA_DOUT = 0xf000;
+      		}
 		}
 	} 
 	return 0;

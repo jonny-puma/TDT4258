@@ -9,14 +9,14 @@ static song_handle_t song_h;
 uint32_t *volume;
 
 note_t coin_notes[] = {
-    {B6, 1000},
-    {B4, 1500}
+    {B6, 500},
+    {B4, 1000}
 };
 
 
 
-note_t flaa_notes[] = {
-
+note_t flaa_notes[] =
+ {
     { E5, 4500},
     { A5, 4500},
     { B5, 4500},
@@ -74,7 +74,7 @@ note_t flaa_notes[] = {
 
 
 song_t coin_song = {coin_notes, 2};
-song_t fla_song = {flaa_notes, 103};
+song_t fla_song  = {flaa_notes, 50};
 
 void setupMusic(){
     *volume = 1024;
@@ -82,9 +82,8 @@ void setupMusic(){
 
 
 int playMelody( int C ){
-    (song_h.ticks)++;
+    song_h.ticks++;
 
-    // Synthesising square wave for the tones frequency 
     uint32_t val = synthesiseWave();
     *DAC0_CH0DATA = val;
     *DAC0_CH1DATA = val;
@@ -94,8 +93,9 @@ int playMelody( int C ){
         song_h.note_idx++;
         song_h.ticks = 0;
     }
+
     // Checking if song is finished
-    if ((song_h.note_idx + 1)  == song_h.song_playing->nr_notes){
+    if ((song_h.note_idx)  == song_h.song_playing->nr_notes){
         return 0;
     } else
     {
@@ -108,7 +108,7 @@ uint32_t synthesiseWave(){
     int n_ticks = FREQUENCY/song_h.song_playing->notes[song_h.note_idx].freq;
 
     if ((song_h.ticks % n_ticks) > n_ticks/2){
-        return 1000;
+        return *volume;
     }else{
         return 0;
     }
@@ -121,8 +121,6 @@ void resetSong( int C ){
             break;
         case 2:
             song_h.song_playing = &coin_song;
-            break;
-        default:
             break;
     }
     song_h.note_idx = 0;

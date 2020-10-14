@@ -19,20 +19,20 @@
 
 typedef struct 
 {
-    int32_t freq;
-    int32_t duration_ticks;
+    uint32_t freq;
+    uint32_t duration_ticks;
 } note_t;
 
 typedef struct 
 {
     note_t *notes;
-    int nr_notes;
+    uint32_t nr_notes;
 } song_t;
 
 typedef struct {
     song_t *song_playing;
-    int note_idx;
-    int ticks;
+    uint32_t note_idx;
+    uint32_t ticks;
 } song_handle_t;
 
 
