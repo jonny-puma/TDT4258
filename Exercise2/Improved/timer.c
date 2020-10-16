@@ -3,6 +3,7 @@
 
 #include "efm32gg.h"
 #include "common.h"
+#include "dac.h"
 
 /*
  * function to setup the timer 
@@ -32,12 +33,7 @@ void sleep() {
 	*SCR = 0x6;
 
 	// Deactivating RAM blocks
-	*EMU_MEMCTRL = 0x7;
+	*EMU_MEMCTRL = 0x6;
 
-	// Sisabling DAC
-	*CMU_HFPERCLKEN0 &= ~(1 << 17);
-    *DAC0_CTRL = 0;
-    *DAC0_CH0CTRL = 0;
-    *DAC0_CH1CTRL = 0;
-	
+	disableDac();
 }

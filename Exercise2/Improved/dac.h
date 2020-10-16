@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void setupDAC();
-
 void enableDAC();
+
+void disableDac();
 #endif
