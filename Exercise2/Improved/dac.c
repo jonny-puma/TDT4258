@@ -12,6 +12,7 @@ void setupDAC()
 
 void enableDAC(){
 	// Prescaling DAC clk
+	*CMU_HFPERCLKEN0 |=CMU2_HFPERCLKEN0_DAC0;
 	*DAC0_CTRL = 0x50010;
 	
 	// Enabling audio channels

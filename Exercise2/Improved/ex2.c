@@ -17,7 +17,7 @@ void setupNVIC()
 int main(void)
 {
 	setupGPIO();
-	setupDAC();
+	//setupDAC();
 	setupTimer(SAMPLE_PERIOD);
 	setupNVIC();
 

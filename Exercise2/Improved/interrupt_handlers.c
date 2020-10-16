@@ -7,12 +7,7 @@
 #include "music.h"
 #include "dac.h"
 
-<<<<<<< HEAD
-extern void startTimer();
-extern void buttonhandler(soundname *current_sound);
-=======
 soundname current_sound = NONE;
->>>>>>> master
 
 void __attribute__ ((interrupt)) TIMER1_IRQHandler()
 {
@@ -24,24 +19,16 @@ void __attribute__ ((interrupt)) GPIO_EVEN_IRQHandler()
 {
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
-<<<<<<< HEAD
-	buttonhandler(&current_sound);
-=======
 	enableDAC();
-	buttonhandler();
 	*SCR = 0x2;
->>>>>>> master
+	buttonhandler();
 }
 
 void __attribute__ ((interrupt)) GPIO_ODD_IRQHandler()
 {
 	*GPIO_IFC = *GPIO_IF;
 	startTimer();
-<<<<<<< HEAD
-	buttonhandler(&current_sound);
-=======
 	enableDAC();
-	buttonhandler();
 	*SCR = 0x2;
->>>>>>> master
+	buttonhandler();
 }
