@@ -19,19 +19,26 @@ void setupTimer(uint16_t period)
 // Function to start timer
 void startTimer()
 {
-	  *TIMER1_IEN = 0x1;
+	*TIMER1_IEN = 0x1;
     *TIMER1_CMD = 0x1;
 }
 
-void stopTimer()
-{
-	  *TIMER1_IEN = 0x0;
-    *TIMER1_CMD = 0x0;
-}
-
 void sleep() {
+	// Disabling timer
 	*TIMER1_IEN = 0x0;
 	*TIMER1_CMD = 0x0;
+
+	// Setting sleep mode to deep sleep
 	*SCR = 0x6;
-	*EMU_MEMCTRL = 0x6;
+
+	// Deactivating RAM blocks
+	*EMU_MEMCTRL = 0x4;
+
+	/*
+	// Sisabling DAC
+	*CMU_HFPERCLKEN0 &= ~(1 << 17);
+    *DAC0_CTRL = 0;
+    *DAC0_CH0CTRL = 0;
+    *DAC0_CH1CTRL = 0;
+	*/
 }

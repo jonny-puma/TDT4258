@@ -4,4 +4,6 @@
 #include <stdint.h>
 
 void setupDAC();
+
+void enableDAC();
 #endif

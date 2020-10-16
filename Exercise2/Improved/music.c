@@ -7,6 +7,7 @@
 #include "timer.h"
 
 
+
 note_t crash_notes[] = {
     {40, 700},
     {60, 700},
@@ -103,7 +104,7 @@ sound_t *sound_data = 0;
 
 uint32_t synthesize(uint32_t frequency)
 {
-    uint32_t duration_ticks = 41000/frequency;
+    uint32_t duration_ticks = DAC_FRQ/frequency;
 
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
