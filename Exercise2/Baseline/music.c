@@ -104,7 +104,7 @@ void setupmusic()
 
 uint32_t synthesize(uint32_t frequency)
 {
-    uint32_t duration_ticks = 41000/frequency;
+    uint32_t duration_ticks = DAC_FRQ/frequency;
 
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
@@ -131,7 +131,7 @@ void playsound(soundname *current_sound)
     }
 
     // Checking if sound is finished
-    if ((note_idx + 1)  >= sound_data->nr_notes) {
+    if ((note_idx)  >= sound_data->nr_notes) {
         *current_sound = NONE;
     }
 }

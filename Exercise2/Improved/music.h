@@ -7,7 +7,7 @@
 #define E7 2637
 #define A5 880
 #define B5 987
-#define C5 523
+#define C5 523*2
 #define F5 698
 #define G5 783
 #define E5 659
@@ -19,6 +19,14 @@
 #define dA2 103
 //-----------------------------------------------------------
 
+typedef enum {
+  NONE,
+  FLAAKLYPA,
+  COIN,
+  CRASH,
+  FLAP
+} soundname;
+
 typedef struct {
     int32_t freq;
     int32_t duration_ticks;
@@ -29,17 +37,7 @@ typedef struct {
     uint32_t nr_notes;
 } sound_t;
 
-typedef enum {
-    NONE,
-    FLAAKLYPA,
-    COIN,
-    CRASH,
-    FLAP
-} soundname;
-
-uint32_t volume;
-
-void playsound(soundname *current_sound);
+void playsound();
 
 void setsound(soundname new_sound);
 
@@ -47,6 +45,5 @@ void decreasevol();
     
 void increasevol();
 
-soundname current_sound;
-
 #endif
+

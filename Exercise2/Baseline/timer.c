@@ -12,7 +12,7 @@ void setupTimer(uint16_t period)
 	// Enabling clock to timer
 	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_TIMER1;
 	// Setting timer period
-	*TIMER1_TOP = period;
+	*TIMER1_TOP = 2*period;
 	// Enabling timer interrupt generation.
 	*TIMER1_IEN = 0x1;
 }

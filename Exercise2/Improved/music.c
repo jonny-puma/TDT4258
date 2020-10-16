@@ -4,9 +4,9 @@
 #include "music.h"
 #include "common.h"
 #include "efm32gg.h"
+#include "timer.h"
 
 
-extern void stopTimer();
 
 note_t crash_notes[] = {
     {40, 700},
@@ -26,8 +26,8 @@ note_t crash_notes[] = {
 };
 
 note_t coin_notes[] = {
-    {B6, 500},
-    {B5, 1500}
+    {B6, 2000},
+    {B5, 2500}
 };
 
 note_t flaa_notes[] = {
@@ -96,18 +96,15 @@ sound_t fla_sound = {flaa_notes, sizeof(flaa_notes)/sizeof(note_t)};
 sound_t crash_sound = {crash_notes, sizeof(crash_notes)/sizeof(note_t)};
 sound_t flap_sound = {flap_notes, sizeof(flap_notes)/sizeof(note_t)};
 
+uint32_t volume = 1024;
 uint32_t ticks = 0;
 uint32_t note_idx = 0;
-sound_t *sound_data = &fla_sound;
+sound_t *sound_data = 0;
 
-void setupmusic()
-{
-  volume = 1024;
-}
 
 uint32_t synthesize(uint32_t frequency)
 {
-    uint32_t duration_ticks = 41000/frequency;
+    uint32_t duration_ticks = DAC_FRQ/frequency;
 
     if ((ticks % duration_ticks) > duration_ticks/2) {
         return volume;
@@ -134,9 +131,8 @@ void playsound(soundname *current_sound)
     }
 
     // Checking if sound is finished
-    if ((note_idx + 1)  >= sound_data->nr_notes) {
-        stopTimer();
-        *current_sound = NONE;
+    if (note_idx  >= sound_data->nr_notes) {
+        setsound(NONE);
     }
 }
 
@@ -145,17 +141,22 @@ void setsound(soundname newsound)
     switch (newsound) {
         case FLAAKLYPA:
             sound_data = &fla_sound;
+            startTimer();
             break;
         case COIN:
             sound_data = &coin_sound;
+            startTimer();
             break;
         case CRASH:
             sound_data = &crash_sound;
+            startTimer();
             break;
         case FLAP:
             sound_data = &flap_sound;
+            startTimer();
             break;
         case NONE:
+	        sleep();
             break;
     }
     note_idx = 0;

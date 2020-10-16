@@ -3,39 +3,31 @@
 
 #include "efm32gg.h"
 #include "common.h"
-#include "music.h"
+#include "timer.h"
+#include "gpio.h"
+#include "dac.h"
 
-extern void setupDAC();
-extern void setupGPIO();
-extern void setupmusic();
-extern void setupTimer(uint32_t period);
-
-extern void updateNote();
-void setupNVIC(); //Declare??
-
-int main(void)
-{
-	setupGPIO();
-	setupDAC();
-	setupmusic();
-	setupTimer(SAMPLE_PERIOD);
-
-	setupNVIC();
-	
-	*current_sound = NONE;
-
-	while(1) {
-		// Sleep
-	} 
-	
-	return 0;
-}
 
 void setupNVIC()
 {
 	// Enable handling of interrupts
 	*ISER0 |= ISER0_GPIO_EVEN | ISER0_GPIO_ODD | ISER0_TIMER1;
 }
+
+int main(void)
+{
+	setupGPIO();
+	setupDAC();
+	setupTimer(SAMPLE_PERIOD);
+	setupNVIC();
+
+	sleep();
+	__asm__("wfi;");
+	
+	return 0;
+}
+
+
 
 /*
  * if other interrupt handlers are needed, use the following names:
