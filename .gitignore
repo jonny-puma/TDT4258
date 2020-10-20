@@ -15,3 +15,11 @@
 
 # Visual studio backup
 *.BAK
+
+logfile
+
+configs/
+platform/
+platform-energymicro-efm32gg-dk3750/
+platforms/
+tests/
