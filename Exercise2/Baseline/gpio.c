@@ -2,40 +2,59 @@
 #include <stdbool.h>
 
 #include "efm32gg.h"
+#include "common.h"
+#include "music.h"
 
-/*
- * function to set up GPIO mode and interrupts
- */
+
 void setupGPIO()
 {
-	/*
-	 * TODO set input and output pins for the joystick 
-	 */
+	// Enable GPIO clock
+	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_GPIO;
 
-	/*
-	 * Example of HW access from C code: turn on joystick LEDs D4-D8 check 
-	 * efm32gg.h for other useful register definitions 
-	 */
-	*CMU_HFPERCLKEN0 |= CMU2_HFPERCLKEN0_GPIO;	/* enable GPIO clock */
-	*GPIO_PA_CTRL = 2;	/* set high drive strength */
-	*GPIO_PA_MODEH = 0x55555555;	/* set pins A8-15 as output */
-	*GPIO_PA_DOUT = 0xff00;	/* turn on LEDs D4-D8 (LEDs are active
-				 * low) */
-    *GPIO_PC_MODEL = 0x33333333;
-    *GPIO_PC_DOUT = 0xff;
-    
+	// set pins A0-7 as input
+	*GPIO_PC_MODEL = 0x33333333;
+	*GPIO_PC_DOUT = 0xff;
+
+	// set high drive strength 
+	*GPIO_PA_CTRL = 2;	
+	// set pins A8-15 as output 
+	*GPIO_PA_MODEH = 0x55555555;	
+	// turn off LEDs D4-D8 (LEDs are active low)
+	*GPIO_PA_DOUT = 0xff00;
 }
 
-uint32_t readButtons()
+void buttonhandler(soundname *current_sound, uint32_t *volume)
 {
-	// Code to read buttons? 
-    uint32_t x = *GPIO_PC_DIN;
-    return x;
+	uint32_t butval = *GPIO_PC_DIN;
+	butval = (~butval) & 0xff;
+	switch (butval) {
+		case BTN1:
+			*GPIO_PA_DOUT = 0xfe00;
+			*current_sound = FLAAKLYPA;
+			setsound(*current_sound);
+			break;
+		case BTN2:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = COIN;
+			setsound(*current_sound);
+			break;
+		case BTN3:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = CRASH;
+			setsound(*current_sound);
+			break;
+		case BTN4:
+			*GPIO_PA_DOUT = 0xfd00;
+			*current_sound = FLAP;
+			setsound(*current_sound);
+			break;
+		case BTN6:
+			*GPIO_PA_DOUT = 0xf000;
+			increasevol();
+			break;
+		case BTN8:
+			*GPIO_PA_DOUT = 0x0f00;
+			decreasevol();
+			break;
+	}
 }
-
-void setLeds(uint32_t buttons)
-{
-    buttons = (buttons << 8);
-    *GPIO_PA_DOUT = buttons;
-}
-

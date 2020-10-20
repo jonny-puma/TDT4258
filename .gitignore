@@ -12,3 +12,6 @@
 
 # MacOS DS store files
 .DS_Store
+
+# Visual studio backup
+*.BAK
