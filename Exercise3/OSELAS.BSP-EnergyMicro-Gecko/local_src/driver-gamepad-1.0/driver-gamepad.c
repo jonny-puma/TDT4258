@@ -40,11 +40,10 @@ static int my_open (struct inode *inode , struct file *filp );
 static int my_release (struct inode *inode , struct file *filp );
 
 /* user program reads from the driver */
-static ssize_t my_read (struct file *filp, char user *buff, size t count , loff t *offp );
+static ssize_t my_read (struct file *filp, char user *buff, size_t count , loff_t *offp );
 
 /* user program writes to the driver */
-static ssize_t my_write (struct file *filp , const char user *buff ,
-size t count , loff t *offp );
+static ssize_t my_write (struct file *filp , const char user *buff, size_t count , loff_t *offp );
 
 
 static struct file_operations my_fops = { 
@@ -54,6 +53,10 @@ static struct file_operations my_fops = {
 	.open = my_open,
 	.release = my_release 
 };
+
+struct class ∗cl; dev t devno;
+...
+cl = class create (THIS MODUL sE, ”my class name”); device create(cl, NULL, devno, NULL, ”my class name”);
 
 module_init(template_init);
 module_exit(template_cleanup);
