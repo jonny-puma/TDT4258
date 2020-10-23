@@ -30,8 +30,30 @@ static int __init template_init(void)
 
 static void __exit template_cleanup(void)
 {
-	 printk("Short life for a small module...\n");
+	printk("Short life for a small module...\n");
 }
+
+/* user program opens the driver */
+static int my_open (struct inode *inode , struct file *filp );
+
+/* user program closes the driver */
+static int my_release (struct inode *inode , struct file *filp );
+
+/* user program reads from the driver */
+static ssize_t my_read (struct file *filp, char user *buff, size t count , loff t *offp );
+
+/* user program writes to the driver */
+static ssize_t my_write (struct file *filp , const char user *buff ,
+size t count , loff t *offp );
+
+
+static struct file_operations my_fops = { 
+	.owner = THIS MODULE,
+	.read = my_read,
+	.write = my_write,
+	.open = my_open,
+	.release = my_release 
+};
 
 module_init(template_init);
 module_exit(template_cleanup);
