@@ -1,13 +1,18 @@
-/*
- * This is a demo Linux kernel module.
- */
-
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/interrupt.h>
 #include <linux/cdev.h>
 #include <linux/device.h>
+#include <linux/fs.h>
+#include <linux/ioport.h>
+#include <linux/moduleparam.h>
+#include <linux/kdev_t.h>
+#include <linux/types.h>
+#include <asm/io.h>
+#include <asm/uaccess.h>
+#include <asm/signal.h>
+#include <asm/siginfo.h>
 
 
 
@@ -43,6 +48,9 @@ static struct file_operations gamepad_fops = {
 	.fasync = gamepad_fasync
 };
 
+static int gamepad_fasync(int fd, struct file *filp, int mode){
+	return fasync_helper(fd, filp, mode, &async_queue);
+}
 
 /*
  * template_init - function to insert this module into kernel space
@@ -57,37 +65,51 @@ static int __init gamepad_init(void)
 {
 	printk(KERN_INFO "Driver init\n");
 
-	int res = alloc_chrdev_radion(&dev_no, 0, COUNT, NAME);
+	int mem_alloc = alloc_chrdev_region(&dev_no, 0, COUNT, NAME);
 
-	if (res){
+	if (mem_alloc < 0){
 		printk(KERN_INFO "Failed to allocate\n");
 		return -1;
 	}
 
+    // Mem-area to set buttons to input
 	if (request_mem_region(GPIO_PC_MODEL, 1, NAME) == NULL){
 		printk(KERN_INFO "Request GPIO_PC_MODEL failed\n");
 		return -1;
 	}
+
+	// Mem-area to see status of buttons
 	if (request_mem_region(GPIO_PC_DOUT, 1, NAME) == NULL){
 		printk(KERN_INFO "Request GPIO_PC_DOUT failed\n");
 		return -1;
 	}
+
 	// Might be the only region we actually need?
+	// Mem-area to see state of button
 	if (request_mem_region(GPIO_PC_DIN, 1, NAME) == NULL){
 		printk(KERN_INFO "Request GPIO_PC_DIN failed\n");
 		return -1;
 	}
 
-
+	// Register the char-device to the kernel
 	cdev_init(&gamepad_cdev, &gamepad_fops);
 	gamepad_cdev.owner = THIS_MODULE;
-	res = cdev_add(&gamepad_cdev, dev_no, COUNT);
-	if (res){
+	mem_alloc = cdev_add(&gamepad_cdev, dev_no, COUNT);
+
+
+	if (mem_alloc){
 		printk(KERN_NOTICE "Error adding cdev");
 	}
 
+	// Remap I/O mem into kernel addr space
+	ioremap_nocache(GPIO_PC_MODEL, 1);
+	ioremap_nocache(GPIO_PC_DIN, 1);
+	ioremap_nocache(GPIO_PC_DOUT, 1);
+
+	// Make driver appear as a file in the dev directory
 	cl = class_create(THIS_MODULE, NAME);
-	dev_no_create(cl, NULL, dev_no, NULL, NAME);
+	//dev_no_create(cl, NULL, dev_no, NULL, NAME);
+	device_create(cl, NULL, dev_no, NULL, NAME);
 
 	// Similar to previous exercises
 	iowrite32(0x33333333, GPIO_PC_MODEL);
@@ -113,7 +135,7 @@ static int __init gamepad_init(void)
  * code from a running kernel
  */
 
-static void __exit template_cleanup(void)
+static void __exit gamepad_cleanup(void)
 {
 	printk("Short life for a small module...\n");
 
@@ -150,8 +172,11 @@ static int gamepad_release(struct inode *inode , struct file *filp)
 /* user program reads from the driver */
 static ssize_t gamepad_read(struct file *filp, char user *buff, size_t count , loff_t *offp)
 {
-	printk(KERN_INFO "Driver read\n");
-	return 1; 
+	//printk(KERN_INFO "Driver read\n");
+
+	uint32_t data = ioread32(GPIO_PC_DIN);
+	copy_to_user(buff, &data, 1);
+	return 1;
 }
 
 /* user program writes to the driver */
@@ -179,3 +204,4 @@ module_exit(gamepad_cleanup);
 MODULE_DESCRIPTION("Small module, demo only, not very useful.");
 MODULE_LICENSE("GPL");
 
+H4xsel
