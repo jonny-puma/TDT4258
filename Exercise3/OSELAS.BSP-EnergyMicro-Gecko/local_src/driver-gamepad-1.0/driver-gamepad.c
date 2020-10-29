@@ -13,24 +13,23 @@
 #include <asm/uaccess.h>
 #include <asm/signal.h>
 #include <asm/siginfo.h>
-
-
-
 #include "efm32gg.h"
-
-/* Function declarations */
-static int gamepad_open(struct inode *inode , struct file *filp );
-static int gamepad_release(struct inode *inode , struct file *filp );
-static ssize_t gamepad_read(struct file *filp, char user *buff, size_t count , loff_t *offp );
-static ssize_t gamepad_write(struct file *filp , const char user *buff, size_t count , loff_t *offp );
-static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pr_regs* regs);
-static int gamepad_fasync(int fd, struct file *filp, int mode);
 
 /* Define */
 #define GPIO_EVEN_IRQ_LINE 17
 #define GPIO_ODD_IRQ_LINE 18
 #define NAME "gamepad"
 #define COUNT 1
+
+/* Function declarations */
+static int gamepad_open(struct inode *inode , struct file *filp );
+static int gamepad_release(struct inode *inode , struct file *filp );
+static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp );
+static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp );
+static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs);
+static int gamepad_fasync(int fd, struct file *filp, int mode);
+
+
 
 
 /* Static variables */
@@ -41,7 +40,7 @@ struct fasync_struct *async_queue;
 
 static struct file_operations gamepad_fops = { 
 	.owner = THIS_MODULE,
-	.read = gamepad_open_read,
+	.read = gamepad_read,
 	.write = gamepad_write,
 	.open = gamepad_open,
 	.release = gamepad_release,
@@ -170,7 +169,7 @@ static int gamepad_release(struct inode *inode , struct file *filp)
 }
 
 /* user program reads from the driver */
-static ssize_t gamepad_read(struct file *filp, char user *buff, size_t count , loff_t *offp)
+static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp)
 {
 	//printk(KERN_INFO "Driver read\n");
 
@@ -180,15 +179,15 @@ static ssize_t gamepad_read(struct file *filp, char user *buff, size_t count , l
 }
 
 /* user program writes to the driver */
-static ssize_t gamepad_write(struct file *filp , const char user *buff, size_t count , loff_t *offp)
+static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp)
 {
 	printk(KERN_INFO "Driver write\n");
 	return 1;
 }
 
 
-static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pr_regs* regs){
-	printk(KERN_ALERT "Handling interrupt\n");
+static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs){
+	//printk(KERN_ALERT "Handling interrupt\n");
 	iowrite32(ioread32(GPIO_IF), GPIO_IFC);
 	// ASYNC SHIT
 	if(async_queue){
@@ -203,5 +202,3 @@ module_exit(gamepad_cleanup);
 
 MODULE_DESCRIPTION("Small module, demo only, not very useful.");
 MODULE_LICENSE("GPL");
-
-H4xsel
