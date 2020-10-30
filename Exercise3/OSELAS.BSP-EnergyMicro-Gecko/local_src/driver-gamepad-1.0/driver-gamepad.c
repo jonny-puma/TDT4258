@@ -22,11 +22,13 @@
 #define COUNT 1
 
 /* Function declarations */
+static int __init gamepad_init(void);
+static void __exit gamepad_cleanup(void);
+static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs);
 static int gamepad_open(struct inode *inode , struct file *filp );
 static int gamepad_release(struct inode *inode , struct file *filp );
 static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp );
 static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp );
-static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs);
 static int gamepad_fasync(int fd, struct file *filp, int mode);
 
 
@@ -51,14 +53,7 @@ static int gamepad_fasync(int fd, struct file *filp, int mode){
 	return fasync_helper(fd, filp, mode, &async_queue);
 }
 
-/*
- * template_init - function to insert this module into kernel space
- *
- * This is the first of two exported functions to handle inserting this
- * code into a running kernel
- *
- * Returns 0 if successfull, otherwise -1
- */
+
 
 static int __init gamepad_init(void)
 {
