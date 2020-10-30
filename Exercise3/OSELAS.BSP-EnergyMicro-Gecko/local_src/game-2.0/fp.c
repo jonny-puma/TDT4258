@@ -155,7 +155,7 @@ int gameover(gamestate *gs) {
   char prompt[] = "Game over!";
   int len = sizeof(prompt)/sizeof(char);
   attron(A_BOLD);
-  mvprintw(row/2, col/2 - len/2, prompt);
+  mvprintw(row/2-9, col/2 - len/2, prompt);
   attroff(A_BOLD);
 
   prinths();
@@ -163,7 +163,7 @@ int gameover(gamestate *gs) {
   // check if the score is a high score
   if (gs->score >= highscores[NSCORES-1].score) {
     char name[NAMELEN+1];
-    mvprintw(row/2+NSCORES+9, col/2-10, "Enter your name: "); 
+    mvprintw(row/2+NSCORES-3, col/2-14, "Enter your name: "); 
     refresh();
     echo();
     curs_set(1);
@@ -178,7 +178,7 @@ int gameover(gamestate *gs) {
 
   char prompt2[] = "Press q to quit or r to play again";
   int len2 = sizeof(prompt2)/sizeof(char);
-  mvprintw(row/2+NSCORES+9, col/2 - len2/2, prompt2);
+  mvprintw(row/2+NSCORES-3, col/2 - len2/2, prompt2);
 
   // parse options
   int ch = 69;
@@ -195,7 +195,7 @@ int gameover(gamestate *gs) {
 
 void prinths() {
   int x = col/2;
-  int y = row/2+5;
+  int y = row/2 - 7;
   attron(A_BOLD);
   mvprintw(y++, x-6, "High scores:");
   attroff(A_BOLD);
