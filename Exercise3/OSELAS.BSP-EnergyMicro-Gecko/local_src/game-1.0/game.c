@@ -1,11 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <time.h>
+#include "graphics.h"
+#include "game.h"
+
 
 FILE* fp_gamepad;
 
 int init_gp(){
 
 	fp_gamepad = fopen("/dev/gamepad", "rb");
+
+	if (!fp_gamepad){
+		printf("error fp_gamepad\n");
+	}
 
 	signal(SIGIO, &sigio_handler);
 
@@ -27,54 +33,36 @@ void cleanup_gamepad(){
 void up()
 {
 	printf("UP\n");
-	//paint_move_square(0, 16, 0xF800);
-	//flush_screen_buffer();
-	//printf("screen.dx: %d,     screen.dy: %d\n", screen.dx, screen.dy);
-	//paint_square(screen.dx, (screen.dy + 10), 0xF800);
+	paint_square(5, 5, 50, 60, 0x2299);
 }
 
 void down()
 {
 	printf("DOWN\n");
-	//paint_move_square(0, -16, 0xF800);
-	//flush_screen_buffer();
-	//printf("screen.dx: %d,     screen.dy: %d\n", screen.dx, screen.dy);
-	//paint_square(screen.dx, (screen.dy - 10), 0xF800);
+	paint_square(100, 100, 30, 30, 0x4444);
+	
 }
 
 void left()
 {
 	printf("LEFT\n");
-	//paint_move_square(-16, 0, 0xF800);
-	//flush_screen_buffer();
-	//printf("screen.dx: %d,     screen.dy: %d\n", screen.dx, screen.dy);
-	//(paint_square((screen.dx - 10), screen.dy, 0xF800);
+	backgroundColor(0xf0f0);
+	
 }
 
 void right()
 {
 	printf("RIGHT\n");
-	//paint_move_square(16, 0, 0xF800);
-	//flush_screen_buffer();
-	// printf("screen.dx: %d,     screen.dy: %d\n", screen.dx, screen.dy);
-	// paint_square((screen.dx + 10), screen.dy, 0xF800);
+	backgroundColor(0x3333);
+	
 }
 
 
 void sigio_handler()
 {
-//Knappen til venstre:
-// LEFT = 	254 = FE = 11111110 = SW1
-// RIGHT = 	251 = FB = 11111011 = SW3
-// UP = 	253 = FD = 11111101 = SW2
-// DOWN = 	247 = F7 = 11110111 = SW4
-//Knappene på høyre side er:
-// LEFT = 	239 = EF = 11101111 = SW5
-// RIGHT = 	191 = BF = 10111111 = SW7
-// UP = 	223 = DF = 11011111 = SW6
-// DOWN = 	127 = 7F = 01111111 = SW8
 
-	//printf("Signal: %d\n", fgetc(device));
+	printf("Entered sigio_handler in game.c\n");
+	// printf("Signal: %d\n", fgetc(device));
     switch (fgetc(fp_gamepad)) {
         case BUTTON1: case BUTTON5:
             left();
@@ -100,30 +88,12 @@ void sigio_handler()
 /* Entry point */
 int main(){
 	printf("Entered main in game.c\n");
-	init_gamepad();
-
-	//init_fb();
+	init_gp();
+	init_fb();
+	backgroundColor(0xffff);
 	printf("Im done with graphics init\n");
-	//paint_background(0xFFFF);
-	//background();
-	//printf("Im done with background\n");
 
-	//paint_screenangle(0xF800, x, y, 320, 240);
-	//paint_square(0, 0, 0xF800);
-	//paint_move_square(-10, 0, 0xF800);
-	//flush_screen_buffer()
-	//int i;
   	while (1) {
-		// for (i = 0; i < 20 ; i++){
-		// 	if ((i % 10) == 0){
-		// 		refresh_screen();	
-		// 	}
-		// }
-		// i = 0;
-
-		//refresh_screen();
-		//pause();
-			
 	}
 	cleanup_gamepad();
     return EXIT_SUCCESS;
