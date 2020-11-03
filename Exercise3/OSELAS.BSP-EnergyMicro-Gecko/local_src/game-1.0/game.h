@@ -17,11 +17,51 @@
 #define BUTTON7 0xBF
 #define BUTTON8 0xDF
 
+#define ROW 240
+#define COL 320
+#define OB_W 10
+
+#define BIRD_COLOR 0x3333
+#define BIRD_H 3
+#define BIRD_W 3
+
+#define OB_GAP 40
+#define OB_COLOR 0x1414
+
+#define BACKGROUND_COLOR 0xffff
+
+
+
+
+typedef struct {
+	int timestep;
+	int power;
+} settings;
+
+typedef struct {
+  int x;
+  int y;
+  int speed;
+} obstacle;
+
+typedef struct {
+	int bird_y;
+    int bird_x;
+    int prev_bird_y;
+	int velocity;
+	int score;
+  obstacle *ob;
+} gamestate;
+
 int init_gamepad();
 void cleanup_gamepad();
 void sigio_handler();
-void up();
-void down();
-void left();
-void right();
+void initgame(gamestate *gs, settings *set);
+void gameloop(gamestate *gs, settings *set);
+void physics(gamestate *gs, settings *set);
+void flap(gamestate *gs, settings *set);
+bool isalive(gamestate *gs);
+void printgame(gamestate *gs, settings *set);
+void update_ob(gamestate *gs);
+void update_bird(gamestate *gs);
 int main();

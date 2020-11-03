@@ -1,4 +1,5 @@
 #include "graphics.h"
+#include "stdlib.h"
 
 
 int fbfd; // framebuffer device
