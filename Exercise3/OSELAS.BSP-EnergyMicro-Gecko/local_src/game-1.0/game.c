@@ -80,15 +80,17 @@ void gameloop(gamestate *gs, settings *set) {
 
 void physics(gamestate *gs, settings *set) {
   // gravity force
-  gs->velocity += set->timestep;
+  if (gs->velocity < 1){
+  	gs->velocity += set->timestep;
+  }
 
   // integrate to bird_y
-  //gs->prev_bird_y = gs->bird_y;
+  gs->prev_bird_y = gs->bird_y;
   gs->bird_y += gs->velocity*set->timestep; // can be wrong
 
   // stop at floor
   if (gs->bird_y >= ROW-1) {
-    gs->bird_y = ROW-1;
+    gs->bird_y = ROW/2;
     if (gs->velocity > 0) {
         gs->velocity = 0;
     }
@@ -100,7 +102,7 @@ void physics(gamestate *gs, settings *set) {
   if (ob->x <= 0) {
     ob->x = COL;
     ob->y = rand() % (ROW - OB_GAP);
-    ob->speed++;
+    //ob->speed++;
   }
 }
 
@@ -110,14 +112,14 @@ void flap(gamestate *gs, settings *set){
 
 bool isalive(gamestate *gs) {
   obstacle *ob = gs->ob;
-  if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
-	  int bottom = ob->y + OB_GAP - BIRD_H;
-	return ((gs->bird_y > ob->y) && (gs->bird_y < bottom));
-  } else if ((gs->bird_y + BIRD_H) > (COL -1)){
-	  return false;
-  } else {
+ // if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
+//	  int bottom = ob->y + OB_GAP - BIRD_H;
+//	return ((gs->bird_y > ob->y) && (gs->bird_y < bottom));
+ // } else if ((gs->bird_y + BIRD_H) > (COL -1)){
+//	  return false;
+ // } else {
     return true;
-  }
+ // }
 }
 
 void printgame(gamestate *gs, settings *set) {
@@ -130,13 +132,15 @@ void update_ob(gamestate *gs){
 	paint_square(ob->x, 0, ob->y, 1, OB_COLOR);
 	paint_square(ob->x, ob->y + OB_GAP, ROW - ob->y - OB_GAP, 1, OB_COLOR);
 
-	if (ob->x  + OB_W < COL){
-		paint_square(ob->x + (OB_W), 0, ROW, 1, BACKGROUND_COLOR);
+	if ((ob->x + OB_W) < COL){
+		paint_square((ob->x + OB_W), 0, ROW, 1, BACKGROUND_COLOR);
+	}else if (ob->x == 4){
+		paint_square(ob->x, 0, ROW, OB_W, BACKGROUND_COLOR);
 	}
 }
 
 void update_bird(gamestate *gs){
-	//paint_square(gs->bird_x, gs->prev_bird_y, BIRD_H, BIRD_W, BACKGROUND_COLOR);
+	paint_square(gs->bird_x, gs->prev_bird_y, BIRD_H, BIRD_W, BACKGROUND_COLOR);
 	paint_square(gs->bird_x, gs->bird_y, BIRD_H, BIRD_W, BIRD_COLOR);
 }
 
@@ -152,10 +156,10 @@ int main(){
 	gamestate gs;
 	settings set;
 
-	initgame(&gs, &set);
-	gameloop(&gs, &set);
 
   	while (1) {
+		initgame(&gs, &set);
+		gameloop(&gs, &set);
 	}
 	cleanup_gamepad();
     return EXIT_SUCCESS;

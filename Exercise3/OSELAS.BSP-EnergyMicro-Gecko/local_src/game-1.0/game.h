@@ -22,8 +22,8 @@
 #define OB_W 10
 
 #define BIRD_COLOR 0x3333
-#define BIRD_H 3
-#define BIRD_W 3
+#define BIRD_H 8
+#define BIRD_W 8
 
 #define OB_GAP 40
 #define OB_COLOR 0x1414
