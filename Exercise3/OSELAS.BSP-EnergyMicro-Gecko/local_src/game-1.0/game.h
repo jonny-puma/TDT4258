@@ -53,7 +53,7 @@ typedef struct {
   obstacle *ob;
 } gamestate;
 
-int init_gamepad();
+int init_gp();
 void cleanup_gamepad();
 void sigio_handler();
 void initgame(gamestate *gs, settings *set);
