@@ -2,7 +2,8 @@
 #include "graphics.h"
 #include "game.h"
 
-static int flag_btn_pressed;
+
+static int btn_pressed = 0;
 FILE* fp_gamepad;
 
 int init_gp(){
@@ -13,7 +14,7 @@ int init_gp(){
 		printf("error fp_gamepad\n");
 	}
 
-	signal(SIGIO, &sigio_handler);
+	signal(SIGIO, &sigio_handler());
 
 	fcntl(fileno(fp_gamepad), F_SETOWN, getpid());
 
@@ -28,7 +29,7 @@ void cleanup_gamepad(){
 	fclose(fp_gamepad);
 }
 
-void initgame(gamestate *gs, settings *set) {
+void initgame() {
   // init gamestate
   gs->bird_y = ROW/2;
   gs->bird_x = COL/3;
@@ -55,17 +56,16 @@ void sigio_handler()
 {
 	printf("Entered sigio_handler in game.c\n");
 	// printf("Signal: %d\n", fgetc(device));
-    switch (fgetc(fp_gamepad)) {
-        
-        case BUTTON2:
-            printf("UP\n");
-			//flap(gs,set);
-			flag_btn_pressed = 1;
-            break;
-		default:
-			printf("DEFAULT\n"); //Her er verdien 255 av en eller annen grunn..
-			break;
-    }
+
+  switch (fgetc(fp_gamepad)) {
+    case BUTTON2: //case BUTTON6:
+      printf("UP\n");
+      btn_pressed = 1;
+      break;
+    default:
+      printf("DEFAULT\n"); //Her er verdien 255 av en eller annen grunn..
+      break;
+  }
 }
 
 
@@ -74,20 +74,20 @@ void gameloop(gamestate *gs, settings *set) {
     if (!isalive(gs)) {
       break;
     }
-	physics(gs, set);
-	printgame(gs, set);
+    physics(gs, set);
+    printgame(gs, set);
   }
 }
 
 void physics(gamestate *gs, settings *set) {
   // gravity force
-  if(flag_btn_pressed){
-  (gs->velocity) -= (set->power);
-	printf("Power: %d\n", set->power);
-  	printf("Vel: %d\n", gs->velocity);
- 	printf("Inside flap, before UP?\n");
- 	flag_btn_pressed = 0;
- 	}
+
+  if (btn_pressed){
+    gs->velocity -= set->power;
+    printf("Flap\n");
+    btn_pressed = 0;
+  }
+
   if (gs->velocity < 1){
   	printf("vel in gravity: %d\n", gs->velocity);
   	(gs->velocity) += (set->timestep);
@@ -115,14 +115,7 @@ void physics(gamestate *gs, settings *set) {
     //ob->speed++;
   }
 }
-/*
-void flap(gamestate *gs, settings *set){
-	(gs->velocity) -= (set->power);
-	printf("Power: %d\n", set->power);
-  	printf("Vel: %d\n", gs->velocity);
- 	printf("Inside flap, before UP?\n");
-}
-*/
+
 
 bool isalive(gamestate *gs) {
   /*
@@ -165,15 +158,17 @@ void update_bird(gamestate *gs){
 
 /* Entry point */
 int main(){
-	gamestate gs;
-	settings set;
-	flag_btn_pressed = 0;
 	printf("Entered main in game.c\n");
-	init_gp();
+	init_gp(&gs, &set);
 	init_fb();
 	backgroundColor(BACKGROUND_COLOR);
 	printf("Im done with graphics init\n");
-	
+
+
+	gamestate gs;
+	settings set;
+  	btn_pressed = 0;
+  
   //while (1) {
 		initgame(&gs, &set);
 		gameloop(&gs, &set);
