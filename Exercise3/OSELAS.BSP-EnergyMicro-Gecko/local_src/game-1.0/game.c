@@ -28,7 +28,7 @@ void cleanup_gamepad(){
 	fclose(fp_gamepad);
 }
 
-void initgame() {
+void initgame(gamestate *gs, settings *set) {
   // init gamestate
   gs->bird_y = ROW/2;
   gs->bird_x = COL/3;
@@ -57,7 +57,6 @@ void sigio_handler(gamestate *gs, settings *set)
   switch (fgetc(fp_gamepad)) {
     case BUTTON2: //case BUTTON6:
       printf("UP\n");
-      //flap(gs, set);
       btn_pressed = 1;
       break;
     default:
@@ -81,7 +80,6 @@ void physics(gamestate *gs, settings *set) {
   // gravity force
   if (btn_pressed){
     gs->velocity -= set->power;
-    printf("Flap\n");
     btn_pressed = 0;
   }
 
@@ -154,7 +152,7 @@ void update_bird(gamestate *gs){
 /* Entry point */
 int main(){
 	printf("Entered main in game.c\n");
-	init_gp(&gs, &set);
+	init_gp();
 	init_fb();
 	backgroundColor(BACKGROUND_COLOR);
 	printf("Im done with graphics init\n");
