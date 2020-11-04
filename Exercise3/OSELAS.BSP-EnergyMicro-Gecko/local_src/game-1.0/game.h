@@ -30,9 +30,6 @@
 
 #define BACKGROUND_COLOR 0xffff
 
-
-
-
 typedef struct {
 	int timestep;
 	int power;
@@ -46,20 +43,19 @@ typedef struct {
 
 typedef struct {
 	int bird_y;
-    int bird_x;
-    int prev_bird_y;
+  int bird_x;
+  int prev_bird_y;
 	int velocity;
 	int score;
   obstacle *ob;
 } gamestate;
 
-int init_gamepad();
+int init_gp();
 void cleanup_gamepad();
-void sigio_handler();
+void sigio_handler(gamestate *gs, settings *set);
 void initgame(gamestate *gs, settings *set);
 void gameloop(gamestate *gs, settings *set);
 void physics(gamestate *gs, settings *set);
-void flap(gamestate *gs, settings *set);
 bool isalive(gamestate *gs);
 void printgame(gamestate *gs, settings *set);
 void update_ob(gamestate *gs);
