@@ -32,7 +32,7 @@ void initgame(gamestate *gs, settings *set) {
   // init gamestate
   gs->bird_y = ROW/2;
   gs->bird_x = COL/3;
-  gs->prev_bird_y = COL/4;
+  gs->prev_bird_y = ROW/2;
   gs->velocity = 0;
   gs->score = 0;
 
@@ -52,7 +52,6 @@ void initgame(gamestate *gs, settings *set) {
 
 void sigio_handler(gamestate *gs, settings *set)
 {
-
 	printf("Entered sigio_handler in game.c\n");
 	// printf("Signal: %d\n", fgetc(device));
     switch (fgetc(fp_gamepad)) {
@@ -108,20 +107,24 @@ void physics(gamestate *gs, settings *set) {
 
 void flap(gamestate *gs, settings *set){
 	gs->velocity -= set->power;
+  printf("%d", gs->velocity)
 }
 
 bool isalive(gamestate *gs) {
+  /*
   obstacle *ob = gs->ob;
- // if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
-//	  int bottom = ob->y + OB_GAP - BIRD_H;
-//	return ((gs->bird_y > ob->y) && (gs->bird_y < bottom));
- // } else if ((gs->bird_y + BIRD_H) > (COL -1)){
-//	  return false;
- // } else {
+  if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
+	  int bottom = ob->y + OB_GAP - BIRD_H;
+	  return ((gs->bird_y > ob->y) && (gs->bird_y < bottom));
+  } else if ((gs->bird_y + BIRD_H) > (COL -1)){
+	  return false;
+  } else {
+  */
     return true;
- // }
+  //}
 }
 
+// Sjekke om vi tegner utenfor skjerm?? (Bird)
 void printgame(gamestate *gs, settings *set) {
   update_ob(gs); // must be before bird
   update_bird(gs);
@@ -134,7 +137,7 @@ void update_ob(gamestate *gs){
 
 	if ((ob->x + OB_W) < COL){
 		paint_square((ob->x + OB_W), 0, ROW, 1, BACKGROUND_COLOR);
-	}else if (ob->x == 4){
+	}else if (ob->x < 2){
 		paint_square(ob->x, 0, ROW, OB_W, BACKGROUND_COLOR);
 	}
 }
@@ -156,13 +159,14 @@ int main(){
 	gamestate gs;
 	settings set;
 
-
-  	while (1) {
+  
+  //while (1) {
 		initgame(&gs, &set);
 		gameloop(&gs, &set);
-	}
+	//}
+
 	cleanup_gamepad();
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
 
 
