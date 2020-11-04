@@ -52,7 +52,7 @@ typedef struct {
 
 int init_gp();
 void cleanup_gamepad();
-void sigio_handler(gamestate *gs, settings *set);
+void sigio_handler();
 void initgame(gamestate *gs, settings *set);
 void gameloop(gamestate *gs, settings *set);
 void physics(gamestate *gs, settings *set);

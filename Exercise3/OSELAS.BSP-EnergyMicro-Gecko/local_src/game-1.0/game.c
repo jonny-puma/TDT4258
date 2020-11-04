@@ -14,7 +14,7 @@ int init_gp(){
 		printf("error fp_gamepad\n");
 	}
 
-	signal(SIGIO, &sigio_handler());
+	signal(SIGIO, &sigio_handler);
 
 	fcntl(fileno(fp_gamepad), F_SETOWN, getpid());
 
@@ -29,7 +29,7 @@ void cleanup_gamepad(){
 	fclose(fp_gamepad);
 }
 
-void initgame() {
+void initgame(gamestate *gs, settings *set) {
   // init gamestate
   gs->bird_y = ROW/2;
   gs->bird_x = COL/3;
@@ -47,7 +47,6 @@ void initgame() {
   // init settings
   set->power = 10;
   set->timestep = 1;
-  printf("Should be 10: %d \n", set->power);
 }
 
 
@@ -89,9 +88,7 @@ void physics(gamestate *gs, settings *set) {
   }
 
   if (gs->velocity < 1){
-  	printf("vel in gravity: %d\n", gs->velocity);
   	(gs->velocity) += (set->timestep);
-  	printf("vel in gravity: %d\n", gs->velocity);
   }
 
   // integrate to bird_y
@@ -142,7 +139,7 @@ void update_ob(gamestate *gs){
 	paint_square(ob->x, 0, ob->y, 1, OB_COLOR);
 	paint_square(ob->x, ob->y + OB_GAP, ROW - ob->y - OB_GAP, 1, OB_COLOR);
 	
-	if (ob->x < 1){
+	if (ob->x < 2){
 		paint_square(ob->x, 0, ROW, OB_W, BACKGROUND_COLOR);
 	}
 	if ((ob->x + OB_W) < COL){
@@ -159,7 +156,7 @@ void update_bird(gamestate *gs){
 /* Entry point */
 int main(){
 	printf("Entered main in game.c\n");
-	init_gp(&gs, &set);
+	init_gp();
 	init_fb();
 	backgroundColor(BACKGROUND_COLOR);
 	printf("Im done with graphics init\n");
