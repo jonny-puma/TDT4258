@@ -87,15 +87,16 @@ void paint_square(int pos_x, int pos_y, int height, int width, int16_t color){
 }
 
 void paint_bird(int pos_x, int pos_y){
-    screen.dx = pos_x;
-    screen.dy = pos_y;
-    screen.width = 17;
-    screen.height = 12;
-    int i;
-    int j;
-	for(i = screen.dx; i < screen.dx + screen.width; i++){
-		for(j = screen.dy; j < screen.dy + screen.height; j++){
-			fbp[i + j * SCREEN_PIXEL_WIDTH] = birdArray[i + j*screen.width];
+    const uint32_t width  = 17;
+    const uint32_t height = 12;
+
+    int x;
+    int y;
+	for(y = 0; y <  height; y++){
+		for(x = 0; x <  width; x++){
+            if (birdArray[x + y*width] != TRANS){
+                fbp[(x +  pos_x) + (y + pos_y) * SCREEN_PIXEL_WIDTH] = birdArray[x + y*width];
+            }
 		}
 	}
     flush_screen_buffer();

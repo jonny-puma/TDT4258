@@ -22,11 +22,13 @@
 #define OB_W 10
 
 #define BIRD_COLOR 0x3333
-#define BIRD_H 12
+#define BIRD_H 13
 #define BIRD_W 17
 
 #define OB_GAP 75
 #define OB_COLOR 0x1414
+
+#define TIMESTEP 0.01
 
 #define BACKGROUND_COLOR 0xffff
 
@@ -45,7 +47,7 @@ typedef struct {
 	int bird_y;
   int bird_x;
   int prev_bird_y;
-	int velocity;
+	float velocity;
 	int score;
   obstacle *ob;
 } gamestate;

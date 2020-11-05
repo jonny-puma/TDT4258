@@ -5,6 +5,7 @@
 static int btn_pressed = 0;
 FILE* fp_gamepad;
 
+
 int init_gp(){
 
 	fp_gamepad = fopen("/dev/gamepad", "rb");
@@ -13,7 +14,7 @@ int init_gp(){
 		printf("error fp_gamepad\n");
 	}
 
-	signal(SIGIO, &sigio_handler());
+	signal(SIGIO, &sigio_handler);
 
 	fcntl(fileno(fp_gamepad), F_SETOWN, getpid());
 
@@ -44,8 +45,9 @@ void initgame(gamestate *gs, settings *set) {
   gs->ob = ob;
 
   // init settings
-  set->power = 10;
+  set->power = 3;
   set->timestep = 1;
+  backgroundColor(BACKGROUND_COLOR);
 }
 
 
@@ -67,29 +69,33 @@ void sigio_handler(gamestate *gs, settings *set)
 
 
 void gameloop(gamestate *gs, settings *set) {
-  while (true) {
-    if (!isalive(gs)) {
-      break;
+  clock_t start = CLOCKS_PER_SEC;
+   while (true) {
+    if (difftime(clock(), start)/CLOCKS_PER_SEC > TIMESTEP){
+      start = clock();
+      if (!isalive(gs)) {
+        break;
+      }
+      physics(gs, set);
+      printgame(gs, set);
     }
-    physics(gs, set);
-    printgame(gs, set);
   }
 }
 
 void physics(gamestate *gs, settings *set) {
   // gravity force
   if (btn_pressed){
-    gs->velocity -= set->power;
+    gs->velocity = -set->power;
     btn_pressed = 0;
   }
-
-  if (gs->velocity < 1){
-  	gs->velocity += set->timestep;
-  }
-
+  
+  //if (gs->velocity < 1){
+  	gs->velocity += 12*TIMESTEP;
+  //}
+  
   // integrate to bird_y
   gs->prev_bird_y = gs->bird_y;
-  gs->bird_y += gs->velocity*set->timestep; // can be wrong
+  gs->bird_y += gs->velocity; // can be wrong
 
   // stop at floor
   if (gs->bird_y >= ROW-1) {
@@ -151,17 +157,17 @@ int main(){
 	printf("Entered main in game.c\n");
 	init_gp();
 	init_fb();
-	backgroundColor(BACKGROUND_COLOR);
+	
 	printf("Im done with graphics init\n");
 
 	gamestate gs;
 	settings set;
   btn_pressed = 0;
   
-  //while (1) {
+  while (1) {
 		initgame(&gs, &set);
 		gameloop(&gs, &set);
-	//}
+	}
 
 	cleanup_gamepad();
   return EXIT_SUCCESS;
