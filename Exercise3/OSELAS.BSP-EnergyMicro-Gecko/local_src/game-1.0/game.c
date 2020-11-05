@@ -52,15 +52,15 @@ void initgame(gamestate *gs, settings *set) {
 
 void sigio_handler(gamestate *gs, settings *set)
 {
-	printf("Entered sigio_handler in game.c\n");
+	// printf("Entered sigio_handler in game.c\n");
 	// printf("Signal: %d\n", fgetc(device));
   switch (fgetc(fp_gamepad)) {
     case BUTTON2: //case BUTTON6:
-      printf("UP\n");
+      // printf("UP\n");
       btn_pressed = 1;
       break;
     default:
-      printf("DEFAULT\n"); //Her er verdien 255 av en eller annen grunn..
+      // printf("DEFAULT\n"); //Her er verdien 255 av en eller annen grunn..
       break;
   }
 }
@@ -111,7 +111,6 @@ void physics(gamestate *gs, settings *set) {
 
 
 bool isalive(gamestate *gs) {
-  /*
   obstacle *ob = gs->ob;
   if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
 	  int bottom = ob->y + OB_GAP - BIRD_H;
@@ -119,9 +118,8 @@ bool isalive(gamestate *gs) {
   } else if ((gs->bird_y + BIRD_H) > (COL -1)){
 	  return false;
   } else {
-  */
     return true;
-  //}
+  }
 }
 
 // Sjekke om vi tegner utenfor skjerm?? (Bird)
@@ -137,15 +135,14 @@ void update_ob(gamestate *gs){
 
 	if ((ob->x + OB_W) < COL){
 		paint_square((ob->x + OB_W), 0, ROW, 1, BACKGROUND_COLOR);
-	}
-  if (ob->x < 2){
-		paint_square(ob->x, 0, ROW, OB_W, BACKGROUND_COLOR);
+	}else{
+		paint_square(COL - ob->x, 0, ROW, 1, BACKGROUND_COLOR);
 	}
 }
 
 void update_bird(gamestate *gs){
 	paint_square(gs->bird_x, gs->prev_bird_y, BIRD_H, BIRD_W, BACKGROUND_COLOR);
-	paint_square(gs->bird_x, gs->bird_y, BIRD_H, BIRD_W, BIRD_COLOR);
+	paint_bird(gs->bird_x, gs->bird_y);
 }
 
 
