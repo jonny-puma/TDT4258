@@ -1,12 +1,5 @@
-
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
-#define TRANS -1
-#define BLACK 0x0000
-#define WHITE 0xFFFF
-#define YELLOW 0xFF00
-#define RED 0xF800
-
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -17,10 +10,22 @@
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 
+// Colors
+#define TRANS -1
+#define BLACK 0x0000
+#define WHITE 0xFFFF
+#define YELLOW 0xFF00
+#define RED 0xF800
+#define BIRD_COLOR 0x3333
+#define OB_COLOR 0x1414
+#define BACKGROUND_COLOR 0xffff
 
-#define SCREEN_PIXEL_HEIGHT 240
-#define SCREEN_PIXEL_WIDTH  320
+// sprite dimensions
+#define BIRD_H 12
+#define BIRD_W 17
 
+#define ROW 240
+#define COL 320
 
 
 void paint_square(int pos_x, int pos_y, int height, int width, int16_t color);
@@ -30,6 +35,7 @@ void flush_screen_buffer();
 void init_fb();
 void paint_bird(int pos_x, int pos_y);
 
+// Bird sprite
 static int birdArray[] = {  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  BLACK,  BLACK,  BLACK,  BLACK,  BLACK,  BLACK,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS, 
                             TRANS,  TRANS,  TRANS,  TRANS,  BLACK,  BLACK,  YELLOW, YELLOW, YELLOW, YELLOW, BLACK,  WHITE,  BLACK,  TRANS,  TRANS,  TRANS,  TRANS,
                             TRANS,  TRANS,  TRANS,  BLACK,  YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, BLACK,  WHITE,  WHITE,  WHITE,  BLACK,  TRANS,  TRANS,  TRANS, 
@@ -42,6 +48,5 @@ static int birdArray[] = {  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  BLAC
                             TRANS,  TRANS,  TRANS,  TRANS,  BLACK,  YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, BLACK,  RED,    RED,    RED,    RED,    BLACK,  TRANS, 
                             TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  BLACK,  BLACK,  YELLOW, YELLOW, YELLOW, YELLOW, BLACK,  BLACK,  BLACK,  BLACK,  BLACK,  TRANS, 
                             TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  BLACK,  BLACK,  BLACK,  BLACK,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS,  TRANS};
-
 
 #endif

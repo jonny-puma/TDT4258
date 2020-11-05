@@ -7,16 +7,8 @@ uint16_t *fbp; // one pixel
 
 static int screen_pixels;
 static int screen_bytes;
- //size of screen
-
 struct fb_copyarea screen;
-
-static int array_size = SCREEN_PIXEL_WIDTH*SCREEN_PIXEL_HEIGHT;
-// static int BACKGROUND_COLOR = WHITE;
-static int reddd = 0xF800;
-
-#define COLOR_SILVER 0xC0C0
-
+static int array_size = COL*ROW;
 
 void init_fb()
 {
@@ -26,12 +18,10 @@ void init_fb()
     }
 
     //size of screen
-    screen.dx = 0;
-    screen.dy = 0;
-    screen.width = SCREEN_PIXEL_WIDTH;
-    screen.height = SCREEN_PIXEL_HEIGHT;
+    screen.width = COL;
+    screen.height = ROW;
 
-    int screen_pixels = SCREEN_PIXEL_WIDTH*SCREEN_PIXEL_HEIGHT; 
+    int screen_pixels = COL*ROW; 
     int screen_bytes = screen_pixels * 2; //2 bytes per pixel (16 bit)
 
     // map pixels to array;
@@ -43,12 +33,11 @@ void init_fb()
    
 }
 
-void flush_screen_buffer(){
+void flush_screen_buffer()
+{
 	if (ioctl(fbfd, 0x4680, &screen) == -1){
         printf("ERROR in ioctl!\n");
     }
-    //printf("The status of screen \n screen.dx: %d,     screen.dy: %d,\nscreen.width: %d,       screen.height: %d\n", screen.dx, screen.dy, screen.width, screen.height);
-    //printf("\nI have refreshed the screen\n\n");
 }
 
 void deinit_fb()
@@ -57,47 +46,38 @@ void deinit_fb()
     close(fbfd);
 }
 
-
-void backgroundColor(int16_t color){
-    screen.dx = 0;
-    screen.dy = 0;
-    screen.width = SCREEN_PIXEL_WIDTH;
-    screen.height = SCREEN_PIXEL_HEIGHT;
-    int i;
-     for ( i = 0; i < array_size; i++) {
-        fbp[i] = color;
-    }
-    flush_screen_buffer();
-}
-
-void paint_square(int pos_x, int pos_y, int height, int width, int16_t color){
+void paint_rect(int pos_x, int pos_y, int height, int width, int16_t color)
+{
+    // area to be written to screen
     screen.dx = pos_x;
     screen.dy = pos_y;
     screen.width = width;
     screen.height = height;
-    int i;
-    int j;
-	for(i = screen.dx; i < screen.dx + screen.width; i++){
-		for(j = screen.dy; j < screen.dy + screen.height; j++){
-			fbp[i + j * SCREEN_PIXEL_WIDTH] = color;
-		}
-	}
-    flush_screen_buffer();
-    //printf("\nI have refresed the screen\n");
-}
-
-void paint_bird(int pos_x, int pos_y){
-    const uint32_t width  = 17;
-    const uint32_t height = 12;
-
     int x;
     int y;
-	for(y = 0; y <  height; y++){
-		for(x = 0; x <  width; x++){
-            if (birdArray[x + y*width] != TRANS){
-                fbp[(x +  pos_x) + (y + pos_y) * SCREEN_PIXEL_WIDTH] = birdArray[x + y*width];
-            }
-		}
-	}
+    for(x=0; x<width; x++){
+      for(y=0; y<height; y++){
+        fbp[x + height + (y+width)*COL] = color;
+      }
+    }
+    flush_screen_buffer();
+}
+
+void paint_bird(int pos_x, int pos_y)
+{
+    // area to be written to screen
+    screen.dx = pos_x;
+    screen.dy = pos_y;
+    screen.width = BIRD_W;
+    screen.height = BIRD_H;
+    int x;
+    int y;
+    for(y=0; y<BIRD_H; y++){
+      for(x=0; x<BIRD_W; x++){
+        if (birdArray[x + y*BIRD_W] != TRANS){
+            fbp[x + pos_x + (y + pos_y)*COL] = birdArray[x + y*BIRD_W];
+        }
+      }
+    }
     flush_screen_buffer();
 }

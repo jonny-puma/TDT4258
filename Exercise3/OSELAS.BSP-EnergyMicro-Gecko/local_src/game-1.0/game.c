@@ -6,26 +6,21 @@ static int btn_pressed = 0;
 FILE* fp_gamepad;
 
 
-int init_gp(){
-
+int init_gp()
+{
 	fp_gamepad = fopen("/dev/gamepad", "rb");
-
 	if (!fp_gamepad){
 		printf("error fp_gamepad\n");
 	}
-
 	signal(SIGIO, &sigio_handler);
-
 	fcntl(fileno(fp_gamepad), F_SETOWN, getpid());
-
 	long fileaccess = fcntl(fileno(fp_gamepad), F_GETFL);
-
 	fcntl(fileno(fp_gamepad), F_SETFL, fileaccess | FASYNC);
-
 	return EXIT_SUCCESS;
 }
 
-void cleanup_gamepad(){
+void cleanup_gamepad()
+{
 	fclose(fp_gamepad);
 }
 
@@ -47,10 +42,10 @@ void initgame(gamestate *gs, settings *set) {
   // init settings
   set->power = 3;
   set->timestep = 1;
-  backgroundColor(BACKGROUND_COLOR);
+
+  // paint background
+  paint_rect(0, 0, ROW, COL, BACKGROUND_COLOR);
 }
-
-
 
 void sigio_handler(gamestate *gs, settings *set)
 {
@@ -68,7 +63,8 @@ void sigio_handler(gamestate *gs, settings *set)
 }
 
 
-void gameloop(gamestate *gs, settings *set) {
+void gameloop(gamestate *gs, settings *set)
+{
   clock_t start = CLOCKS_PER_SEC;
    while (true) {
     if (difftime(clock(), start)/CLOCKS_PER_SEC > TIMESTEP){
@@ -82,16 +78,16 @@ void gameloop(gamestate *gs, settings *set) {
   }
 }
 
-void physics(gamestate *gs, settings *set) {
-  // gravity force
+void physics(gamestate *gs, settings *set)
+{
+  // flapping
   if (btn_pressed){
     gs->velocity = -set->power;
     btn_pressed = 0;
   }
   
-  //if (gs->velocity < 1){
+  // gravity
   	gs->velocity += 12*TIMESTEP;
-  //}
   
   // integrate to bird_y
   gs->prev_bird_y = gs->bird_y;

@@ -66,7 +66,7 @@ static int __init gamepad_init(void)
 		return -1;
 	}
 
-    // Mem-area to set buttons to input
+  // Mem-area to set buttons to input
 	if (request_mem_region(GPIO_PC_MODEL, 1, NAME) == NULL){
 		printk(KERN_INFO "Request GPIO_PC_MODEL failed\n");
 		return -1;
@@ -107,16 +107,16 @@ static int __init gamepad_init(void)
 
 	// Similar to previous exercises
 	iowrite32(0x33333333, GPIO_PC_MODEL);
-    iowrite32(0xFF, GPIO_PC_DOUT);
-    iowrite32(0x22222222, GPIO_EXTIPSELL);
+  iowrite32(0xFF, GPIO_PC_DOUT);
+  iowrite32(0x22222222, GPIO_EXTIPSELL);
 
 	request_irq(GPIO_EVEN_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gamepad_cdev);
 	request_irq(GPIO_ODD_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gamepad_cdev);
 
 	// Enable interrupts
 	iowrite32(0xFF, GPIO_EXTIFALL);
-    iowrite32(0x00FF, GPIO_IEN);
-    iowrite32(0xFF, GPIO_IFC);
+  iowrite32(0x00FF, GPIO_IEN);
+  iowrite32(0xFF, GPIO_IFC);
 
 	printk(KERN_INFO "Gamepad driver successfully loaded.\n");
 	return 0;
@@ -131,8 +131,6 @@ static int __init gamepad_init(void)
 
 static void __exit gamepad_cleanup(void)
 {
-	printk("Short life for a small module...\n");
-
 	// Disable interrupts
 	iowrite32(0x0000, GPIO_IEN);
 
@@ -166,8 +164,6 @@ static int gamepad_release(struct inode *inode , struct file *filp)
 /* user program reads from the driver */
 static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp)
 {
-	//printk(KERN_INFO "Driver read\n");
-
 	uint32_t data = ioread32(GPIO_PC_DIN);
 	copy_to_user(buff, &data, 1);
 	return 1;
@@ -182,9 +178,7 @@ static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count
 
 
 static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs){
-	//printk(KERN_ALERT "Handling interrupt\n");
 	iowrite32(ioread32(GPIO_IF), GPIO_IFC);
-	// ASYNC SHIT
 	if(async_queue){
 		kill_fasync(&async_queue, SIGIO, POLL_IN);
 	}
@@ -195,5 +189,5 @@ static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs
 module_init(gamepad_init);
 module_exit(gamepad_cleanup);
 
-MODULE_DESCRIPTION("Small module, demo only, not very useful.");
+MODULE_DESCRIPTION("Driver for gamepad");
 MODULE_LICENSE("GPL");
