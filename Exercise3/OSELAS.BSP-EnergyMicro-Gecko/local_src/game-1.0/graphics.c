@@ -85,3 +85,18 @@ void paint_square(int pos_x, int pos_y, int height, int width, int16_t color){
     flush_screen_buffer();
     //printf("\nI have refresed the screen\n");
 }
+
+void paint_bird(int pos_x, int pos_y){
+    screen.dx = pos_x;
+    screen.dy = pos_y;
+    screen.width = 17;
+    screen.height = 12;
+    int i;
+    int j;
+	for(i = screen.dx; i < screen.dx + screen.width; i++){
+		for(j = screen.dy; j < screen.dy + screen.height; j++){
+			fbp[i + j * SCREEN_PIXEL_WIDTH] = birdArray[i + j*screen.width];
+		}
+	}
+    flush_screen_buffer();
+}
