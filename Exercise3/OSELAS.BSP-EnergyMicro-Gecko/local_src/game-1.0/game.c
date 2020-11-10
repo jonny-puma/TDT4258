@@ -1,8 +1,11 @@
+#include <signal.h>
 #include <time.h>
 #include "graphics.h"
 #include "game.h"
 
+
 static int btn_pressed = 0;
+static int highscore = 0;
 FILE* fp_gamepad;
 
 
@@ -52,8 +55,7 @@ void sigio_handler(gamestate *gs, settings *set)
 	// printf("Entered sigio_handler in game.c\n");
 	// printf("Signal: %d\n", fgetc(device));
   switch (fgetc(fp_gamepad)) {
-    case BUTTON2: //case BUTTON6:
-      // printf("UP\n");
+    case BUTTON2:
       btn_pressed = 1;
       break;
     default:
@@ -66,7 +68,7 @@ void sigio_handler(gamestate *gs, settings *set)
 void gameloop(gamestate *gs, settings *set)
 {
   clock_t start = CLOCKS_PER_SEC;
-   while (true) {
+   while (1) {
     if (difftime(clock(), start)/CLOCKS_PER_SEC > TIMESTEP){
       start = clock();
       if (!isalive(gs)) {
@@ -91,62 +93,60 @@ void physics(gamestate *gs, settings *set)
   
   // integrate to bird_y
   gs->prev_bird_y = gs->bird_y;
-  gs->bird_y += gs->velocity; // can be wrong
-
-  // stop at floor
-  if (gs->bird_y >= ROW-1) {
-    gs->bird_y = ROW/2;
-    if (gs->velocity > 0) {
-        gs->velocity = 0;
-    }
-  }
-
-  // move obstacle
-  obstacle *ob = gs->ob;
-  ob->x -= ob->speed;
-  if (ob->x <= 0) {
-    ob->x = COL;
-    ob->y = rand() % (ROW - OB_GAP);
-    //ob->speed++;
-  }
+  gs->bird_y += gs->velocity; 
 }
 
 
-bool isalive(gamestate *gs) {
+int isalive(gamestate *gs) {
   obstacle *ob = gs->ob;
   if ((gs->bird_x > (ob->x - BIRD_W)) && (gs->bird_x < (ob->x + OB_W))) {
 	  int bottom = ob->y + OB_GAP - BIRD_H;
 	  return ((gs->bird_y > ob->y) && (gs->bird_y < bottom));
   } else if ((gs->bird_y + BIRD_H) > (COL -1)){
-	  return false;
+	  return 0;
   } else {
-    return true;
+    return 1;
   }
 }
 
-// Sjekke om vi tegner utenfor skjerm?? (Bird)
 void printgame(gamestate *gs, settings *set) {
   update_ob(gs); // must be before bird
   update_bird(gs);
+  update_score(gs);
 }
 
 void update_ob(gamestate *gs){
 	obstacle *ob = gs->ob;
-	paint_square(ob->x, 0, ob->y, 1, OB_COLOR);
-	paint_square(ob->x, ob->y + OB_GAP, ROW - ob->y - OB_GAP, 1, OB_COLOR);
+  ob->x -= ob->speed;
+  if (ob->x <= 0) {
+    ob->x = COL;
+    ob->y = rand() % (ROW - OB_GAP);
+  }
+	paint_rect(ob->x, 0, ob->y, 1, OB_COLOR);
+	paint_rect(ob->x, ob->y + OB_GAP, ROW - ob->y - OB_GAP, 1, OB_COLOR);
 
 	if ((ob->x + OB_W) < COL){
-		paint_square((ob->x + OB_W), 0, ROW, 1, BACKGROUND_COLOR);
+		paint_rect((ob->x + OB_W), 0, ROW, 1, BACKGROUND_COLOR);
 	}else{
-		paint_square(COL - ob->x, 0, ROW, 1, BACKGROUND_COLOR);
+		paint_rect(COL - ob->x, 0, ROW, 1, BACKGROUND_COLOR);
 	}
 }
 
 void update_bird(gamestate *gs){
-	paint_square(gs->bird_x, gs->prev_bird_y, BIRD_H, BIRD_W, BACKGROUND_COLOR);
+	paint_rect(gs->bird_x, gs->prev_bird_y, BIRD_H, BIRD_W, BACKGROUND_COLOR);
 	paint_bird(gs->bird_x, gs->bird_y);
 }
 
+void update_score(gamestate *gs){
+	if ((gs->ob->x + OB_W) == gs->bird_x){
+    gs->score += SCORE_INC;
+    if (gs->score > highscore){
+      highscore = gs->score;
+    }
+  }
+  paint_rect(0, 0, SCORE_H, gs->score, YELLOW);
+  paint_rect(highscore, 0, SCORE_H, 2, RED);
+}
 
 /* Entry point */
 int main(){

@@ -24,6 +24,11 @@
 #define BIRD_H 12
 #define BIRD_W 17
 
+// height of score bar
+#define SCORE_H 8
+#define SCORE_INC 2
+
+// screen size
 #define ROW 240
 #define COL 320
 

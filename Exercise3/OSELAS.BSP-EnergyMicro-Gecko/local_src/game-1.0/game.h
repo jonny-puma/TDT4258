@@ -1,11 +1,5 @@
-#define BUTTON1 0xFE
-#define BUTTON2 0xF7
-#define BUTTON3 0xFB
-#define BUTTON4 0xFD
-#define BUTTON5 0xEF
-#define BUTTON6 0x7F
-#define BUTTON7 0xBF
-#define BUTTON8 0xDF
+#define BUTTON2 0xFD
+
 
 // obstacle dimensions
 #define OB_W 10
@@ -39,8 +33,9 @@ void sigio_handler();
 void initgame(gamestate *gs, settings *set);
 void gameloop(gamestate *gs, settings *set);
 void physics(gamestate *gs, settings *set);
-bool isalive(gamestate *gs);
+int isalive(gamestate *gs);
 void printgame(gamestate *gs, settings *set);
+void update_score(gamestate *gs);
 void update_ob(gamestate *gs);
 void update_bird(gamestate *gs);
 int main();

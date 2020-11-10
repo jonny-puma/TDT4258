@@ -30,6 +30,7 @@ void init_fb()
     if ((int)fbp == MAP_FAILED) {
         printf("Error, failed to memorymap framebuffer.\n");
     }
+    paint_rect(0, 0, ROW, COL, BACKGROUND_COLOR);
    
 }
 
@@ -57,7 +58,7 @@ void paint_rect(int pos_x, int pos_y, int height, int width, int16_t color)
     int y;
     for(x=0; x<width; x++){
       for(y=0; y<height; y++){
-        fbp[x + height + (y+width)*COL] = color;
+        fbp[x + pos_x + (y + pos_y)*COL] = color;
       }
     }
     flush_screen_buffer();
