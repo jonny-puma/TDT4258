@@ -33,10 +33,9 @@
 #define COL 320
 
 
-void paint_square(int pos_x, int pos_y, int height, int width, int16_t color);
-void backgroundColor(int16_t color);
+void paint_rect(int pos_x, int pos_y, int height, int width, int16_t color);
 void deinit_fb();
-void flush_screen_buffer();
+void flush_screen();
 void init_fb();
 void paint_bird(int pos_x, int pos_y);
 

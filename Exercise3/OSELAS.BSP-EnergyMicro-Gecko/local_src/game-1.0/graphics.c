@@ -24,7 +24,7 @@ void init_fb()
     screen.height = ROW;
 
     int screen_pixels = COL*ROW; 
-    int screen_size = screen_pixels*sizeof(uint16_t);
+    int screen_size = screen_pixels*2;
 
     // map pixels to array;
     fb_pxl = (uint16_t*)mmap(NULL, screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, fb_dev, 0);
