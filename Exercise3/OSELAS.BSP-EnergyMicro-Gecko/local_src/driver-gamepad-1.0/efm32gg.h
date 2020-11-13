@@ -1,7 +1,3 @@
-//#include <stdint.h>
-
-// GPIO
-
 #define GPIO_PA_BASE 0x40006000
 #define GPIO_PB_BASE 0x40006024
 #define GPIO_PC_BASE 0x40006048
@@ -44,7 +40,6 @@
 #define GPIO_IFC       ((volatile uint32_t*)(GPIO_PA_BASE + 0x11c))
 #define GPIO_IF       ((volatile uint32_t*)(GPIO_PA_BASE + 0x114))
 
-// CMU
 
 #define CMU_BASE2 0x400c8000
 
@@ -59,8 +54,6 @@
 #define CMU2_HFPERCLKEN0_TIMER1 (1 << 6)
 
 #define CMU_HFCORECLKEN0_DMA (1 << 0)
-
-// TIMER1
 
 #define TIMER1_BASE 0x40010400
 

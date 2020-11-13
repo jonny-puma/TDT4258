@@ -34,7 +34,7 @@
 
 
 void paint_rect(int pos_x, int pos_y, int height, int width, int16_t color);
-void deinit_fb();
+void free_fb();
 void flush_screen();
 void init_fb();
 void paint_bird(int pos_x, int pos_y);

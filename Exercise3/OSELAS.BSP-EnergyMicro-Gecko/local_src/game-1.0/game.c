@@ -6,25 +6,25 @@
 
 static int btn_pressed = 0;
 static int highscore = 0;
-FILE* fp_gamepad;
+FILE* fp_gp;
 
 
 int init_gp()
 {
-	fp_gamepad = fopen("/dev/gamepad", "rb");
-	if (!fp_gamepad){
-		printf("error fp_gamepad\n");
+	fp_gp = fopen("/dev/gamepad", "rb");
+	if (!fp_gp){
+		printf("error fp_gp\n");
 	}
 	signal(SIGIO, &sigio_handler);
-	fcntl(fileno(fp_gamepad), F_SETOWN, getpid());
-	long fileaccess = fcntl(fileno(fp_gamepad), F_GETFL);
-	fcntl(fileno(fp_gamepad), F_SETFL, fileaccess | FASYNC);
+	fcntl(fileno(fp_gp), F_SETOWN, getpid());
+	long fileaccess = fcntl(fileno(fp_gp), F_GETFL);
+	fcntl(fileno(fp_gp), F_SETFL, fileaccess | FASYNC);
 	return EXIT_SUCCESS;
 }
 
-void cleanup_gamepad()
+void cleanup_gp()
 {
-	fclose(fp_gamepad);
+	fclose(fp_gp);
 }
 
 void initgame(gamestate *gs, settings *set) {
@@ -46,20 +46,17 @@ void initgame(gamestate *gs, settings *set) {
   set->power = 3;
   set->timestep = 1;
 
-  // paint background
+  // set background
   paint_rect(0, 0, ROW, COL, BACKGROUND_COLOR);
 }
 
 void sigio_handler(gamestate *gs, settings *set)
 {
-	// printf("Entered sigio_handler in game.c\n");
-	// printf("Signal: %d\n", fgetc(device));
-  switch (fgetc(fp_gamepad)) {
+  switch (fgetc(fp_gp)) {
     case BUTTON2:
       btn_pressed = 1;
       break;
     default:
-      // printf("DEFAULT\n"); //Her er verdien 255 av en eller annen grunn..
       break;
   }
 }
@@ -162,7 +159,7 @@ int main(){
 		gameloop(&gs, &set);
 	}
 
-	cleanup_gamepad();
+	cleanup_gp();
   return EXIT_SUCCESS;
 }
 

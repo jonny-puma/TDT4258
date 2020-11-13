@@ -28,7 +28,7 @@ typedef struct {
 } gamestate;
 
 int init_gp();
-void cleanup_gamepad();
+void cleanup_gp();
 void sigio_handler();
 void initgame(gamestate *gs, settings *set);
 void gameloop(gamestate *gs, settings *set);

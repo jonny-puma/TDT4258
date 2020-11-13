@@ -23,35 +23,35 @@
 
 
 /* Function declarations */
-static int __init gamepad_init(void);
-static void __exit gamepad_cleanup(void);
+static int __init gp_init(void);
+static void __exit gp_cleanup(void);
 static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs);
-static int gamepad_open(struct inode *inode , struct file *filp );
-static int gamepad_release(struct inode *inode , struct file *filp );
-static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp );
-static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp );
-static int gamepad_fasync(int fd, struct file *filp, int mode);
+static int gp_open(struct inode *inode , struct file *filp );
+static int gp_release(struct inode *inode , struct file *filp );
+static ssize_t gp_read(struct file *filp, char* __user buff, size_t count , loff_t *offp );
+static ssize_t gp_write(struct file *filp , char* __user buff, size_t count , loff_t *offp );
+static int gp_fasync(int fd, struct file *filp, int mode);
 
 /* Static variables */
 static dev_t dev_no;
-struct cdev gamepad_cdev;
+struct cdev gp_cdev;
 struct class *cl;
 struct fasync_struct *async_queue;
 
-static struct file_operations gamepad_fops = { 
+static struct file_operations gp_fops = { 
 	.owner = THIS_MODULE,
-	.read = gamepad_read,
-	.write = gamepad_write,
-	.open = gamepad_open,
-	.release = gamepad_release,
-	.fasync = gamepad_fasync
+	.read = gp_read,
+	.write = gp_write,
+	.open = gp_open,
+	.release = gp_release,
+	.fasync = gp_fasync
 };
 
-static int gamepad_fasync(int fd, struct file *filp, int mode){
+static int gp_fasync(int fd, struct file *filp, int mode){
 	return fasync_helper(fd, filp, mode, &async_queue);
 }
 
-static int __init gamepad_init(void)
+static int __init gp_init(void)
 {
 	printk(KERN_INFO "Driver init\n");
 
@@ -82,9 +82,9 @@ static int __init gamepad_init(void)
 	}
 
 	// Register the char-device to the kernel
-	cdev_init(&gamepad_cdev, &gamepad_fops);
-	gamepad_cdev.owner = THIS_MODULE;
-	mem_alloc = cdev_add(&gamepad_cdev, dev_no, COUNT);
+	cdev_init(&gp_cdev, &gp_fops);
+	gp_cdev.owner = THIS_MODULE;
+	mem_alloc = cdev_add(&gp_cdev, dev_no, COUNT);
 
 
 	if (mem_alloc){
@@ -106,8 +106,8 @@ static int __init gamepad_init(void)
   iowrite32(0xFF, GPIO_PC_DOUT);
   iowrite32(0x22222222, GPIO_EXTIPSELL);
 
-	request_irq(GPIO_EVEN_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gamepad_cdev);
-	request_irq(GPIO_ODD_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gamepad_cdev);
+	request_irq(GPIO_EVEN_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gp_cdev);
+	request_irq(GPIO_ODD_IRQ_LINE, (irq_handler_t)interrupt_handler, 0, NAME, &gp_cdev);
 
 	// Enable interrupts
 	iowrite32(0xFF, GPIO_EXTIFALL);
@@ -118,20 +118,14 @@ static int __init gamepad_init(void)
 	return 0;
 }
 
-/*
- * template_cleanup - function to cleanup this module from kernel space
- *
- * This is the second of two exported functions to handle cleanup this
- * code from a running kernel
- */
 
-static void __exit gamepad_cleanup(void)
+static void __exit gp_cleanup(void)
 {
 	// Disable interrupts
 	iowrite32(0x0000, GPIO_IEN);
 
-	free_irq(GPIO_EVEN_IRQ_LINE, &gamepad_cdev);
-	free_irq(GPIO_ODD_IRQ_LINE, &gamepad_cdev);
+	free_irq(GPIO_EVEN_IRQ_LINE, &gp_cdev);
+	free_irq(GPIO_ODD_IRQ_LINE, &gp_cdev);
 
 	release_mem_region(GPIO_PC_MODEL, 1);
 	release_mem_region(GPIO_PC_DOUT, 1);
@@ -139,26 +133,26 @@ static void __exit gamepad_cleanup(void)
 
 	device_destroy(cl, dev_no);
 	class_destroy(cl);
-	cdev_del(&gamepad_cdev);
+	cdev_del(&gp_cdev);
 	unregister_chrdev_region(dev_no, COUNT);
 }
 
 /* user program opens the driver */
-static int gamepad_open(struct inode *inode , struct file *filp)
+static int gp_open(struct inode *inode , struct file *filp)
 {
 	printk(KERN_INFO "Driver opened\n");
 	return 0;
 }
 
 /* user program closes the driver */
-static int gamepad_release(struct inode *inode , struct file *filp)
+static int gp_release(struct inode *inode , struct file *filp)
 {
 	printk(KERN_INFO "Driver released\n");
 	return 0;
 }
 
 /* user program reads from the driver */
-static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp)
+static ssize_t gp_read(struct file *filp, char* __user buff, size_t count , loff_t *offp)
 {
 	uint32_t data = ioread32(GPIO_PC_DIN);
 	copy_to_user(buff, &data, 1);
@@ -166,7 +160,7 @@ static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count ,
 }
 
 /* user program writes to the driver */
-static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp)
+static ssize_t gp_write(struct file *filp , char* __user buff, size_t count , loff_t *offp)
 {
 	return 1;
 }
@@ -179,8 +173,8 @@ static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs
 	return IRQ_HANDLED;
 }
 
-module_init(gamepad_init);
-module_exit(gamepad_cleanup);
+module_init(gp_init);
+module_exit(gp_cleanup);
 
 MODULE_DESCRIPTION("Driver for gamepad");
 MODULE_LICENSE("GPL");
