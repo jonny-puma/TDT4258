@@ -89,7 +89,7 @@ void physics(gamestate *gs, settings *set)
   }
   
   // gravity
-  	gs->velocity += 12*TIMESTEP;
+	gs->velocity += 12*TIMESTEP;
   
   // integrate to bird_y
   gs->prev_bird_y = gs->bird_y;
@@ -150,12 +150,9 @@ void update_score(gamestate *gs){
 
 /* Entry point */
 int main(){
-	printf("Entered main in game.c\n");
 	init_gp();
 	init_fb();
 	
-	printf("Im done with graphics init\n");
-
 	gamestate gs;
 	settings set;
   btn_pressed = 0;
