@@ -23,7 +23,7 @@ game : $(obj)
 all: game
 
 clean:
-	-rm -f game
+	-rm -f game *.o *.bin *.gdb
 
 install:
 
