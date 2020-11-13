@@ -24,7 +24,7 @@ void init_fb()
     screen.height = ROW;
 
     int screen_pixels = COL*ROW; 
-    int screen_size = screen_pixels*2;
+    int screen_size = screen_pixels*sizeof(uint16_t);
 
     // map pixels to array;
     fb_pxl = (uint16_t*)mmap(NULL, screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, fb_dev, 0);
@@ -60,8 +60,8 @@ void paint_rect(int x, int y, int height, int width, int16_t color)
     screen.height = height;
     int dx;
     int dy;
-    for(dx=0; dx<width; x++) {
-      for(dy=0; dy<height; y++) {
+    for(dx=0; dx<width; dx++) {
+      for(dy=0; dy<height; dy++) {
         fb_pxl[x + dx + (y + dy)*COL] = color;
       }
     }
@@ -77,8 +77,8 @@ void paint_bird(int x, int y)
     screen.height = BIRD_H;
     int dx;
     int dy;
-    for(dy=0; dy<BIRD_H; y++) {
-      for(dx=0; dx<BIRD_W; x++) {
+    for(dy=0; dy<BIRD_H; dy++) {
+      for(dx=0; dx<BIRD_W; dx++) {
         if (birdArray[dx + dy*BIRD_W] != TRANS) {
             fb_pxl[x + dx + (y + dy)*COL] = birdArray[dx + dy*BIRD_W];
         }
