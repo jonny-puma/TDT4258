@@ -21,6 +21,7 @@
 #define NAME "gamepad"
 #define COUNT 1
 
+
 /* Function declarations */
 static int __init gamepad_init(void);
 static void __exit gamepad_cleanup(void);
@@ -30,9 +31,6 @@ static int gamepad_release(struct inode *inode , struct file *filp );
 static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count , loff_t *offp );
 static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp );
 static int gamepad_fasync(int fd, struct file *filp, int mode);
-
-
-
 
 /* Static variables */
 static dev_t dev_no;
@@ -52,8 +50,6 @@ static struct file_operations gamepad_fops = {
 static int gamepad_fasync(int fd, struct file *filp, int mode){
 	return fasync_helper(fd, filp, mode, &async_queue);
 }
-
-
 
 static int __init gamepad_init(void)
 {
@@ -172,10 +168,8 @@ static ssize_t gamepad_read(struct file *filp, char* __user buff, size_t count ,
 /* user program writes to the driver */
 static ssize_t gamepad_write(struct file *filp , char* __user buff, size_t count , loff_t *offp)
 {
-	printk(KERN_INFO "Driver write\n");
 	return 1;
 }
-
 
 static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs){
 	iowrite32(ioread32(GPIO_IF), GPIO_IFC);
@@ -184,7 +178,6 @@ static irqreturn_t interrupt_handler(int irq, void* dev_id, struct pt_regs* regs
 	}
 	return IRQ_HANDLED;
 }
-
 
 module_init(gamepad_init);
 module_exit(gamepad_cleanup);

@@ -2,18 +2,20 @@
 #include "stdlib.h"
 
 
-int fbfd; // framebuffer device
-uint16_t *fbp; // one pixel 
+// frame buffer device and pixel array map
+int fb_dev;
+uint16_t *fb_pxl;
 
 static int screen_pixels;
-static int screen_bytes;
+static int screen_size;
 struct fb_copyarea screen;
 static int array_size = COL*ROW;
 
 void init_fb()
 {
-    fbfd = open("/dev/fb0", O_RDWR); //open with read and write
-    if (fbfd == -1) {
+    // open with read and write permission
+    fb_dev = open("/dev/fb0", O_RDWR); 
+    if (fb_dev == -1) {
         printf("Error when opening framebuffer.\n");
     }
 
@@ -22,63 +24,65 @@ void init_fb()
     screen.height = ROW;
 
     int screen_pixels = COL*ROW; 
-    int screen_bytes = screen_pixels * 2; //2 bytes per pixel (16 bit)
+    int screen_size = screen_pixels*sizeof(uint16_t);
 
     // map pixels to array;
-    fbp = (uint16_t*)mmap(NULL, screen_bytes, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
+    fb_pxl = (uint16_t*)mmap(NULL, screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, fb_dev, 0);
     
-    if ((int)fbp == MAP_FAILED) {
-        printf("Error, failed to memorymap framebuffer.\n");
+    if ((int)fb_pxl == MAP_FAILED) {
+        printf("Error, failed to map framebuffer.\n");
     }
+
+    // clear screen
     paint_rect(0, 0, ROW, COL, BACKGROUND_COLOR);
    
 }
 
-void flush_screen_buffer()
+void flush_screen()
 {
-	if (ioctl(fbfd, 0x4680, &screen) == -1){
-        printf("ERROR in ioctl!\n");
+	if (ioctl(fb_dev, 0x4680, &screen) == -1) {
+        printf("Screen flush failed, ERROR in ioctl!\n");
     }
 }
 
 void deinit_fb()
 {
-    munmap(fbp, screen_bytes);
-    close(fbfd);
+    munmap(fb_pxl, screen_size);
+    close(fb_dev);
 }
 
-void paint_rect(int pos_x, int pos_y, int height, int width, int16_t color)
+void paint_rect(int x, int y, int height, int width, int16_t color)
 {
-    // area to be written to screen
-    screen.dx = pos_x;
-    screen.dy = pos_y;
+    // area to be flushed
+    screen.dx = x;
+    screen.dy = y;
     screen.width = width;
     screen.height = height;
-    int x;
-    int y;
-    for(x=0; x<width; x++){
-      for(y=0; y<height; y++){
-        fbp[x + pos_x + (y + pos_y)*COL] = color;
+    int dx;
+    int dy;
+    for(dx=0; dx<width; x++) {
+      for(dy=0; dy<height; y++) {
+        fb_pxl[x + dx + (y + dy)*COL] = color;
       }
     }
-    flush_screen_buffer();
+    flush_screen();
 }
 
-void paint_bird(int pos_x, int pos_y)
+void paint_bird(int x, int y)
 {
-    // area to be written to screen
-    screen.dx = pos_x;
-    screen.dy = pos_y;
+    // area to be flushed
+    screen.dx = x;
+    screen.dy = y;
     screen.width = BIRD_W;
     screen.height = BIRD_H;
-    int x;
-    int y;
-    for(y=0; y<BIRD_H; y++){
-      for(x=0; x<BIRD_W; x++){
-        if (birdArray[x + y*BIRD_W] != TRANS){
-            fbp[x + pos_x + (y + pos_y)*COL] = birdArray[x + y*BIRD_W];
+    int dx;
+    int dy;
+    for(dy=0; dy<BIRD_H; y++) {
+      for(dx=0; dx<BIRD_W; x++) {
+        if (birdArray[dx + dy*BIRD_W] != TRANS) {
+            fb_pxl[x + dx + (y + dy)*COL] = birdArray[dx + dy*BIRD_W];
         }
       }
     }
-    flush_screen_buffer();
+    flush_screen();
 }
